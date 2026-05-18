@@ -1890,14 +1890,21 @@ body.dark .ck-ingr{background:#252540;border-color:#FFD23F;}
 <!-- ═══════════════ GAMES PAGE ═══════════════ -->
 <div class="page" id="page-games">
   <div class="game-intro"><h2>🎮 Games Zone</h2><p id="gamesub">Pick a game and start playing!</p></div>
+  <!-- Level-based game cards -->
+  <div id="gamesLevelCards" style="padding:0 14px 10px;position:relative;z-index:1"></div>
+
+  <!-- Compact chip nav -->
+  <div style="padding:0 14px 4px;position:relative;z-index:1">
+    <div style="font-family:Fredoka One,cursive;font-size:.75rem;color:rgba(255,255,255,.6);margin-bottom:6px;text-align:center;letter-spacing:.5px">OR PICK A GAME BELOW ↓</div>
+  </div>
   <div class="chips-wrap" style="justify-content:center;flex-wrap:wrap">
-    <div class="chip active" onclick="switchGame(this,'memory')">🃏 Memory</div>
-    <div class="chip" onclick="switchGame(this,'quiz')">❓ Quiz</div>
-    <div class="chip" onclick="switchGame(this,'sounds')">🔊 Sounds</div>
-    <div class="chip" onclick="switchGame(this,'scramble')">🔤 Scramble</div>
-    <div class="chip" onclick="switchGame(this,'pattern')">📐 Patterns</div>
-    <div class="chip" onclick="switchGame(this,'oddone')">🔍 Odd One Out</div>
-    <div class="chip" onclick="switchGame(this,'makepattern')">🎨 Make Pattern</div>
+    <div class="chip active" onclick="switchGameChip(this,'memory')">🃏 Memory</div>
+    <div class="chip" onclick="switchGameChip(this,'quiz')">❓ Quiz</div>
+    <div class="chip" onclick="switchGameChip(this,'sounds')">🔊 Sounds</div>
+    <div class="chip" onclick="switchGameChip(this,'scramble')">🔤 Scramble</div>
+    <div class="chip" onclick="switchGameChip(this,'pattern')">📐 Patterns</div>
+    <div class="chip" onclick="startOddOneReset()">🔍 Odd One Out</div>
+    <div class="chip" onclick="startMakePatternReset()">🎨 Make Pattern</div>
   </div>
   <!-- Memory -->
   <div id="game-memory" class="game-container">
@@ -2324,6 +2331,7 @@ function launchApp() {
   document.getElementById('bottomNav').style.display = 'flex';
   applyLevel();
   initMemory();
+  renderLevelGameTiles();
   confetti();
 }
 function showWelcome() {
@@ -2394,6 +2402,124 @@ function applyLevel() {
   memGridCols = userLevel === 1 ? 3 : userLevel === 2 ? 4 : 5;
 }
 
+// ═══════════════════════════════════════
+// LEVEL-BASED GAME TILES FOR GAMES PAGE
+// ═══════════════════════════════════════
+function renderLevelGameTiles() {
+  var el = document.getElementById('gamesLevelCards');
+  if (!el) return;
+
+  var lvLabel = [
+    '',
+    '🐣 Ages 5–6 · Your Fun Games!',
+    '🦊 Ages 7–8 · Challenge Mode!',
+    '🦁 Ages 9–10 · Master Zone!'
+  ][userLevel] || '🎮 Pick a Game!';
+
+  var gameDefs = {
+    1: [
+      {id:'memory',      icon:'🃏', title:'Memory Match',   desc:'Flip cards & find pairs!',             bg:'linear-gradient(135deg,#FF6B35,#FF8E53)', fn:"switchGameChip(null,'memory')"},
+      {id:'sounds',      icon:'🔊', title:'Animal Sounds',  desc:'Hear the sound · Guess the animal!',   bg:'linear-gradient(135deg,#14B8A6,#3B82F6)', fn:"switchGameChip(null,'sounds')"},
+      {id:'oddone',      icon:'🔍', title:'Odd One Out',    desc:'Find the one that is different!',       bg:'linear-gradient(135deg,#A855F7,#667EEA)', fn:'startOddOneReset()'},
+      {id:'makepattern', icon:'🎨', title:'Make a Pattern', desc:'What shape comes next?',               bg:'linear-gradient(135deg,#FF6B9D,#A855F7)', fn:'startMakePatternReset()'}
+    ],
+    2: [
+      {id:'memory',   icon:'🃏', title:'Memory Match',    desc:'8 cards · Race the clock! ⏱',           bg:'linear-gradient(135deg,#FF6B35,#FF8E53)', fn:"switchGameChip(null,'memory')"},
+      {id:'quiz',     icon:'❓', title:'Quiz Challenge',  desc:'Math & language · Test yourself!',       bg:'linear-gradient(135deg,#3B82F6,#667EEA)', fn:"switchGameChip(null,'quiz')"},
+      {id:'scramble', icon:'🔤', title:'Word Scramble',   desc:'Unscramble the hidden word!',            bg:'linear-gradient(135deg,#22C55E,#14B8A6)', fn:"switchGameChip(null,'scramble')"},
+      {id:'pattern',  icon:'📐', title:'Pattern Masters', desc:'Find the number pattern rule!',          bg:'linear-gradient(135deg,#F59E0B,#FF6B35)', fn:"switchGameChip(null,'pattern')"},
+      {id:'oddone',   icon:'🔍', title:'Odd One Out',     desc:'4 items · Find the odd one!',            bg:'linear-gradient(135deg,#A855F7,#667EEA)', fn:'startOddOneReset()'}
+    ],
+    3: [
+      {id:'memory',      icon:'🃏', title:'Memory Match',   desc:'10 cards · 90s · 3 lives! 🔥',        bg:'linear-gradient(135deg,#FF6B35,#FF8E53)', fn:"switchGameChip(null,'memory')"},
+      {id:'quiz',        icon:'❓', title:'Quiz Master',    desc:'Word problems · 20s per Q! ⏱',         bg:'linear-gradient(135deg,#3B82F6,#667EEA)', fn:"switchGameChip(null,'quiz')"},
+      {id:'scramble',    icon:'🔤', title:'Word Scramble',  desc:'Harder words · Full score!',            bg:'linear-gradient(135deg,#22C55E,#14B8A6)', fn:"switchGameChip(null,'scramble')"},
+      {id:'pattern',     icon:'📐', title:'Pattern Masters',desc:'Fibonacci · Squares · Series!',         bg:'linear-gradient(135deg,#F59E0B,#FF6B35)', fn:"switchGameChip(null,'pattern')"},
+      {id:'oddone',      icon:'🔍', title:'Odd One Out',    desc:'5-item expert challenge!',              bg:'linear-gradient(135deg,#A855F7,#667EEA)', fn:'startOddOneReset()'},
+      {id:'makepattern', icon:'🎨', title:'Make a Pattern', desc:'AABB · ABC advanced patterns!',        bg:'linear-gradient(135deg,#FF6B9D,#A855F7)', fn:'startMakePatternReset()'}
+    ]
+  };
+
+  var games = gameDefs[userLevel] || gameDefs[1];
+
+  el.innerHTML =
+    '<div style="font-family:Fredoka One,cursive;font-size:.95rem;color:rgba(255,255,255,.95);text-align:center;margin-bottom:12px;padding:6px 10px;background:rgba(255,255,255,.1);border-radius:50px;letter-spacing:.5px">' + lvLabel + '</div>' +
+    '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">' +
+    games.map(function(g) {
+      return '<div onclick="' + g.fn + ';scrollToGame()" style="background:' + g.bg + ';border-radius:20px;padding:18px 12px 16px;cursor:pointer;text-align:center;box-shadow:0 6px 22px rgba(0,0,0,.28);transition:transform .18s,box-shadow .18s;position:relative;overflow:hidden" onmouseover="this.style.transform=\'scale(1.05)\';this.style.boxShadow=\'0 10px 30px rgba(0,0,0,.35)\'" onmouseout="this.style.transform=\'scale(1)\';this.style.boxShadow=\'0 6px 22px rgba(0,0,0,.28)\'">' +
+        '<div style="position:absolute;top:8px;right:10px;font-size:10px;font-weight:900;background:rgba(255,255,255,.28);border-radius:20px;padding:2px 8px;color:#fff">▶ PLAY</div>' +
+        '<div style="font-size:38px;margin-bottom:8px;display:block">' + g.icon + '</div>' +
+        '<div style="font-family:Fredoka One,cursive;font-size:.98rem;color:#fff;margin-bottom:5px;line-height:1.2">' + g.title + '</div>' +
+        '<div style="font-size:10px;color:rgba(255,255,255,.88);font-weight:800;line-height:1.4">' + g.desc + '</div>' +
+        '</div>';
+    }).join('') +
+    '</div>';
+}
+
+function scrollToGame() {
+  setTimeout(function() {
+    var gc = document.getElementById('game-memory');
+    if (gc) gc.scrollIntoView({ behavior:'smooth', block:'start' });
+  }, 120);
+}
+
+function switchGameChip(chipEl, game) {
+  // update chip active state
+  document.querySelectorAll('#page-games .chips-wrap .chip').forEach(function(c){ c.classList.remove('active'); });
+  if (chipEl) chipEl.classList.add('active');
+  else {
+    // match chip by game name
+    var labelMap = {memory:'Memory',quiz:'Quiz',sounds:'Sounds',scramble:'Scramble',pattern:'Patterns'};
+    document.querySelectorAll('#page-games .chips-wrap .chip').forEach(function(c){
+      if (labelMap[game] && c.textContent.includes(labelMap[game])) c.classList.add('active');
+    });
+  }
+  // hide all game containers
+  ['memory','quiz','sounds','scramble','pattern','oddone','makepattern'].forEach(function(g){
+    var e=document.getElementById('game-'+g); if(e) e.style.display='none';
+  });
+  // show target
+  var target = document.getElementById('game-'+game);
+  if (target) target.style.display='block';
+  // init game
+  if (game==='memory') initMemory();
+  if (game==='quiz') { if(currentQuiz.length===0) startQuiz('math'+userLevel); }
+  if (game==='scramble') startScramble();
+  if (game==='pattern') startPatterns();
+  if (game==='sounds') {
+    soundScore2=0; soundRound2=1;
+    var ss=document.getElementById('soundScore'); if(ss) ss.textContent=0;
+    var sr=document.getElementById('soundRound'); if(sr) sr.textContent=1;
+    var sp=document.getElementById('soundPrompt'); if(sp) sp.textContent='🔊 Press PLAY to hear a sound!';
+    var ac=document.getElementById('animalChoices'); if(ac) ac.innerHTML='';
+    setTimeout(function(){ playSoundRound(); }, 350);
+  }
+}
+
+function startOddOneReset() {
+  ooScore=0; ooRound=0;
+  document.querySelectorAll('#page-games .chips-wrap .chip').forEach(function(c){ c.classList.toggle('active', c.textContent.includes('Odd')); });
+  ['memory','quiz','sounds','scramble','pattern','oddone','makepattern'].forEach(function(g){
+    var e=document.getElementById('game-'+g); if(e) e.style.display='none';
+  });
+  var oel = document.getElementById('game-oddone');
+  if(oel) oel.style.display='block';
+  nextOoRound();
+  scrollToGame();
+}
+
+function startMakePatternReset() {
+  mpScore=0; mpRound=0;
+  document.querySelectorAll('#page-games .chips-wrap .chip').forEach(function(c){ c.classList.toggle('active', c.textContent.includes('Make')); });
+  ['memory','quiz','sounds','scramble','pattern','oddone','makepattern'].forEach(function(g){
+    var e=document.getElementById('game-'+g); if(e) e.style.display='none';
+  });
+  var mel = document.getElementById('game-makepattern');
+  if(mel) mel.style.display='block';
+  nextMpRound();
+  scrollToGame();
+}
+
 // ═══ NAVIGATION ═══
 function goToPage(pageId, navId) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -2405,7 +2531,15 @@ function goToPage(pageId, navId) {
   window.scrollTo(0,0);
   if (pageId === 'page-art') initCanvas();
   if (pageId === 'page-music') { initPiano(); setTimeout(patchPianoRecord, 300); }
-  if (pageId === 'page-games') { document.getElementById('game-memory').style.display='block'; document.getElementById('game-quiz').style.display='none'; initMemory(); }
+  if (pageId === 'page-games') {
+    ['quiz','sounds','scramble','pattern','oddone','makepattern'].forEach(function(g){
+      var ge=document.getElementById('game-'+g); if(ge) ge.style.display='none';
+    });
+    document.getElementById('game-memory').style.display='block';
+    initMemory();
+    document.querySelectorAll('#page-games .chips-wrap .chip').forEach(function(c,i){ c.classList.toggle('active', i===0); });
+    if(typeof renderLevelGameTiles==='function') renderLevelGameTiles();
+  }
 }
 
 // ═══ CHIPS / SEARCH ═══
@@ -3278,6 +3412,7 @@ applyLevel = function() {
   _origApplyLevel2();
   applyBodyLevelClass();
   applyLevelUX();
+  if(typeof renderLevelGameTiles==='function') renderLevelGameTiles();
 };
 
 // ── Level-aware quiz data: simpler Lv1, emoji-rich Lv2, word-problems Lv3 ──
@@ -4059,7 +4194,7 @@ var ooScore=0, ooRound=0, ooTotal=5;
 function startOddOne() {
   ooScore=0; ooRound=0;
   switchGame(null, 'oddone');
-  nextOoRound();
+  // nextOoRound called by switchGame patch — do NOT call again here
 }
 function nextOoRound() {
   ooRound++;
@@ -4127,7 +4262,7 @@ var mpScore=0, mpRound=0, mpTotal=5;
 function startMakePattern() {
   mpScore=0; mpRound=0;
   switchGame(null,'makepattern');
-  nextMpRound();
+  // nextMpRound called by switchGame patch — do NOT call again here
 }
 function nextMpRound() {
   mpRound++;
@@ -4199,8 +4334,17 @@ switchGame = function(el, game) {
     var el2 = document.getElementById('game-'+g); if(el2) el2.style.display='none';
   });
   _origSwitchGame2(el, game);
-  if (game==='oddone') { document.getElementById('game-oddone').style.display='block'; nextOoRound(); }
-  if (game==='makepattern') { document.getElementById('game-makepattern').style.display='block'; nextMpRound(); }
+  if (game==='oddone') {
+    var ood = document.getElementById('game-oddone');
+    if(ood) ood.style.display='block';
+    // Only call nextOoRound if game is fresh (ooRound===0)
+    if(ooRound===0) nextOoRound();
+  }
+  if (game==='makepattern') {
+    var mpd = document.getElementById('game-makepattern');
+    if(mpd) mpd.style.display='block';
+    if(mpRound===0) nextMpRound();
+  }
 };
 
 // ══════════════════════════════════════════════════════════════════════

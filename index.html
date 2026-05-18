@@ -85,8 +85,8 @@ body{
 /* ══ CARDS GRID ══ */
 .cards-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;width:100%;max-width:1020px;margin-bottom:48px;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;width:100%;max-width:860px;margin-bottom:48px;
 }
 @media(max-width:860px){.cards-grid{grid-template-columns:1fr;max-width:420px;gap:18px}}
 
@@ -102,6 +102,17 @@ body{
 }
 .app-card:nth-child(2){animation-delay:.1s}
 .app-card:nth-child(3){animation-delay:.2s}
+.app-card:nth-child(4){animation-delay:.3s}
+
+/* ── Card 4: Kids GK (sky blue / teal) ── */
+.card-gk{border-color:#0ea5e933}
+.card-gk:hover{border-color:#0369a1;box-shadow:0 22px 52px rgba(14,165,233,.22)}
+.card-gk .card-header{background:linear-gradient(135deg,#0369a1 0%,#0ea5e9 50%,#06b6d4 100%)}
+.card-gk .feat-pill{background:#e0f2fe;color:#0369a1}
+.card-gk .card-cta{background:linear-gradient(135deg,#0369a1,#06b6d4)}
+.card-gk .card-cta:hover{box-shadow:0 8px 24px rgba(3,105,161,.4)}
+.card-gk .card-stat{background:#f0faff}
+.card-gk .card-icon-wrap{animation-delay:-.6s}
 .app-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 22px 52px rgba(0,0,0,.14)}
 .app-card:active{transform:scale(.97)}
 @keyframes popIn{0%{opacity:0;transform:scale(.82) translateY(20px)}70%{transform:scale(1.03)}100%{opacity:1;transform:scale(1) translateY(0)}}
@@ -251,11 +262,11 @@ body{
   <header class="hub-header">
     <div class="hub-logo">🚀</div>
     <h1 class="hub-title">Kids Learning <span>Hub!</span></h1>
-    <p class="hub-sub">Three awesome apps, endless fun — pick your adventure below! 🎉</p>
+    <p class="hub-sub">Four awesome apps, endless fun — pick your adventure below! 🎉</p>
     <div class="hub-badges">
       <span class="hub-badge">🇮🇳 AP &amp; CBSE</span>
-      <span class="hub-badge">🎮 3 Apps</span>
-      <span class="hub-badge">⭐ Ages 3–12</span>
+      <span class="hub-badge">🎮 4 Apps</span>
+      <span class="hub-badge">⭐ Ages 3–15</span>
       <span class="hub-badge">🆓 100% Free</span>
     </div>
   </header>
@@ -353,11 +364,42 @@ body{
       </div>
     </a>
 
+    <!-- 4️⃣ Kids GK World -->
+    <a class="app-card card-gk" href="kids_gk.html">
+      <div class="seq-num">4</div>
+      <div class="card-badge badge-new">🌟 NEW</div>
+      <div class="card-header">
+        <div class="card-icon-wrap">📚</div>
+        <div class="card-header-text">
+          <div class="card-tag">🧠 GENERAL KNOWLEDGE</div>
+          <div class="card-name">Kids GK World</div>
+          <div class="card-tagline">Learn &amp; Explore Everything!</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Animals, Space, India, Andhra Pradesh, History, Science, Sports, Festivals &amp; more — with a fun Quiz at the end! Made for ages 4–15.</p>
+        <div class="card-features">
+          <span class="feat-pill">🐾 Animals</span>
+          <span class="feat-pill">🚀 Space</span>
+          <span class="feat-pill">🇮🇳 India &amp; AP</span>
+          <span class="feat-pill">🔬 Science</span>
+          <span class="feat-pill">🏆 Sports</span>
+          <span class="feat-pill">🧠 Quiz</span>
+        </div>
+        <div class="card-stats">
+          <div class="card-stat"><div class="stat-num">13</div><div class="stat-lbl">Topics</div></div>
+          <div class="card-stat"><div class="stat-num">4–15</div><div class="stat-lbl">Ages</div></div>
+          <div class="card-stat"><div class="stat-num">🏅</div><div class="stat-lbl">Quiz</div></div>
+        </div>
+        <span class="card-cta">Open Kids GK <span class="cta-arrow">→</span></span>
+      </div>
+    </a>
+
   </div>
 
   <footer class="hub-footer">
     <p class="footer-text">Made with ❤️ for young learners everywhere</p>
-    <div class="footer-emoji-row">🌿 🌟 🎮 🎨 🔬 🎵 🏆 🚀</div>
+    <div class="footer-emoji-row">🌿 🌟 🎮 🎨 🔬 🎵 🏆 🚀 📚 🧠</div>
   </footer>
 
 </div>

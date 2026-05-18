@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌟 Kids GK World – Learn & Explore!</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #0ea5e9;
+    --sun: #f59e0b;
+    --grass: #22c55e;
+    --coral: #f43f5e;
+    --purple: #8b5cf6;
+    --orange: #f97316;
+    --teal: #14b8a6;
+    --pink: #ec4899;
+    --indigo: #6366f1;
+    --lime: #84cc16;
+    --bg: #fefce8;
+    --card-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO HEADER ── */
+  .hero {
+    background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 50%, #f43f5e 100%);
+    padding: 20px 20px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='10'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-floating { position: absolute; font-size: 2rem; animation: float 4s ease-in-out infinite; }
+  .f1 { top: 10%; left: 5%; animation-delay: 0s; }
+  .f2 { top: 20%; right: 8%; animation-delay: 1s; }
+  .f3 { top: 50%; left: 2%; animation-delay: 2s; }
+  .f4 { bottom: 15%; right: 4%; animation-delay: 0.5s; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
+
+  .hero-logo { font-size: 4rem; margin-bottom: 8px; display: block; position: relative; }
+  .hero h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(2rem, 6vw, 3.8rem);
+    font-weight: 800;
+    color: white;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+    position: relative;
+  }
+  .hero p {
+    color: rgba(255,255,255,0.92);
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    margin-top: 10px;
+    font-weight: 600;
+    position: relative;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: white;
+    color: var(--purple);
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 5px 16px;
+    border-radius: 50px;
+    margin-top: 14px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  /* ── NAV TABS ── */
+  .nav-wrapper {
+    background: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-scroll {
+    display: flex;
+    overflow-x: auto;
+    padding: 0 10px;
+    gap: 4px;
+    scrollbar-width: none;
+  }
+  .nav-scroll::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    flex-shrink: 0;
+    padding: 12px 16px;
+    border: none;
+    background: none;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #64748b;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    color: var(--purple);
+    border-bottom-color: var(--purple);
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main { max-width: 1100px; margin: 0 auto; padding: 30px 16px 60px; }
+
+  /* ── SECTION ── */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .section-icon { font-size: 4rem; display: block; margin-bottom: 8px; }
+  .section-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800;
+    color: #1e293b;
+  }
+  .section-sub { color: #64748b; font-size: 1rem; margin-top: 4px; font-weight: 600; }
+
+  /* ── CARDS GRID ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px 16px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: default;
+    border-top: 5px solid transparent;
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.15); }
+  .card .emoji { font-size: 2.8rem; display: block; margin-bottom: 10px; }
+  .card h3 { font-size: 1rem; font-weight: 800; color: #1e293b; margin-bottom: 4px; }
+  .card p { font-size: 0.82rem; color: #64748b; line-height: 1.5; }
+  .card.c1 { border-top-color: var(--sky); }
+  .card.c2 { border-top-color: var(--coral); }
+  .card.c3 { border-top-color: var(--grass); }
+  .card.c4 { border-top-color: var(--sun); }
+  .card.c5 { border-top-color: var(--purple); }
+  .card.c6 { border-top-color: var(--orange); }
+  .card.c7 { border-top-color: var(--teal); }
+  .card.c8 { border-top-color: var(--pink); }
+
+  /* ── FACT BOX ── */
+  .fact-box {
+    border-radius: 20px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    box-shadow: var(--card-shadow);
+  }
+  .fact-box .fact-icon { font-size: 2.4rem; flex-shrink: 0; }
+  .fact-box h4 { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+  .fact-box p { font-size: 0.88rem; line-height: 1.6; }
+  .fact-sky { background: #e0f2fe; color: #0369a1; }
+  .fact-green { background: #dcfce7; color: #15803d; }
+  .fact-yellow { background: #fef9c3; color: #a16207; }
+  .fact-pink { background: #fce7f3; color: #be185d; }
+  .fact-purple { background: #ede9fe; color: #6d28d9; }
+  .fact-orange { background: #fff7ed; color: #c2410c; }
+  .fact-teal { background: #ccfbf1; color: #0f766e; }
+
+  /* ── TABLE ── */
+  .gk-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+  }
+  .gk-table th {
+    padding: 14px 16px;
+    text-align: left;
+    font-weight: 800;
+    color: white;
+    font-size: 0.85rem;
+  }
+  .gk-table td { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+  .gk-table tr:last-child td { border-bottom: none; }
+  .gk-table tr:hover td { background: #f8fafc; }
+
+  /* ── QUIZ ── */
+  .quiz-container {
+    background: white;
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 24px;
+  }
+  .quiz-q { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 16px; }
+  .quiz-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .quiz-opt {
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 2.5px solid #e2e8f0;
+    background: #f8fafc;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+  }
+  .quiz-opt:hover { border-color: var(--purple); background: #ede9fe; color: var(--purple); }
+  .quiz-opt.correct { border-color: var(--grass); background: #dcfce7; color: #15803d; }
+  .quiz-opt.wrong { border-color: var(--coral); background: #ffe4e6; color: #be123c; }
+  .quiz-feedback { margin-top: 14px; padding: 12px 16px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: #dcfce7; color: #15803d; }
+  .quiz-feedback.nope { background: #ffe4e6; color: #be123c; }
+  .quiz-next {
+    margin-top: 14px;
+    padding: 10px 22px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, var(--purple), var(--sky));
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: none;
+    transition: transform 0.2s;
+  }
+  .quiz-next:hover { transform: scale(1.05); }
+  .quiz-score { text-align: center; font-size: 1.4rem; font-weight: 800; color: var(--purple); margin-top: 10px; }
+
+  /* ── BIG TOPIC RIBBON ── */
+  .ribbon {
+    display: inline-block;
+    padding: 6px 20px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: white;
+    margin-bottom: 14px;
+  }
+
+  /* ── PLANET GRID ── */
+  .planet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .planet-card {
+    border-radius: 16px;
+    padding: 16px 10px;
+    text-align: center;
+    color: white;
+    font-weight: 800;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s;
+  }
+  .planet-card:hover { transform: scale(1.06); }
+  .planet-card .planet-emoji { font-size: 2.2rem; display: block; margin-bottom: 6px; }
+  .planet-card .planet-name { font-size: 0.85rem; }
+  .planet-card .planet-fact { font-size: 0.7rem; opacity: 0.9; font-weight: 600; margin-top: 3px; }
+
+  /* ── BODY SYSTEM CARDS ── */
+  .body-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .body-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s;
+  }
+  .body-card:hover { transform: translateY(-4px); }
+  .body-card h3 { font-size: 1rem; font-weight: 800; margin: 10px 0 6px; color: #1e293b; }
+  .body-card p { font-size: 0.82rem; color: #64748b; line-height: 1.5; }
+
+  /* ── PROGRESS BADGE ── */
+  .badge-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+  .badge {
+    background: white;
+    border-radius: 50px;
+    padding: 8px 18px;
+    box-shadow: var(--card-shadow);
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ── AP SECTION SPECIAL ── */
+  .ap-banner {
+    background: linear-gradient(135deg, #f97316, #f59e0b);
+    border-radius: 20px;
+    padding: 24px;
+    color: white;
+    margin-bottom: 24px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+  }
+  .ap-banner h2 { font-family: 'Baloo 2'; font-size: 1.8rem; font-weight: 800; }
+  .ap-banner p { font-size: 0.95rem; opacity: 0.92; margin-top: 6px; }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    text-align: center;
+    padding: 24px;
+    background: #1e293b;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .site-footer span { color: var(--coral); }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width: 600px) {
+    .quiz-opts { grid-template-columns: 1fr; }
+    .cards-grid { grid-template-columns: 1fr 1fr; }
+    .planet-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* ── SCROLL ANIMATION ── */
+  .fade-in { animation: fadeInUp 0.5s ease both; }
+  @keyframes fadeInUp {
+    from { opacity:0; transform:translateY(24px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+
+  /* section color accents */
+  .acc-sky { background: linear-gradient(135deg,#0ea5e9,#38bdf8); }
+  .acc-green { background: linear-gradient(135deg,#22c55e,#4ade80); }
+  .acc-purple { background: linear-gradient(135deg,#8b5cf6,#a78bfa); }
+  .acc-coral { background: linear-gradient(135deg,#f43f5e,#fb7185); }
+  .acc-sun { background: linear-gradient(135deg,#f59e0b,#fcd34d); }
+  .acc-teal { background: linear-gradient(135deg,#14b8a6,#2dd4bf); }
+  .acc-orange { background: linear-gradient(135deg,#f97316,#fb923c); }
+  .acc-pink { background: linear-gradient(135deg,#ec4899,#f472b6); }
+  .acc-indigo { background: linear-gradient(135deg,#6366f1,#818cf8); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-floating f1">🦋</span>
+  <span class="hero-floating f2">🚀</span>
+  <span class="hero-floating f3">🌈</span>
+  <span class="hero-floating f4">⭐</span>
+  <span class="hero-logo">📚</span>
+  <h1>Kids GK World 🌍</h1>
+  <p>Learn Amazing Things About Our World!</p>
+  <div class="hero-badge">🇮🇳 Made for Young Minds of India | Ages 4 – 15</div>
+</div>
+
+<!-- NAV -->
+<div class="nav-wrapper">
+  <div class="nav-scroll">
+    <button class="nav-btn active" onclick="showTab('animals')">🐾 Animals</button>
+    <button class="nav-btn" onclick="showTab('plants')">🌿 Plants</button>
+    <button class="nav-btn" onclick="showTab('body')">🫀 Human Body</button>
+    <button class="nav-btn" onclick="showTab('space')">🚀 Space</button>
+    <button class="nav-btn" onclick="showTab('india')">🇮🇳 India</button>
+    <button class="nav-btn" onclick="showTab('ap')">🏛️ Andhra Pradesh</button>
+    <button class="nav-btn" onclick="showTab('world')">🌍 World</button>
+    <button class="nav-btn" onclick="showTab('science')">🔬 Science</button>
+    <button class="nav-btn" onclick="showTab('history')">🏺 History</button>
+    <button class="nav-btn" onclick="showTab('sports')">⚽ Sports</button>
+    <button class="nav-btn" onclick="showTab('festivals')">🎉 Festivals</button>
+    <button class="nav-btn" onclick="showTab('maths')">🔢 Maths</button>
+    <button class="nav-btn" onclick="showTab('quiz')">🧠 Quiz Time!</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════
+     ANIMALS
+══════════════════════════════════════════ -->
+<div id="animals" class="section active fade-in">
+  <div class="section-header">
+    <span class="section-icon">🐾</span>
+    <div class="section-title">Amazing Animals</div>
+    <div class="section-sub">Explore the incredible animal kingdom!</div>
+  </div>
+
+  <span class="ribbon acc-green">🦁 Wild Animals</span>
+  <div class="cards-grid">
+    <div class="card c1"><span class="emoji">🐯</span><h3>Tiger</h3><p>National animal of India. A tiger's roar can be heard 3 km away!</p></div>
+    <div class="card c2"><span class="emoji">🦁</span><h3>Lion</h3><p>Called the "King of the Jungle." Lions live in groups called prides.</p></div>
+    <div class="card c3"><span class="emoji">🐘</span><h3>Elephant</h3><p>Largest land animal. Has memory like a computer — never forgets!</p></div>
+    <div class="card c4"><span class="emoji">🦒</span><h3>Giraffe</h3><p>Tallest animal on Earth. Its neck alone is 1.8 metres long!</p></div>
+    <div class="card c5"><span class="emoji">🦓</span><h3>Zebra</h3><p>Every zebra has a unique stripe pattern — just like our fingerprints!</p></div>
+    <div class="card c6"><span class="emoji">🐼</span><h3>Giant Panda</h3><p>Eats bamboo for up to 12 hours a day. Found in China.</p></div>
+    <div class="card c7"><span class="emoji">🦅</span><h3>Eagle</h3><p>National bird of USA. Can spot prey from 3 km away in the sky!</p></div>
+    <div class="card c8"><span class="emoji">🦊</span><h3>Fox</h3><p>Very clever animal. Uses 40+ sounds to communicate!</p></div>
+  </div>
+
+  <span class="ribbon acc-sky">🐦 Birds of India</span>
+  <div class="cards-grid">
+    <div class="card c5"><span class="emoji">🦚</span><h3>Peacock</h3><p>National Bird of India 🇮🇳. Male has beautiful colourful feathers.</p></div>
+    <div class="card c1"><span class="emoji">🦜</span><h3>Parrot</h3><p>Very intelligent birds. They can imitate human speech!</p></div>
+    <div class="card c3"><span class="emoji">🦅</span><h3>Kite (Pariah)</h3><p>Common bird of prey in India. It soars high with sharp eyes.</p></div>
+    <div class="card c4"><span class="emoji">🦢</span><h3>Saras Crane</h3><p>Tallest flying bird in India. They mate for life — very loyal!</p></div>
+  </div>
+
+  <span class="ribbon acc-coral">🐟 Aquatic Animals</span>
+  <div class="cards-grid">
+    <div class="card c1"><span class="emoji">🐬</span><h3>Dolphin</h3><p>One of the most intelligent animals. They sleep with one eye open!</p></div>
+    <div class="card c2"><span class="emoji">🐳</span><h3>Blue Whale</h3><p>Largest animal ever on Earth. Its heart is the size of a small car!</p></div>
+    <div class="card c7"><span class="emoji">🦈</span><h3>Shark</h3><p>Has up to 3,000 teeth. Sharks never stop swimming!</p></div>
+    <div class="card c3"><span class="emoji">🐙</span><h3>Octopus</h3><p>Has 3 hearts and blue blood. Can change colour in 0.3 seconds!</p></div>
+  </div>
+
+  <div class="fact-box fact-green">
+    <span class="fact-icon">💡</span>
+    <div>
+      <h4>Fun Fact!</h4>
+      <p>Cows have four stomach compartments and spend 8 hours a day chewing! India has the largest cattle population in the world.</p>
+    </div>
+  </div>
+  <div class="fact-box fact-sky">
+    <span class="fact-icon">🦋</span>
+    <div>
+      <h4>Did You Know?</h4>
+      <p>A butterfly tastes food with its feet! Butterflies have taste sensors on their legs to find sweet plants.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PLANTS
+══════════════════════════════════════════ -->
+<div id="plants" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🌿</span>
+    <div class="section-title">Wonderful Plants & Nature</div>
+    <div class="section-sub">Plants are the lungs of our planet!</div>
+  </div>
+
+  <span class="ribbon acc-green">🌳 Famous Trees</span>
+  <div class="cards-grid">
+    <div class="card c3"><span class="emoji">🌳</span><h3>Banyan Tree</h3><p>National Tree of India 🇮🇳. A single tree can spread over 1 hectare!</p></div>
+    <div class="card c4"><span class="emoji">🌴</span><h3>Coconut Palm</h3><p>Called "Tree of Life." Every part — leaf, trunk, fruit — is useful!</p></div>
+    <div class="card c1"><span class="emoji">🎋</span><h3>Bamboo</h3><p>Fastest growing plant on Earth — grows 91 cm in just ONE day!</p></div>
+    <div class="card c5"><span class="emoji">🌲</span><h3>Neem Tree</h3><p>Called "Village Pharmacy." Leaves, bark, seeds — all have medicine!</p></div>
+    <div class="card c2"><span class="emoji">🌿</span><h3>Tulsi (Basil)</h3><p>Holy plant in India. Has amazing healing and anti-bacterial properties.</p></div>
+    <div class="card c6"><span class="emoji">🎄</span><h3>Teak Tree</h3><p>Famous for its hard strong wood. Found abundantly in Andhra Pradesh!</p></div>
+  </div>
+
+  <span class="ribbon acc-pink">🌸 Flowers</span>
+  <div class="cards-grid">
+    <div class="card c8"><span class="emoji">🌸</span><h3>Lotus</h3><p>National Flower of India 🇮🇳. Grows in mud but blooms beautifully!</p></div>
+    <div class="card c2"><span class="emoji">🌹</span><h3>Rose</h3><p>Symbol of love. Has over 300 species and 30,000 varieties worldwide!</p></div>
+    <div class="card c4"><span class="emoji">🌻</span><h3>Sunflower</h3><p>Turns its face towards the Sun each day. Called "Heliotropism."</p></div>
+    <div class="card c5"><span class="emoji">🌺</span><h3>Jasmine</h3><p>State flower of Andhra Pradesh. Used in temples and for hair decoration!</p></div>
+  </div>
+
+  <div class="fact-box fact-green">
+    <span class="fact-icon">🌱</span>
+    <div><h4>How Plants Make Food?</h4>
+    <p>Plants use Sunlight + Water + Carbon Dioxide (CO₂) → make Sugar + Oxygen. This process is called <b>PHOTOSYNTHESIS</b>. That's why we need to protect trees — they give us the oxygen we breathe!</p></div>
+  </div>
+
+  <span class="ribbon acc-sun">🥦 Food Plants</span>
+  <div class="cards-grid">
+    <div class="card c4"><span class="emoji">🌾</span><h3>Rice</h3><p>Staple food of Andhra Pradesh & most of India. India is world's 2nd biggest rice producer!</p></div>
+    <div class="card c3"><span class="emoji">🌽</span><h3>Maize (Corn)</h3><p>Used for food, animal feed & even fuel! Grown across India.</p></div>
+    <div class="card c6"><span class="emoji">🫑</span><h3>Chilli</h3><p>Andhra Pradesh is famous for its fiery Guntur Chilli — exported worldwide!</p></div>
+    <div class="card c2"><span class="emoji">🍅</span><h3>Tomato</h3><p>Is it a fruit or vegetable? Scientifically a fruit! Rich in Vitamin C.</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HUMAN BODY
+══════════════════════════════════════════ -->
+<div id="body" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🫀</span>
+    <div class="section-title">The Amazing Human Body</div>
+    <div class="section-sub">You are a walking miracle!</div>
+  </div>
+
+  <div class="body-grid">
+    <div class="body-card">
+      <span style="font-size:2.5rem">🧠</span>
+      <h3>Brain</h3>
+      <p>Control centre of your body. Has 86 billion nerve cells! Uses 20% of all your body's energy. Weighs about 1.4 kg.</p>
+    </div>
+    <div class="body-card">
+      <span style="font-size:2.5rem">❤️</span>
+      <h3>Heart</h3>
+      <p>Beats 100,000 times a day! Pumps 7,000 litres of blood daily. Size of your fist. Made of special muscle.</p>
+    </div>
+    <div class="body-card">
+      <span style="font-size:2.5rem">🫁</span>
+      <h3>Lungs</h3>
+      <p>We breathe 20,000 times a day! Right lung is bigger than left. They float on water — only organ that does!</p>
+    </div>
+    <div class="body-card">
+      <span style="font-size:2.5rem">🦷</span>
+      <h3>Teeth</h3>
+      <p>Children have 20 milk teeth. Adults have 32 teeth. Enamel is the hardest substance in the human body!</p>
+    </div>
+    <div class="body-card">
+      <span style="font-size:2.5rem">👁️</span>
+      <h3>Eyes</h3>
+      <p>Can see 10 million colours! Each eye has 130 million light receptor cells. Blink 10,000 times per day!</p>
+    </div>
+    <div class="body-card">
+      <span style="font-size:2.5rem">🦴</span>
+      <h3>Bones</h3>
+      <p>206 bones in an adult. Babies are born with 270 bones — they fuse as you grow! The femur is the longest bone.</p>
+    </div>
+    <div class="body-card">
+      <span style="font-size:2.5rem">🩸</span>
+      <h3>Blood</h3>
+      <p>5 litres of blood in your body. Red blood cells live 120 days. Blood has 4 types: A, B, AB, O.</p>
+    </div>
+    <div class="body-card">
+      <span style="font-size:2.5rem">👂</span>
+      <h3>Ears</h3>
+      <p>Help you hear AND balance! The smallest bones in the body (hammer, anvil, stirrup) are inside your ear!</p>
+    </div>
+  </div>
+
+  <div class="fact-box fact-purple">
+    <span class="fact-icon">🧬</span>
+    <div><h4>DNA – Your Body's Blueprint!</h4>
+    <p>Every cell in your body contains DNA — a set of instructions that makes you unique! If you stretched all the DNA from one human cell, it would be 2 metres long. All the DNA in your body would reach the Sun and back 600 times!</p></div>
+  </div>
+
+  <span class="ribbon acc-green">🥗 Vitamins & Nutrition</span>
+  <div class="cards-grid">
+    <div class="card c3"><span class="emoji">🥕</span><h3>Vitamin A</h3><p>Good for eyes & skin. Found in carrots, papaya, sweet potato.</p></div>
+    <div class="card c4"><span class="emoji">🍊</span><h3>Vitamin C</h3><p>Fights sickness! Found in oranges, lemons, amla (gooseberry).</p></div>
+    <div class="card c1"><span class="emoji">☀️</span><h3>Vitamin D</h3><p>Strengthens bones. Our skin makes it from sunlight! Also in milk.</p></div>
+    <div class="card c5"><span class="emoji">🥜</span><h3>Protein</h3><p>Builds muscles. Found in pulses (dal), eggs, nuts, milk, chicken.</p></div>
+    <div class="card c6"><span class="emoji">🥛</span><h3>Calcium</h3><p>Makes bones & teeth strong. Found in milk, curd, paneer, fish.</p></div>
+    <div class="card c2"><span class="emoji">🍚</span><h3>Carbohydrates</h3><p>Give us energy to run & play. Found in rice, roti, bread, potato.</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SPACE
+══════════════════════════════════════════ -->
+<div id="space" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🚀</span>
+    <div class="section-title">Wonders of Space 🌌</div>
+    <div class="section-sub">Our Universe is 13.8 Billion years old!</div>
+  </div>
+
+  <span class="ribbon acc-indigo">🪐 Our Solar System</span>
+  <div class="planet-grid">
+    <div class="planet-card" style="background:linear-gradient(135deg,#f97316,#fb923c)">
+      <span class="planet-emoji">🔴</span>
+      <div class="planet-name">Mercury</div>
+      <div class="planet-fact">Smallest planet</div>
+    </div>
+    <div class="planet-card" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)">
+      <span class="planet-emoji">🟡</span>
+      <div class="planet-name">Venus</div>
+      <div class="planet-fact">Hottest planet</div>
+    </div>
+    <div class="planet-card" style="background:linear-gradient(135deg,#3b82f6,#22c55e)">
+      <span class="planet-emoji">🌍</span>
+      <div class="planet-name">Earth</div>
+      <div class="planet-fact">Our home!</div>
+    </div>
+    <div class="planet-card" style="background:linear-gradient(135deg,#ef4444,#f97316)">
+      <span class="planet-emoji">🔴</span>
+      <div class="planet-name">Mars</div>
+      <div class="planet-fact">Red Planet</div>
+    </div>
+    <div class="planet-card" style="background:linear-gradient(135deg,#a16207,#d97706)">
+      <span class="planet-emoji">🟤</span>
+      <div class="planet-name">Jupiter</div>
+      <div class="planet-fact">Largest planet</div>
+    </div>
+    <div class="planet-card" style="background:linear-gradient(135deg,#c2410c,#d97706)">
+      <span class="planet-emoji">🪐</span>
+      <div class="planet-name">Saturn</div>
+      <div class="planet-fact">Has beautiful rings</div>
+    </div>
+    <div class="planet-card" style="background:linear-gradient(135deg,#0ea5e9,#38bdf8)">
+      <span class="planet-emoji">🔵</span>
+      <div class="planet-name">Uranus</div>
+      <div class="planet-fact">Rotates sideways!</div>
+    </div>
+    <div class="planet-card" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6)">
+      <span class="planet-emoji">🔵</span>
+      <div class="planet-name">Neptune</div>
+      <div class="planet-fact">Windiest planet</div>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card c5"><span class="emoji">☀️</span><h3>The Sun</h3><p>Our star! 1.3 million Earths fit inside it. Surface temperature is 5,500°C. Light reaches Earth in 8 min 20 sec!</p></div>
+    <div class="card c4"><span class="emoji">🌙</span><h3>The Moon</h3><p>Only natural satellite of Earth. Distance: 3,84,400 km. Neil Armstrong first walked on Moon on 20 July 1969!</p></div>
+    <div class="card c1"><span class="emoji">⭐</span><h3>Stars</h3><p>Sun is the nearest star to Earth. Nearest other star is Proxima Centauri — 4.24 light years away!</p></div>
+    <div class="card c2"><span class="emoji">🌌</span><h3>Milky Way</h3><p>Our galaxy! Has 100–400 billion stars. It would take 100,000 years to cross at the speed of light!</p></div>
+  </div>
+
+  <div class="fact-box fact-purple">
+    <span class="fact-icon">🛸</span>
+    <div><h4>ISRO – India's Space Agency 🇮🇳</h4>
+    <p>India launched <b>Chandrayaan-3</b> in 2023 — successfully landing near the Moon's South Pole. India became the <b>FIRST country</b> to land on the Moon's South Pole! ISRO also launched <b>Mangalyaan</b> (Mars Orbiter) in 2014 — reaching Mars in first attempt at lowest cost ever!</p></div>
+  </div>
+
+  <div class="fact-box fact-sky">
+    <span class="fact-icon">🌠</span>
+    <div><h4>Space Vocabulary for Kids</h4>
+    <p>🌟 <b>Galaxy</b> = A huge group of billions of stars | 🔭 <b>Telescope</b> = Instrument to see distant stars | ☄️ <b>Comet</b> = A ball of ice and rock orbiting the Sun | 🌑 <b>Eclipse</b> = When Moon blocks Sun (Solar) or Earth's shadow covers Moon (Lunar)</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     INDIA
+══════════════════════════════════════════ -->
+<div id="india" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🇮🇳</span>
+    <div class="section-title">Incredible India</div>
+    <div class="section-sub">The world's largest democracy!</div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card c1"><span class="emoji">🏛️</span><h3>Capital</h3><p>New Delhi — also houses the Parliament of India and Rashtrapati Bhavan.</p></div>
+    <div class="card c2"><span class="emoji">📏</span><h3>Area</h3><p>3.29 million sq km. 7th largest country in the world by area.</p></div>
+    <div class="card c3"><span class="emoji">👥</span><h3>Population</h3><p>1.4 billion people — most populous country on Earth as of 2023!</p></div>
+    <div class="card c4"><span class="emoji">🗣️</span><h3>Languages</h3><p>22 official languages! Hindi & English are most widely spoken. Telugu is spoken in AP.</p></div>
+    <div class="card c5"><span class="emoji">🏳️</span><h3>National Flag</h3><p>Tiranga: Saffron, White & Green with the 24-spoke Ashoka Chakra in navy blue.</p></div>
+    <div class="card c6"><span class="emoji">🎵</span><h3>National Anthem</h3><p>"Jana Gana Mana" written by Rabindranath Tagore. Adopted in 1950.</p></div>
+    <div class="card c7"><span class="emoji">🐯</span><h3>National Animal</h3><p>Bengal Tiger — symbol of strength and power of India.</p></div>
+    <div class="card c8"><span class="emoji">🌸</span><h3>National Flower</h3><p>Lotus — grows in mud but blooms clean and beautiful, like India's spirit!</p></div>
+  </div>
+
+  <span class="ribbon acc-orange">🗺️ States & Capitals (Selected)</span>
+  <table class="gk-table">
+    <thead><tr style="background: linear-gradient(90deg,#f97316,#f59e0b)">
+      <th>State 🏛️</th><th>Capital 🌆</th><th>Famous For 🌟</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>🏛️ Andhra Pradesh</td><td>Amaravati</td><td>Rice Bowl of India, Tirupati Temple, Chilli</td></tr>
+      <tr><td>🌆 Maharashtra</td><td>Mumbai</td><td>Bollywood, Gateway of India, Ajanta Caves</td></tr>
+      <tr><td>🏔️ Uttar Pradesh</td><td>Lucknow</td><td>Taj Mahal (Agra), Varanasi, Mathura</td></tr>
+      <tr><td>🌊 Tamil Nadu</td><td>Chennai</td><td>Meenakshi Temple, Silk Sarees, Music</td></tr>
+      <tr><td>🌿 Kerala</td><td>Thiruvananthapuram</td><td>Backwaters, Spices, Kathakali dance</td></tr>
+      <tr><td>🏔️ Himachal Pradesh</td><td>Shimla</td><td>Himalayan mountains, Snow, Apple orchards</td></tr>
+      <tr><td>🌾 Punjab</td><td>Chandigarh</td><td>Wheat farming, Golden Temple, Bhangra</td></tr>
+      <tr><td>🐘 Rajasthan</td><td>Jaipur</td><td>Thar Desert, Forts, Camel Rides, Pink City</td></tr>
+      <tr><td>🎭 West Bengal</td><td>Kolkata</td><td>Durga Puja, Rabindranath Tagore, Sweets</td></tr>
+      <tr><td>🌲 Karnataka</td><td>Bengaluru</td><td>IT Capital, Mysore Palace, Coffee</td></tr>
+    </tbody>
+  </table>
+
+  <span class="ribbon acc-coral">🏆 National Symbols of India</span>
+  <div class="cards-grid">
+    <div class="card c5"><span class="emoji">🦚</span><h3>National Bird</h3><p>Peacock – beautiful colours; national pride of India!</p></div>
+    <div class="card c2"><span class="emoji">🐬</span><h3>National Aquatic Animal</h3><p>Gangetic River Dolphin — an endangered species in River Ganga.</p></div>
+    <div class="card c3"><span class="emoji">🏏</span><h3>National Sport</h3><p>Field Hockey — India won 8 Olympic gold medals in hockey!</p></div>
+    <div class="card c6"><span class="emoji">🥭</span><h3>National Fruit</h3><p>Mango — India grows 40% of world's mangoes! Called "King of Fruits."</p></div>
+    <div class="card c1"><span class="emoji">🌳</span><h3>National Tree</h3><p>Banyan Tree — symbol of longevity. Represents unity with its many roots.</p></div>
+    <div class="card c4"><span class="emoji">🐅</span><h3>National Animal</h3><p>Bengal Tiger — India has 70% of world's wild tiger population!</p></div>
+  </div>
+
+  <span class="ribbon acc-purple">🌟 Freedom Fighters of India</span>
+  <div class="cards-grid">
+    <div class="card c5"><span class="emoji">🕊️</span><h3>Mahatma Gandhi</h3><p>Father of Nation. Led India to freedom through Non-violence (Ahimsa). Born: 2 Oct 1869.</p></div>
+    <div class="card c1"><span class="emoji">⚡</span><h3>Subhas Chandra Bose</h3><p>"Netaji" — formed INA (Indian National Army). Said "Give me blood, I give you freedom!"</p></div>
+    <div class="card c2"><span class="emoji">🌹</span><h3>Jawaharlal Nehru</h3><p>First Prime Minister of India. Said "Tryst with Destiny" speech on 14–15 Aug 1947.</p></div>
+    <div class="card c3"><span class="emoji">🦁</span><h3>Bhagat Singh</h3><p>Great revolutionary. Hanged at age 23. Symbol of youth patriotism.</p></div>
+    <div class="card c4"><span class="emoji">🛡️</span><h3>Sardar Patel</h3><p>"Iron Man of India." United 562 princely states into one India. India's first Home Minister.</p></div>
+    <div class="card c6"><span class="emoji">📖</span><h3>B.R. Ambedkar</h3><p>Architect of Indian Constitution. Fought for equality and rights of all people.</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ANDHRA PRADESH
+══════════════════════════════════════════ -->
+<div id="ap" class="section fade-in">
+  <div class="ap-banner">
+    <h2>🏛️ Andhra Pradesh — Our Pride!</h2>
+    <p>నా రాష్ట్రం, నా గర్వం — My State, My Pride!</p>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card c6"><span class="emoji">🏛️</span><h3>Capital</h3><p>Amaravati — a modern planned city on the banks of River Krishna!</p></div>
+    <div class="card c4"><span class="emoji">🌊</span><h3>Largest City</h3><p>Visakhapatnam (Vizag) — a beautiful port city on Bay of Bengal!</p></div>
+    <div class="card c3"><span class="emoji">📏</span><h3>Area</h3><p>1,62,975 sq km. 8th largest state in India by area.</p></div>
+    <div class="card c5"><span class="emoji">👥</span><h3>Language</h3><p>Telugu — the most melodious language! Called "Italian of the East."</p></div>
+  </div>
+
+  <span class="ribbon acc-orange">🌟 Famous Places in Andhra Pradesh</span>
+  <div class="cards-grid">
+    <div class="card c6"><span class="emoji">🙏</span><h3>Tirupati Balaji</h3><p>Richest and most visited Hindu temple. Located in Chittoor district. Visited by 1 lakh+ devotees daily!</p></div>
+    <div class="card c1"><span class="emoji">🌊</span><h3>Visakhapatnam</h3><p>Beautiful port city. Has Kailasagiri hill park and Rushikonda beach. Called "City of Destiny!"</p></div>
+    <div class="card c3"><span class="emoji">🕌</span><h3>Amaravati</h3><p>Ancient Buddhist centre & upcoming capital city on River Krishna. Ancient stupa ruins are found here!</p></div>
+    <div class="card c2"><span class="emoji">🏺</span><h3>Hampi (border)</h3><p>Ruins of Vijayanagara Empire — a UNESCO World Heritage Site near AP!</p></div>
+    <div class="card c5"><span class="emoji">🌋</span><h3>Araku Valley</h3><p>Beautiful hill station in Visakhapatnam. Famous for organic coffee and tribal culture!</p></div>
+    <div class="card c4"><span class="emoji">🦌</span><h3>Nagarjuna Sagar</h3><p>Largest man-made lake in the world (by water volume). Important dam on Krishna River.</p></div>
+  </div>
+
+  <span class="ribbon acc-teal">🍽️ Famous Food of AP</span>
+  <div class="cards-grid">
+    <div class="card c7"><span class="emoji">🍛</span><h3>Pulihora</h3><p>Tamarind rice — tangy and delicious! Temple prasadam. AP's signature dish.</p></div>
+    <div class="card c2"><span class="emoji">🫙</span><h3>Gongura Pickle</h3><p>Sorrel leaves pickle — sour and spicy! AP's most beloved condiment!</p></div>
+    <div class="card c6"><span class="emoji">🦐</span><h3>Royyala Iguru</h3><p>Spicy prawn curry. Coastal AP is famous for fresh seafood dishes!</p></div>
+    <div class="card c4"><span class="emoji">🍰</span><h3>Pootharekulu</h3><p>Paper-thin sweet wafer from Atreyapuram. Called "Paper Sweet." GI tagged!</p></div>
+    <div class="card c3"><span class="emoji">🌶️</span><h3>Guntur Chicken</h3><p>Fiery spicy chicken curry with Guntur's famous red chillies!</p></div>
+    <div class="card c8"><span class="emoji">🥣</span><h3>Pesarattu</h3><p>Green moong dal crepe. Healthy breakfast with ginger chutney. Very popular in AP!</p></div>
+  </div>
+
+  <span class="ribbon acc-purple">🎭 Arts & Culture of AP</span>
+  <div class="cards-grid">
+    <div class="card c5"><span class="emoji">💃</span><h3>Kuchipudi</h3><p>Classical dance form born in Kuchipudi village, Krishna district. UNESCO Heritage dance!</p></div>
+    <div class="card c8"><span class="emoji">🎨</span><h3>Kalamkari Art</h3><p>Hand-drawn fabric painting from Srikalahasti. Stories from mythology painted beautifully!</p></div>
+    <div class="card c2"><span class="emoji">🏺</span><h3>Kondapalli Toys</h3><h3></h3><p>Colourful wooden toys from Kondapalli village. Known worldwide! GI tagged handicraft.</p></div>
+    <div class="card c4"><span class="emoji">🧵</span><h3>Pochampally Ikat</h3><p>Famous Ikat weaving from Bhoodan Pochampally. Geometric patterns on silk sarees.</p></div>
+  </div>
+
+  <div class="fact-box fact-orange">
+    <span class="fact-icon">🌟</span>
+    <div><h4>Great People from Andhra Pradesh</h4>
+    <p>🚀 <b>Dr. APJ Abdul Kalam</b> (Missile Man of India, 11th President) | 🎬 <b>SS Rajamouli</b> (Director of RRR, Baahubali) | 🏸 <b>PV Sindhu</b> (Olympic Badminton Silver Medallist) | 🎤 <b>SP Balasubrahmanyam</b> (Legendary singer) | 📖 <b>C. Rajagopalachari</b> (Last Governor-General of India)</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     WORLD
+══════════════════════════════════════════ -->
+<div id="world" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🌍</span>
+    <div class="section-title">Our Amazing World</div>
+    <div class="section-sub">7 continents, 195 countries, 8 billion people!</div>
+  </div>
+
+  <span class="ribbon acc-sky">🗺️ Countries & Capitals</span>
+  <table class="gk-table">
+    <thead><tr style="background:linear-gradient(90deg,#0ea5e9,#8b5cf6)">
+      <th>Country 🌍</th><th>Capital 🏙️</th><th>Famous For ⭐</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>🇺🇸 USA</td><td>Washington D.C.</td><td>NASA, Statue of Liberty, Hollywood</td></tr>
+      <tr><td>🇬🇧 United Kingdom</td><td>London</td><td>Big Ben, Buckingham Palace, English language</td></tr>
+      <tr><td>🇫🇷 France</td><td>Paris</td><td>Eiffel Tower, Fashion, Art</td></tr>
+      <tr><td>🇨🇳 China</td><td>Beijing</td><td>Great Wall, Pandas, Most population (before India)</td></tr>
+      <tr><td>🇯🇵 Japan</td><td>Tokyo</td><td>Fuji Mountain, Technology, Sushi, Anime</td></tr>
+      <tr><td>🇧🇷 Brazil</td><td>Brasília</td><td>Amazon Rainforest, Football, Carnival</td></tr>
+      <tr><td>🇦🇺 Australia</td><td>Canberra</td><td>Kangaroos, Koalas, Sydney Opera House</td></tr>
+      <tr><td>🇷🇺 Russia</td><td>Moscow</td><td>Largest country by area, Red Square</td></tr>
+      <tr><td>🇿🇦 South Africa</td><td>Pretoria/Cape Town</td><td>Nelson Mandela, Wildlife, Diamonds</td></tr>
+      <tr><td>🇸🇦 Saudi Arabia</td><td>Riyadh</td><td>Mecca, Medina, Oil, Deserts</td></tr>
+    </tbody>
+  </table>
+
+  <span class="ribbon acc-coral">🏆 World Records & Wonders</span>
+  <div class="cards-grid">
+    <div class="card c2"><span class="emoji">🏔️</span><h3>Tallest Mountain</h3><p>Mount Everest – 8,848 m high! On border of Nepal & Tibet.</p></div>
+    <div class="card c1"><span class="emoji">🌊</span><h3>Largest Ocean</h3><p>Pacific Ocean — covers 30% of Earth's surface. Bigger than all land combined!</p></div>
+    <div class="card c3"><span class="emoji">🏜️</span><h3>Largest Desert</h3><p>Sahara Desert in Africa — as big as USA! Hot and dry with camels.</p></div>
+    <div class="card c4"><span class="emoji">🌿</span><h3>Largest Forest</h3><p>Amazon Rainforest in South America. Home to 10% of all species on Earth!</p></div>
+    <div class="card c5"><span class="emoji">🌊</span><h3>Longest River</h3><p>River Nile in Africa — 6,650 km long! Ancient Egypt built pyramids on its banks.</p></div>
+    <div class="card c6"><span class="emoji">🌏</span><h3>Largest Country</h3><p>Russia — 17 million sq km. Covers 11 time zones! Bigger than Pluto!</p></div>
+  </div>
+
+  <span class="ribbon acc-purple">🗿 Seven Wonders of the World</span>
+  <div class="cards-grid">
+    <div class="card c5"><span class="emoji">🏯</span><h3>Great Wall of China</h3><p>Built over 2,000 years. Visible from space? (Actually a myth!) 21,000 km long.</p></div>
+    <div class="card c2"><span class="emoji">🏛️</span><h3>Colosseum, Italy</h3><p>Ancient Roman arena. Held 50,000–80,000 spectators. Built in 72 AD!</p></div>
+    <div class="card c3"><span class="emoji">🗿</span><h3>Machu Picchu, Peru</h3><p>Ancient Inca city built 2,430 m high in Andes mountains in 15th century.</p></div>
+    <div class="card c6"><span class="emoji">🏜️</span><h3>Petra, Jordan</h3><p>Ancient city carved directly into rose-red cliff face. 2,000 years old!</p></div>
+    <div class="card c4"><span class="emoji">🗽</span><h3>Christ the Redeemer, Brazil</h3><p>Giant statue of Jesus in Rio. 38 m tall + 8 m pedestal. Built in 1931.</p></div>
+    <div class="card c1"><span class="emoji">🏛️</span><h3>Taj Mahal, India 🇮🇳</h3><p>Symbol of love built by Shah Jahan. Pure white marble. Agra, Uttar Pradesh!</p></div>
+    <div class="card c8"><span class="emoji">🌋</span><h3>Chichen Itza, Mexico</h3><p>Ancient Maya pyramid. During equinox, a snake shadow appears on it!</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCIENCE
+══════════════════════════════════════════ -->
+<div id="science" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🔬</span>
+    <div class="section-title">Fun with Science!</div>
+    <div class="section-sub">Science is everywhere around us!</div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card c1"><span class="emoji">💡</span><h3>Electricity</h3><p>Electrons moving through a conductor make electricity. Benjamin Franklin discovered lightning is electrical!</p></div>
+    <div class="card c5"><span class="emoji">🧲</span><h3>Magnetism</h3><p>Magnets have North & South poles. Like poles repel, unlike poles attract!</p></div>
+    <div class="card c3"><span class="emoji">🌡️</span><h3>Heat & Temperature</h3><p>Heat moves from hot to cold. We measure temperature in Celsius (°C) or Fahrenheit (°F).</p></div>
+    <div class="card c2"><span class="emoji">🔊</span><h3>Sound</h3><p>Sound needs a medium to travel. Cannot travel in space! Speed of sound: 343 m/s in air.</p></div>
+    <div class="card c4"><span class="emoji">🌈</span><h3>Light</h3><p>White light splits into 7 colours (VIBGYOR) in a rainbow. Speed: 3,00,000 km/s!</p></div>
+    <div class="card c6"><span class="emoji">⚗️</span><h3>States of Matter</h3><p>Solid, Liquid, Gas (and Plasma). Water can be ice (solid), water (liquid), steam (gas)!</p></div>
+    <div class="card c7"><span class="emoji">🌬️</span><h3>Air</h3><p>Made of 78% Nitrogen + 21% Oxygen + 1% others. Air has weight and takes up space!</p></div>
+    <div class="card c8"><span class="emoji">🌊</span><h3>Water</h3><p>Formula: H₂O (2 Hydrogen + 1 Oxygen). 71% of Earth is covered in water. Precious resource!</p></div>
+  </div>
+
+  <div class="fact-box fact-sky">
+    <span class="fact-icon">🔭</span>
+    <div><h4>Famous Scientists</h4>
+    <p>🍎 <b>Isaac Newton</b> – discovered Gravity (apple falling!) | ⚡ <b>Albert Einstein</b> – E=mc² Theory of Relativity | 💡 <b>Thomas Edison</b> – invented the light bulb (1,000+ inventions!) | 🔬 <b>Marie Curie</b> – first woman Nobel Prize winner | 🇮🇳 <b>CV Raman</b> – Indian scientist, won Nobel Prize for Raman Effect (light scattering)!</p></div>
+  </div>
+
+  <span class="ribbon acc-teal">🖥️ Technology Around Us</span>
+  <div class="cards-grid">
+    <div class="card c7"><span class="emoji">🤖</span><h3>Artificial Intelligence</h3><p>Machines that think and learn like humans. Used in phones, hospitals, cars!</p></div>
+    <div class="card c1"><span class="emoji">🛰️</span><h3>Satellite</h3><p>Objects orbiting Earth. Used for GPS, TV, weather forecast, internet!</p></div>
+    <div class="card c5"><span class="emoji">💻</span><h3>Computer</h3><p>Processes millions of calculations per second. Invented by Charles Babbage.</p></div>
+    <div class="card c3"><span class="emoji">📱</span><h3>Smartphone</h3><p>Has more computing power than Apollo 11 spacecraft that went to the Moon!</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HISTORY
+══════════════════════════════════════════ -->
+<div id="history" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🏺</span>
+    <div class="section-title">History & Great Empires</div>
+    <div class="section-sub">Learning the past helps us build the future!</div>
+  </div>
+
+  <span class="ribbon acc-sun">🏛️ Ancient Indian Empires</span>
+  <table class="gk-table">
+    <thead><tr style="background:linear-gradient(90deg,#f59e0b,#f97316)">
+      <th>Empire 🏛️</th><th>Period ⏳</th><th>Famous For 🌟</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>🦁 Maurya Empire</td><td>321 – 185 BCE</td><td>Emperor Ashoka spread Buddhism; Chandragupta united India</td></tr>
+      <tr><td>⚱️ Gupta Empire</td><td>320 – 550 CE</td><td>"Golden Age of India" — art, science, mathematics flourished</td></tr>
+      <tr><td>🌺 Vijayanagara Empire</td><td>1336 – 1646 CE</td><td>Based in Hampi (near AP). Promoted Telugu literature & Kuchipudi!</td></tr>
+      <tr><td>🕌 Mughal Empire</td><td>1526 – 1857 CE</td><td>Akbar the Great; Built Taj Mahal, Red Fort, Humayun's Tomb</td></tr>
+      <tr><td>🏹 Maratha Empire</td><td>1674 – 1818 CE</td><td>Chhatrapati Shivaji Maharaj built a powerful naval & land army</td></tr>
+    </tbody>
+  </table>
+
+  <span class="ribbon acc-coral">🇮🇳 Important Dates in Indian History</span>
+  <table class="gk-table">
+    <thead><tr style="background:linear-gradient(90deg,#f43f5e,#f97316)">
+      <th>Date 📅</th><th>Event 📖</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>15 August 1947</td><td>🇮🇳 India got Independence from British Rule!</td></tr>
+      <tr><td>26 January 1950</td><td>📜 Indian Constitution came into effect — Republic Day!</td></tr>
+      <tr><td>2 October 1869</td><td>🕊️ Birth of Mahatma Gandhi — celebrated as Gandhi Jayanti</td></tr>
+      <tr><td>14 November 1889</td><td>👶 Birth of Jawaharlal Nehru — celebrated as Children's Day!</td></tr>
+      <tr><td>28 February 1928</td><td>🔬 CV Raman discovered the Raman Effect — now National Science Day</td></tr>
+      <tr><td>11 July 1958</td><td>🚀 ISRO (Indian Space Research Organisation) established</td></tr>
+      <tr><td>23 August 2023</td><td>🌙 Chandrayaan-3 landed on Moon's South Pole — India made history!</td></tr>
+    </tbody>
+  </table>
+
+  <div class="fact-box fact-yellow">
+    <span class="fact-icon">🌍</span>
+    <div><h4>World History at a Glance</h4>
+    <p>🔺 <b>Ancient Egypt</b> – Pyramids built 4,500 years ago by pharaohs | 🏛️ <b>Ancient Greece</b> – birthplace of democracy, Olympics, philosophy | 🗿 <b>Roman Empire</b> – roads, concrete, aqueducts, the Colosseum | 🌊 <b>World War II</b> (1939-1945) – most destructive war; ended with India getting independence in 1947!</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SPORTS
+══════════════════════════════════════════ -->
+<div id="sports" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">⚽</span>
+    <div class="section-title">Sports & Champions</div>
+    <div class="section-sub">Sports teach teamwork, discipline and joy!</div>
+  </div>
+
+  <span class="ribbon acc-sky">🏅 Olympics – The World's Biggest Sports Event</span>
+  <div class="cards-grid">
+    <div class="card c1"><span class="emoji">🏊</span><h3>Swimming</h3><p>Michael Phelps (USA) won 23 gold medals — most in Olympic history!</p></div>
+    <div class="card c2"><span class="emoji">🏃</span><h3>Athletics</h3><p>Usain Bolt ran 100m in 9.58 seconds — fastest human ever!</p></div>
+    <div class="card c3"><span class="emoji">🤸</span><h3>Gymnastics</h3><p>Simone Biles (USA) has won 30+ World Championship medals!</p></div>
+    <div class="card c4"><span class="emoji">🏸</span><h3>Badminton</h3><p>PV Sindhu from Hyderabad, AP won Olympic Silver in 2016! 🇮🇳</p></div>
+  </div>
+
+  <span class="ribbon acc-coral">🇮🇳 Indian Sports Champions</span>
+  <div class="cards-grid">
+    <div class="card c5"><span class="emoji">🏏</span><h3>Sachin Tendulkar</h3><p>"God of Cricket." 100 international centuries! Bharat Ratna awardee.</p></div>
+    <div class="card c1"><span class="emoji">🥊</span><h3>Mary Kom</h3><p>6× World Boxing Champion! Olympics Bronze. Inspiration to millions!</p></div>
+    <div class="card c3"><span class="emoji">🤼</span><h3>Bajrang Punia</h3><p>Olympic Bronze in wrestling at Tokyo 2020. Haryana's pride!</p></div>
+    <div class="card c6"><span class="emoji">🏹</span><h3>Deepika Kumari</h3><p>World No.1 Archer multiple times. From Jharkhand!</p></div>
+    <div class="card c2"><span class="emoji">🏸</span><h3>Neeraj Chopra</h3><p>India's 1st individual Olympic Gold in Athletics — Javelin Throw at Tokyo 2020!</p></div>
+    <div class="card c4"><span class="emoji">🏊</span><h3>Mirabai Chanu</h3><p>Silver medal in Weightlifting at Tokyo Olympics 2020. Incredible strength!</p></div>
+  </div>
+
+  <table class="gk-table">
+    <thead><tr style="background:linear-gradient(90deg,#22c55e,#0ea5e9)">
+      <th>Sport ⚽</th><th>Origin 🌍</th><th>Olympic? 🏅</th><th>India's Best 🇮🇳</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>🏏 Cricket</td><td>England</td><td>No (Commonwealth Games yes)</td><td>Sachin Tendulkar, Virat Kohli</td></tr>
+      <tr><td>⚽ Football</td><td>England</td><td>✅ Yes</td><td>Sunil Chhetri</td></tr>
+      <tr><td>🏸 Badminton</td><td>India (Pune)</td><td>✅ Yes</td><td>PV Sindhu, Saina Nehwal</td></tr>
+      <tr><td>🏒 Field Hockey</td><td>India</td><td>✅ Yes</td><td>8× Olympic Gold!</td></tr>
+      <tr><td>🥋 Kabaddi</td><td>India</td><td>No (Asian Games yes)</td><td>India wins almost every time!</td></tr>
+      <tr><td>♟️ Chess</td><td>India (Chaturanga)</td><td>No</td><td>Viswanathan Anand – 5× World Champion!</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════
+     FESTIVALS
+══════════════════════════════════════════ -->
+<div id="festivals" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🎉</span>
+    <div class="section-title">Colourful Festivals of India</div>
+    <div class="section-sub">India celebrates 365 days of joy!</div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card c4"><span class="emoji">🪔</span><h3>Diwali</h3><p>Festival of Lights! Lamps, sweets, fireworks. Celebrates Lord Rama's return to Ayodhya. Oct–Nov.</p></div>
+    <div class="card c3"><span class="emoji">🌈</span><h3>Holi</h3><p>Festival of Colors! Spring festival. Celebrate with coloured powder. Origin: story of Prahlad & Holika.</p></div>
+    <div class="card c2"><span class="emoji">🌙</span><h3>Eid-ul-Fitr</h3><p>Celebration after Ramadan fasting. Family gatherings, sevaiyaan (sweet), new clothes!</p></div>
+    <div class="card c1"><span class="emoji">✝️</span><h3>Christmas</h3><p>Birthday of Jesus Christ. 25 December. Santa Claus, gifts, carols, Christmas tree!</p></div>
+    <div class="card c5"><span class="emoji">🎆</span><h3>Ugadi</h3><p>New Year of Andhra Pradesh & Telangana! Neem+Jaggery shows life's mixture of joy & sorrow.</p></div>
+    <div class="card c6"><span class="emoji">🌾</span><h3>Sankranti / Pongal</h3><p>Harvest festival! Special in AP & Tamil Nadu. Kite flying, bonfires, sweet Pongal rice!</p></div>
+    <div class="card c8"><span class="emoji">🙏</span><h3>Ganesh Chaturthi</h3><p>10-day festival for Lord Ganesha. Huge in Maharashtra & AP! Clay idols immersed in water.</p></div>
+    <div class="card c7"><span class="emoji">🏮</span><h3>Navratri / Durga Puja</h3><p>9 nights of dance (Garba/Dandiya). Goddess Durga worshipped. Huge in West Bengal & North India!</p></div>
+  </div>
+
+  <div class="fact-box fact-yellow">
+    <span class="fact-icon">🎭</span>
+    <div><h4>Special Festivals of Andhra Pradesh</h4>
+    <p>🌸 <b>Ugadi</b> – Telugu New Year (March-April) | 🌾 <b>Sankranti</b> – Harvest festival (January) | 🎭 <b>Brahmotsavam</b> – Grand festival at Tirupati Temple | 🎪 <b>Visakha Utsav</b> – Cultural festival of Visakhapatnam | 🎡 <b>Luminosity</b> – Hyderabad (now Telangana) has heritage fests too!</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MATHS
+══════════════════════════════════════════ -->
+<div id="maths" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🔢</span>
+    <div class="section-title">Magic of Mathematics!</div>
+    <div class="section-sub">Maths is the language of the Universe!</div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card c5"><span class="emoji">0️⃣</span><h3>Zero (0)</h3><p>INVENTED IN INDIA by Aryabhatta! Without zero, computers and phones cannot work.</p></div>
+    <div class="card c1"><span class="emoji">π</span><h3>Pi (π)</h3><p>Pi = 3.14159... Never-ending number! Used to calculate circles. Aryabhatta calculated it too!</p></div>
+    <div class="card c3"><span class="emoji">🔢</span><h3>Prime Numbers</h3><p>Numbers with only 2 factors: 1 & itself. Examples: 2, 3, 5, 7, 11, 13, 17, 19...</p></div>
+    <div class="card c4"><span class="emoji">🌀</span><h3>Fibonacci Numbers</h3><p>Each number = sum of previous two: 0,1,1,2,3,5,8,13,21... Found in flowers, shells, nature!</p></div>
+    <div class="card c2"><span class="emoji">📐</span><h3>Pythagoras Theorem</h3><p>a² + b² = c² for right-angled triangles. Used in building construction daily!</p></div>
+    <div class="card c6"><span class="emoji">∞</span><h3>Infinity</h3><p>A concept of something without end. Numbers go on forever — there's no "biggest number!"</p></div>
+  </div>
+
+  <div class="fact-box fact-purple">
+    <span class="fact-icon">🇮🇳</span>
+    <div><h4>India's Gift to Mathematics!</h4>
+    <p>🔢 <b>Zero (0)</b> – invented by Aryabhatta (5th century AD) | 📐 <b>Decimal system</b> – invented in India | 🧮 <b>Algebra</b> – developed by Indian mathematician Brahmagupta | 🌀 <b>Trigonometry</b> – foundations laid by Indian scholars | 🎯 <b>Ramanujan</b> – from Tamil Nadu, solved problems that puzzled top mathematicians!</p></div>
+  </div>
+
+  <span class="ribbon acc-sky">📊 Fun Maths Tricks</span>
+  <div class="cards-grid">
+    <div class="card c1"><span class="emoji">✖️</span><h3>Multiply by 9 Trick</h3><p>9×1=9, 9×2=18, ... digits always add to 9! (18→1+8=9, 27→2+7=9) Try it!</p></div>
+    <div class="card c3"><span class="emoji">💫</span><h3>The 11 Trick</h3><p>11×12: put the digits 1 and 2 on sides, sum in middle → 1,3,2 = 132! (works up to 11×18)</p></div>
+    <div class="card c4"><span class="emoji">🔁</span><h3>Any Number × 0</h3><p>Any number multiplied by ZERO is always ZERO! 1000 × 0 = 0!</p></div>
+    <div class="card c5"><span class="emoji">🌟</span><h3>Powers of 2</h3><p>2,4,8,16,32,64... Double each time! Computers use this — everything is 0s and 1s!</p></div>
+  </div>
+
+  <table class="gk-table">
+    <thead><tr style="background:linear-gradient(90deg,#8b5cf6,#6366f1)">
+      <th>Concept 📚</th><th>Formula / Fact ⚡</th><th>Example 💡</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>Area of Rectangle</td><td>Length × Width</td><td>5m × 3m = 15 m²</td></tr>
+      <tr><td>Area of Circle</td><td>π × r²</td><td>π × 7² = 154 cm²</td></tr>
+      <tr><td>Perimeter of Square</td><td>4 × Side</td><td>4 × 6 = 24 cm</td></tr>
+      <tr><td>Speed</td><td>Distance ÷ Time</td><td>60 km ÷ 2 hr = 30 km/h</td></tr>
+      <tr><td>Average</td><td>Sum ÷ Count</td><td>(10+20+30) ÷ 3 = 20</td></tr>
+      <tr><td>Percentage</td><td>(Part ÷ Whole) × 100</td><td>40 out of 50 = 80%</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════
+     QUIZ
+══════════════════════════════════════════ -->
+<div id="quiz" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🧠</span>
+    <div class="section-title">Quiz Time! 🎯</div>
+    <div class="section-sub">Test your General Knowledge! Can you score 10/10? 🏆</div>
+  </div>
+
+  <div class="quiz-score" id="scoreDisplay">Score: <span id="scoreNum">0</span> / <span id="totalNum">0</span></div>
+
+  <div id="quizArea"></div>
+  <div style="text-align:center;margin-top:20px">
+    <button onclick="restartQuiz()" style="padding:12px 28px;border-radius:50px;border:none;background:linear-gradient(135deg,#f43f5e,#f97316);color:white;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer">🔄 Restart Quiz</button>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<footer class="site-footer">
+  Made with <span>❤️</span> for the Young Minds of <span>🇮🇳 Andhra Pradesh</span> | Learn • Explore • Grow 🌱
+</footer>
+
+<script>
+  // ── TAB NAVIGATION ──
+  function showTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.currentTarget.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── QUIZ DATA ──
+  const questions = [
+    { q:"What is the National Animal of India?", opts:["🦁 Lion","🐯 Bengal Tiger","🐘 Elephant","🦒 Giraffe"], ans:1 },
+    { q:"Who invented the number Zero (0)?", opts:["Isaac Newton","Albert Einstein","Aryabhatta","Brahmagupta"], ans:2 },
+    { q:"Which is the National Flower of India?", opts:["🌹 Rose","🌸 Lotus","🌻 Sunflower","🌺 Jasmine"], ans:1 },
+    { q:"Andhra Pradesh is famous for which dance form?", opts:["Bharatanatyam","Kathakali","Kuchipudi","Odissi"], ans:2 },
+    { q:"India landed Chandrayaan-3 on which part of the Moon?", opts:["North Pole","East side","South Pole","Dark side"], ans:2 },
+    { q:"Which is the largest planet in our Solar System?", opts:["Saturn","Earth","Jupiter","Uranus"], ans:2 },
+    { q:"What is the capital of Andhra Pradesh?", opts:["Hyderabad","Visakhapatnam","Amaravati","Vijayawada"], ans:2 },
+    { q:"Who is called the 'Father of the Nation' in India?", opts:["Jawaharlal Nehru","Subhas Chandra Bose","Bhagat Singh","Mahatma Gandhi"], ans:3 },
+    { q:"Which sport did India win 8 Olympic gold medals in?", opts:["Cricket","Field Hockey","Kabaddi","Badminton"], ans:1 },
+    { q:"What gas do plants use to make food (Photosynthesis)?", opts:["Oxygen","Nitrogen","Carbon Dioxide","Hydrogen"], ans:2 },
+    { q:"Which is the National Bird of India?", opts:["Eagle","Crane","Parrot","Peacock"], ans:3 },
+    { q:"Who was the first Prime Minister of India?", opts:["Sardar Patel","Mahatma Gandhi","Jawaharlal Nehru","Dr BR Ambedkar"], ans:2 },
+    { q:"The Tirupati Balaji Temple is located in which district?", opts:["Krishna","Chittoor","Guntur","Kadapa"], ans:1 },
+    { q:"Which is the largest ocean on Earth?", opts:["Atlantic","Indian","Arctic","Pacific"], ans:3 },
+    { q:"When does India celebrate Independence Day?", opts:["26 January","15 August","2 October","14 November"], ans:1 },
+  ];
+
+  let current = 0, score = 0, answered = false;
+
+  function renderQuestion() {
+    if (current >= questions.length) {
+      document.getElementById('quizArea').innerHTML = `
+        <div class="quiz-container" style="text-align:center">
+          <div style="font-size:4rem">🏆</div>
+          <h2 style="font-family:'Baloo 2',cursive;font-size:2rem;color:#1e293b;margin:12px 0">Quiz Complete!</h2>
+          <p style="font-size:1.2rem;font-weight:700;color:#64748b">You scored <span style="color:var(--purple);font-size:1.6rem">${score}</span> out of <span style="color:var(--purple);font-size:1.6rem">${questions.length}</span></p>
+          <div style="font-size:2rem;margin:12px 0">${score>=13?'🌟 Outstanding!':score>=10?'😊 Great Job!':score>=7?'👍 Good effort!':'📚 Keep Learning!'}</div>
+          <p style="color:#64748b;font-weight:600">${score>=13?'You are a GK Champion!':score>=10?'Excellent performance! Revise more topics!':'Keep studying and try again!'}</p>
+        </div>`;
+      return;
+    }
+    const q = questions[current];
+    document.getElementById('scoreNum').textContent = score;
+    document.getElementById('totalNum').textContent = current;
+    document.getElementById('quizArea').innerHTML = `
+      <div class="quiz-container fade-in">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <span style="font-size:0.85rem;font-weight:700;color:#94a3b8">Question ${current+1} of ${questions.length}</span>
+          <span style="font-size:0.85rem;font-weight:700;color:var(--purple)">Score: ${score}/${current}</span>
+        </div>
+        <div style="background:#e2e8f0;border-radius:50px;height:6px;margin-bottom:18px">
+          <div style="background:linear-gradient(90deg,var(--purple),var(--sky));height:6px;border-radius:50px;width:${(current/questions.length)*100}%;transition:width 0.4s"></div>
+        </div>
+        <div class="quiz-q">❓ ${q.q}</div>
+        <div class="quiz-opts">
+          ${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="checkAnswer(${i},${q.ans})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+        </div>
+        <div class="quiz-feedback" id="qfb"></div>
+        <button class="quiz-next" id="qnext" onclick="nextQuestion()">Next Question ➡️</button>
+      </div>`;
+    answered = false;
+  }
+
+  function checkAnswer(selected, correct) {
+    if (answered) return;
+    answered = true;
+    const opts = document.querySelectorAll('.quiz-opt');
+    const fb = document.getElementById('qfb');
+    const next = document.getElementById('qnext');
+    opts.forEach((o,i) => {
+      if(i === correct) o.classList.add('correct');
+      else if(i === selected) o.classList.add('wrong');
+      o.style.pointerEvents = 'none';
+    });
+    if (selected === correct) {
+      score++;
+      fb.textContent = '✅ Correct! Great job!';
+      fb.className = 'quiz-feedback show ok';
+    } else {
+      fb.textContent = `❌ Oops! The correct answer was: ${questions[current].opts[correct]}`;
+      fb.className = 'quiz-feedback show nope';
+    }
+    next.style.display = 'inline-block';
+    document.getElementById('scoreNum').textContent = score;
+    document.getElementById('totalNum').textContent = current+1;
+  }
+
+  function nextQuestion() {
+    current++;
+    renderQuestion();
+  }
+
+  function restartQuiz() {
+    current = 0; score = 0;
+    renderQuestion();
+  }
+
+  // Init quiz when tab opens
+  document.querySelector('[onclick="showTab(\'quiz\')"]').addEventListener('click', () => {
+    current = 0; score = 0; renderQuestion();
+  });
+
+  // Init on load
+  renderQuestion();
+</script>
+</body>
+</html>

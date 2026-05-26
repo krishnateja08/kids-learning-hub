@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🌟 Kids GK World – Learn & Explore!</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   :root {
     --sky: #0ea5e9;
@@ -30,10 +31,114 @@
     overflow-x: hidden;
   }
 
+  /* ── SEARCH BAR ── */
+  .hero-search-wrap {
+    position: relative;
+    max-width: 420px;
+    margin: 16px auto 0;
+  }
+  .hero-search {
+    width: 100%;
+    padding: 12px 20px 12px 46px;
+    border-radius: 50px;
+    border: none;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    outline: none;
+    color: #334155;
+  }
+  .hero-search::placeholder { color: #94a3b8; }
+  .hero-search-icon {
+    position: absolute;
+    left: 16px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    pointer-events: none;
+  }
+  .search-results-drop {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0; right: 0;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+    max-height: 260px;
+    overflow-y: auto;
+    z-index: 300;
+  }
+  .search-results-drop.open { display: block; }
+  .search-result-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.15s;
+  }
+  .search-result-item:hover { background: #f1f5f9; }
+  .search-result-item span { font-size: 1.3rem; }
+
+  /* ── XP AVATAR BAR ── */
+  .hero-avatar-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 14px;
+    position: relative;
+  }
+  .avatar-bubble {
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 50px;
+    padding: 6px 16px 6px 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(8px);
+  }
+  .avatar-face { font-size: 1.6rem; }
+  .avatar-info { text-align: left; }
+  .avatar-name { font-size: 0.75rem; color: rgba(255,255,255,0.8); font-weight: 700; line-height: 1; }
+  .avatar-xp { font-size: 0.9rem; color: #fde68a; font-weight: 900; line-height: 1.3; }
+  .xp-bar-wrap {
+    width: 120px;
+    height: 10px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 50px;
+    overflow: hidden;
+  }
+  .xp-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #fbbf24, #fde68a);
+    border-radius: 50px;
+    transition: width 0.6s ease;
+    width: 0%;
+  }
+  .badge-count-pill {
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 50px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .badge-count-pill:hover { background: rgba(255,255,255,0.35); }
+
   /* ── HERO HEADER ── */
   .hero {
     background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 50%, #f43f5e 100%);
-    padding: 20px 20px 40px;
+    padding: 20px 20px 44px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -80,43 +185,42 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
 
-  /* ── NAV TABS ── */
+  /* ── NAV CHIPS ── */
   .nav-wrapper {
     background: white;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
     z-index: 100;
+    padding: 10px 10px;
   }
   .nav-scroll {
     display: flex;
     overflow-x: auto;
-    padding: 0 10px;
-    gap: 4px;
+    gap: 7px;
     scrollbar-width: none;
+    align-items: center;
   }
   .nav-scroll::-webkit-scrollbar { display: none; }
   .nav-btn {
     flex-shrink: 0;
-    padding: 12px 16px;
-    border: none;
-    background: none;
+    padding: 8px 16px;
+    border: 2.5px solid #e2e8f0;
+    background: #f8fafc;
+    border-radius: 50px;
     font-family: 'Nunito', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
+    font-weight: 800;
+    font-size: 0.82rem;
     color: #64748b;
     cursor: pointer;
-    border-bottom: 3px solid transparent;
     transition: all 0.2s;
     white-space: nowrap;
   }
-  .nav-btn:hover, .nav-btn.active {
-    color: var(--purple);
-    border-bottom-color: var(--purple);
-  }
+  .nav-btn:hover { border-color: var(--purple); color: var(--purple); background: #ede9fe; transform: scale(1.04); }
+  .nav-btn.active { background: linear-gradient(135deg,#8b5cf6,#6366f1); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(99,102,241,0.4); }
 
   /* ── MAIN CONTENT ── */
-  .main { max-width: 1100px; margin: 0 auto; padding: 30px 16px 60px; }
+  .main { max-width: 1100px; margin: 0 auto; padding: 30px 16px 80px; }
 
   /* ── SECTION ── */
   .section { display: none; }
@@ -151,8 +255,19 @@
     transition: transform 0.25s, box-shadow 0.25s;
     cursor: default;
     border-top: 5px solid transparent;
+    position: relative;
+    overflow: hidden;
   }
-  .card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.15); }
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    transition: background 0.2s;
+    border-radius: 20px;
+    pointer-events: none;
+  }
+  .card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 48px rgba(0,0,0,0.18); }
   .card .emoji { font-size: 2.8rem; display: block; margin-bottom: 10px; }
   .card h3 { font-size: 1rem; font-weight: 800; color: #1e293b; margin-bottom: 4px; }
   .card p { font-size: 0.82rem; color: #64748b; line-height: 1.5; }
@@ -164,6 +279,59 @@
   .card.c6 { border-top-color: var(--orange); }
   .card.c7 { border-top-color: var(--teal); }
   .card.c8 { border-top-color: var(--pink); }
+
+  /* ── AUDIO BUTTON ── */
+  .read-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 6px 16px;
+    border-radius: 50px;
+    border: 2.5px solid currentColor;
+    background: rgba(255,255,255,0.5);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .read-btn:hover { background: rgba(255,255,255,0.85); transform: scale(1.05); }
+  .read-btn.speaking {
+    background: rgba(255,255,255,0.9);
+    animation: pulse-btn 0.7s ease infinite alternate;
+    border-color: #0ea5e9 !important;
+    color: #0369a1 !important;
+  }
+  @keyframes pulse-btn { from{transform:scale(1)} to{transform:scale(1.05)} }
+
+  /* ── PAGE READ BAR ── */
+  .page-read-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #e0f2fe;
+    border-radius: 14px;
+    padding: 10px 18px;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+  .page-read-bar span { font-size: 0.88rem; font-weight: 700; color: #0369a1; flex:1; }
+  .page-read-bar button {
+    padding: 7px 18px;
+    border-radius: 50px;
+    border: none;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .page-read-bar .play-btn  { background: #0ea5e9; color: white; }
+  .page-read-bar .stop-btn  { background: #f43f5e; color: white; display:none; }
+  .page-read-bar .play-btn:hover { background: #0284c7; }
+  .page-read-bar .stop-btn:hover { background: #e11d48; }
 
   /* ── FACT BOX ── */
   .fact-box {
@@ -348,6 +516,7 @@
     .quiz-opts { grid-template-columns: 1fr; }
     .cards-grid { grid-template-columns: 1fr 1fr; }
     .planet-grid { grid-template-columns: repeat(4, 1fr); }
+    .hero-avatar-row { flex-wrap: wrap; }
   }
 
   /* ── SCROLL ANIMATION ── */
@@ -367,6 +536,127 @@
   .acc-orange { background: linear-gradient(135deg,#f97316,#fb923c); }
   .acc-pink { background: linear-gradient(135deg,#ec4899,#f472b6); }
   .acc-indigo { background: linear-gradient(135deg,#6366f1,#818cf8); }
+
+  /* ── MASCOT ── */
+  .mascot-wrap {
+    position: fixed;
+    bottom: 24px;
+    right: 20px;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    pointer-events: none;
+  }
+  .mascot-bubble {
+    background: white;
+    border-radius: 18px 18px 4px 18px;
+    padding: 10px 16px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #334155;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+    max-width: 200px;
+    line-height: 1.4;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
+    pointer-events: auto;
+  }
+  .mascot-bubble.show { opacity: 1; transform: translateY(0); }
+  .mascot-avatar {
+    font-size: 3.2rem;
+    cursor: pointer;
+    pointer-events: auto;
+    animation: mascot-float 3s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    transition: transform 0.2s;
+  }
+  .mascot-avatar:hover { transform: scale(1.15); }
+  @keyframes mascot-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+  /* ── XP POP ── */
+  .xp-pop {
+    position: fixed;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #f59e0b;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    pointer-events: none;
+    z-index: 500;
+    animation: xp-fly 1.4s ease forwards;
+    white-space: nowrap;
+  }
+  @keyframes xp-fly {
+    0%   { opacity: 1; transform: translateY(0) scale(1); }
+    80%  { opacity: 1; transform: translateY(-60px) scale(1.1); }
+    100% { opacity: 0; transform: translateY(-80px) scale(0.9); }
+  }
+
+  /* ── BADGES MODAL ── */
+  .badges-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 400;
+    align-items: center;
+    justify-content: center;
+  }
+  .badges-overlay.open { display: flex; }
+  .badges-modal {
+    background: white;
+    border-radius: 28px;
+    padding: 32px;
+    max-width: 480px;
+    width: 90%;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+    text-align: center;
+    animation: fadeInUp 0.3s ease;
+  }
+  .badges-modal h2 { font-family: 'Baloo 2', cursive; font-size: 1.8rem; color: #1e293b; margin-bottom: 8px; }
+  .badges-modal p { color: #64748b; font-size: 0.9rem; margin-bottom: 20px; font-weight: 600; }
+  .badges-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .badge-item {
+    border-radius: 16px;
+    padding: 14px 8px;
+    text-align: center;
+    border: 2.5px solid #e2e8f0;
+    background: #f8fafc;
+  }
+  .badge-item.earned { border-color: #f59e0b; background: #fffbeb; }
+  .badge-item .b-icon { font-size: 2.4rem; display: block; }
+  .badge-item .b-name { font-size: 0.72rem; font-weight: 800; color: #475569; margin-top: 5px; }
+  .badge-item.earned .b-name { color: #92400e; }
+  .badge-item .b-lock { font-size: 1.2rem; opacity: 0.3; }
+  .close-modal-btn {
+    padding: 10px 28px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg,#8b5cf6,#6366f1);
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  /* ── CONFETTI ── */
+  .confetti-piece {
+    position: fixed;
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 600;
+    animation: confetti-fall linear forwards;
+  }
+  @keyframes confetti-fall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ── AUDIO MODE TOGGLE (removed - replaced by page read bar) ── */
 </style>
 </head>
 <body>
@@ -381,6 +671,29 @@
   <h1>Kids GK World 🌍</h1>
   <p>Learn Amazing Things About Our World!</p>
   <div class="hero-badge">🇮🇳 Made for Young Minds of India | Ages 4 – 15</div>
+
+  <!-- Search Bar -->
+  <div class="hero-search-wrap" style="position:relative">
+    <span class="hero-search-icon">🔍</span>
+    <input class="hero-search" id="searchInput" type="text" placeholder="Search Animals, Space, India…" oninput="doSearch(this.value)" onblur="setTimeout(()=>closeSearch(),200)" autocomplete="off">
+    <div class="search-results-drop" id="searchDrop"></div>
+  </div>
+
+  <!-- XP Avatar Bar -->
+  <div class="hero-avatar-row">
+    <div class="avatar-bubble">
+      <span class="avatar-face">🐼</span>
+      <div class="avatar-info">
+        <div class="avatar-name">EXPLORER</div>
+        <div class="avatar-xp" id="xpDisplay">⭐ 0 XP</div>
+      </div>
+    </div>
+    <div>
+      <div class="xp-bar-wrap"><div class="xp-bar-fill" id="xpBar"></div></div>
+      <div style="font-size:0.7rem;color:rgba(255,255,255,0.7);font-weight:700;margin-top:2px;text-align:center" id="xpLevel">Level 1</div>
+    </div>
+    <button class="badge-count-pill" onclick="openBadges()">🏅 <span id="badgeCount">0</span> Badges</button>
+  </div>
 </div>
 
 <!-- NAV -->
@@ -1031,21 +1344,403 @@
 
 </div><!-- /main -->
 
+<!-- Mascot -->
+<div class="mascot-wrap">
+  <div class="mascot-bubble" id="mascotBubble">👋 Tap me for a fun hint!</div>
+  <div class="mascot-avatar" onclick="mascotTalk()" title="Panda Explorer">🐼</div>
+</div>
+
+
+
+<!-- Badges Modal -->
+<div class="badges-overlay" id="badgesOverlay" onclick="if(event.target===this)closeBadges()">
+  <div class="badges-modal">
+    <h2>🏅 My Badge Collection</h2>
+    <p>Explore topics and ace quizzes to earn badges!</p>
+    <div class="badges-grid" id="badgesGrid"></div>
+    <button class="close-modal-btn" onclick="closeBadges()">✨ Keep Exploring!</button>
+  </div>
+</div>
+
 <footer class="site-footer">
   Made with <span>❤️</span> for the Young Minds of <span>🇮🇳 Andhra Pradesh</span> | Learn • Explore • Grow 🌱
 </footer>
 
 <script>
-  // ── TAB NAVIGATION ──
+  // ══════════════════════════════════════════
+  // XP & BADGE SYSTEM
+  // ══════════════════════════════════════════
+  // Safe storage wrapper (works with file:// and http://)
+  function lsGet(k, def) { try { return localStorage.getItem(k) ?? def; } catch(e) { return def; } }
+  function lsSet(k, v)    { try { localStorage.setItem(k, v); } catch(e) {} }
+
+  let xp = parseInt(lsGet('gkxp', '0'));
+  let visitedTabs = JSON.parse(lsGet('gkvisited', '[]'));
+  let quizBadgeEarned = lsGet('gkquizbadge', '0') === '1';
+
+  const ALL_BADGES = [
+    { id:'animals',  icon:'🦁', name:'Animal Expert',   req:'Visit Animals',    check:()=>visitedTabs.includes('animals') },
+    { id:'space',    icon:'🚀', name:'Space Explorer',  req:'Visit Space',      check:()=>visitedTabs.includes('space') },
+    { id:'india',    icon:'🇮🇳', name:'India Proud',     req:'Visit India',      check:()=>visitedTabs.includes('india') },
+    { id:'maths',    icon:'🔢', name:'Math Wizard',     req:'Visit Maths',      check:()=>visitedTabs.includes('maths') },
+    { id:'science',  icon:'🔬', name:'Science Nerd',    req:'Visit Science',    check:()=>visitedTabs.includes('science') },
+    { id:'history',  icon:'🏺', name:'History Buff',    req:'Visit History',    check:()=>visitedTabs.includes('history') },
+    { id:'plants',   icon:'🌿', name:'Green Thumb',     req:'Visit Plants',     check:()=>visitedTabs.includes('plants') },
+    { id:'quiz10',   icon:'🏆', name:'Quiz Champion',   req:'Score 10+ in Quiz',check:()=>quizBadgeEarned },
+    { id:'sports',   icon:'⚽', name:'Sports Fan',      req:'Visit Sports',     check:()=>visitedTabs.includes('sports') },
+  ];
+
+  function saveXP()      { lsSet('gkxp', xp); }
+  function saveVisited() { lsSet('gkvisited', JSON.stringify(visitedTabs)); }
+
+  function addXP(amount, originEl) {
+    xp += amount;
+    saveXP();
+    updateXPUI();
+    if (originEl) {
+      const rect = originEl.getBoundingClientRect ? originEl.getBoundingClientRect() : {top: window.innerHeight/2, left: window.innerWidth/2};
+      const pop = document.createElement('div');
+      pop.className = 'xp-pop';
+      pop.textContent = `+${amount} XP ⭐`;
+      pop.style.cssText = `left:${rect.left+20}px;top:${rect.top}px`;
+      document.body.appendChild(pop);
+      setTimeout(() => pop.remove(), 1500);
+    }
+    checkBadges();
+  }
+
+  function updateXPUI() {
+    document.getElementById('xpDisplay').textContent = `⭐ ${xp} XP`;
+    const level = Math.floor(xp / 100) + 1;
+    const pct = (xp % 100);
+    document.getElementById('xpBar').style.width = pct + '%';
+    document.getElementById('xpLevel').textContent = `Level ${level}`;
+  }
+
+  function checkBadges() {
+    const earned = ALL_BADGES.filter(b => b.check()).length;
+    document.getElementById('badgeCount').textContent = earned;
+  }
+
+  // ── BADGES MODAL ──
+  function openBadges() {
+    checkBadges();
+    const grid = document.getElementById('badgesGrid');
+    grid.innerHTML = ALL_BADGES.map(b => {
+      const e = b.check();
+      return `<div class="badge-item ${e?'earned':''}">
+        <span class="b-icon">${e ? b.icon : '🔒'}</span>
+        <div class="b-name">${b.name}</div>
+        ${!e ? `<div style="font-size:0.65rem;color:#94a3b8;font-weight:600;margin-top:3px">${b.req}</div>` : '<div style="font-size:0.65rem;color:#f59e0b;font-weight:700;margin-top:3px">✅ Earned!</div>'}
+      </div>`;
+    }).join('');
+    document.getElementById('badgesOverlay').classList.add('open');
+  }
+  function closeBadges() {
+    document.getElementById('badgesOverlay').classList.remove('open');
+  }
+
+  // ══════════════════════════════════════════
+  // AUDIO MODE — full narration system
+  // ══════════════════════════════════════════
+  let isSpeaking = false;
+  let speakQueue = [];
+  let currentBtn = null;
+
+  function canSpeak() {
+    return 'speechSynthesis' in window;
+  }
+
+  function stopSpeaking() {
+    if (!canSpeak()) return;
+    speechSynthesis.cancel();
+    isSpeaking = false;
+    speakQueue = [];
+    if (currentBtn) { currentBtn.classList.remove('speaking'); currentBtn = null; }
+    // Reset all read buttons
+    document.querySelectorAll('.read-btn').forEach(b => { b.classList.remove('speaking'); b.innerHTML = '🎧 Read'; });
+    // Reset page read bar
+    document.querySelectorAll('.play-btn').forEach(b => b.style.display = '');
+    document.querySelectorAll('.stop-btn').forEach(b => b.style.display = 'none');
+  }
+
+  function speakOne(text, btn, onDone) {
+    if (!canSpeak()) return;
+    const clean = text.replace(/<[^>]*>/g,'').replace(/&amp;/g,'&').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim();
+    if (!clean) { if (onDone) onDone(); return; }
+    const u = new SpeechSynthesisUtterance(clean);
+    u.rate = 0.88; u.pitch = 1.05; u.volume = 1;
+    u.onend  = () => { if (onDone) onDone(); };
+    u.onerror = () => { if (onDone) onDone(); };
+    speechSynthesis.speak(u);
+  }
+
+  // Speak a single element (fact box or card) when tapped
+  function speakElement(el, btn) {
+    stopSpeaking();
+    if (!canSpeak()) { alert('Audio not supported in your browser.'); return; }
+    isSpeaking = true;
+    currentBtn = btn;
+    btn.classList.add('speaking');
+    btn.innerHTML = '🔊 Speaking…';
+    const text = el.textContent;
+    speakOne(text, btn, () => {
+      btn.classList.remove('speaking');
+      btn.innerHTML = '🎧 Read';
+      isSpeaking = false;
+      currentBtn = null;
+    });
+  }
+
+  // Read ALL visible content in the active section sequentially
+  function readPage(playBtn, stopBtn) {
+    stopSpeaking();
+    if (!canSpeak()) { alert('Audio not supported in your browser.'); return; }
+
+    const section = document.querySelector('.section.active');
+    if (!section) return;
+
+    // Collect all readable text blocks in order
+    const blocks = [];
+    // Section title + subtitle
+    const title = section.querySelector('.section-title');
+    const sub   = section.querySelector('.section-sub');
+    if (title) blocks.push(title.textContent);
+    if (sub)   blocks.push(sub.textContent);
+
+    // All fact boxes
+    section.querySelectorAll('.fact-box div').forEach(d => blocks.push(d.textContent));
+    // All cards
+    section.querySelectorAll('.card').forEach(c => blocks.push(c.textContent));
+    // All body-cards
+    section.querySelectorAll('.body-card').forEach(c => blocks.push(c.textContent));
+    // Table rows (just text)
+    section.querySelectorAll('.gk-table tbody tr').forEach(r => blocks.push(r.textContent));
+
+    if (!blocks.length) return;
+
+    isSpeaking = true;
+    playBtn.style.display = 'none';
+    stopBtn.style.display = '';
+
+    let idx = 0;
+    function next() {
+      if (!isSpeaking || idx >= blocks.length) {
+        stopSpeaking();
+        return;
+      }
+      const text = blocks[idx++];
+      speakOne(text, null, next);
+    }
+    next();
+  }
+
+  // Attach 🎧 Read buttons to every fact-box and a "Read Page" bar to each section
+  function attachAudioButtons() {
+    // 1. "Read Page" bar at top of each section
+    document.querySelectorAll('.section').forEach(sec => {
+      if (sec.querySelector('.page-read-bar')) return;
+      const bar = document.createElement('div');
+      bar.className = 'page-read-bar';
+      const playBtn = document.createElement('button');
+      playBtn.className = 'play-btn';
+      playBtn.innerHTML = '🔊 Read This Page Aloud';
+      const stopBtn = document.createElement('button');
+      stopBtn.className = 'stop-btn';
+      stopBtn.innerHTML = '⏹ Stop';
+      stopBtn.style.display = 'none';
+      playBtn.onclick = () => readPage(playBtn, stopBtn);
+      stopBtn.onclick = () => stopSpeaking();
+      bar.innerHTML = '<span>🎧 Audio Mode — tap to hear this topic read aloud!</span>';
+      bar.appendChild(playBtn);
+      bar.appendChild(stopBtn);
+      const header = sec.querySelector('.section-header');
+      if (header) header.after(bar);
+    });
+
+    // 2. Individual 🎧 Read buttons on every fact-box
+    document.querySelectorAll('.fact-box').forEach(box => {
+      if (box.querySelector('.read-btn')) return;
+      const inner = box.querySelector('div');
+      if (!inner) return;
+      const btn = document.createElement('button');
+      btn.className = 'read-btn';
+      btn.innerHTML = '🎧 Read';
+      btn.onclick = () => speakElement(box, btn);
+      inner.appendChild(btn);
+    });
+
+    // 3. Individual 🎧 Read buttons on cards
+    document.querySelectorAll('.card, .body-card, .planet-card').forEach(card => {
+      if (card.querySelector('.read-btn')) return;
+      const btn = document.createElement('button');
+      btn.className = 'read-btn';
+      btn.style.cssText = 'font-size:0.72rem;padding:4px 12px;margin-top:8px;color:#6366f1;border-color:#6366f1;';
+      btn.innerHTML = '🎧';
+      btn.title = 'Read aloud';
+      btn.onclick = (e) => { e.stopPropagation(); speakElement(card, btn); };
+      card.appendChild(btn);
+    });
+  }
+
+  // ══════════════════════════════════════════
+  // TAB NAVIGATION
+  // ══════════════════════════════════════════
   function showTab(id) {
+    stopSpeaking(); // stop any ongoing narration when switching tab
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     event.currentTarget.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // XP for visiting new tab
+    if (!visitedTabs.includes(id)) {
+      visitedTabs.push(id);
+      saveVisited();
+      addXP(20, event.currentTarget);
+      checkBadges();
+      mascotSay(tabHints[id] || '✨ Great choice! Keep exploring!');
+    }
   }
 
-  // ── QUIZ DATA ──
+  // ══════════════════════════════════════════
+  // MASCOT
+  // ══════════════════════════════════════════
+  const mascotHints = [
+    "🐼 Did you know tigers can swim? Check Animals!",
+    "🌙 India was FIRST on Moon's South Pole! See Space!",
+    "🔢 Zero was invented in India! Visit Maths!",
+    "🌸 Lotus is India's national flower! See India!",
+    "🏆 Try the Quiz and earn the Champion badge!",
+    "🌿 Bamboo grows 91 cm in ONE day! See Plants!",
+    "⚽ India invented Chess! See Sports!",
+    "🧠 You're doing amazing! Keep collecting XP!",
+    "🎧 Turn on Audio Mode to hear facts read aloud!",
+    "🏅 Visit all topics to unlock all badges!",
+  ];
+  const tabHints = {
+    animals:"🦁 Animals section! Tigers can roar 3 km away!",
+    plants:"🌱 Plants give us oxygen! Bamboo grows super fast!",
+    body:"🧠 Your brain has 86 BILLION nerve cells! Amazing!",
+    space:"🚀 India landed on Moon's South Pole first! Wow!",
+    india:"🇮🇳 Incredible India — world's largest democracy!",
+    ap:"🏛️ Andhra Pradesh – Rice Bowl of India!",
+    world:"🌍 Our planet has 7 continents and 5 oceans!",
+    science:"🔬 Science helps us understand everything!",
+    history:"🏺 History is the story of all of us!",
+    sports:"⚽ Neeraj Chopra won India's first Athletics gold!",
+    festivals:"🎉 India has 365 days of festivals!",
+    maths:"🔢 Aryabhatta from India invented ZERO!",
+    quiz:"🏆 Quiz time! Answer carefully to earn XP & badges!",
+  };
+  let mascotIdx = 0;
+  function mascotTalk() {
+    mascotSay(mascotHints[mascotIdx % mascotHints.length]);
+    mascotIdx++;
+    addXP(5, document.querySelector('.mascot-avatar'));
+  }
+  function mascotSay(msg) {
+    const b = document.getElementById('mascotBubble');
+    b.textContent = msg;
+    b.classList.add('show');
+    clearTimeout(mascotSay._t);
+    mascotSay._t = setTimeout(() => b.classList.remove('show'), 4000);
+  }
+
+  // ══════════════════════════════════════════
+  // SEARCH
+  // ══════════════════════════════════════════
+  const searchIndex = [
+    {t:'🐯 Tiger',      tab:'animals', sub:'Wild Animals'},
+    {t:'🦁 Lion',       tab:'animals', sub:'Wild Animals'},
+    {t:'🐘 Elephant',   tab:'animals', sub:'Wild Animals'},
+    {t:'🦚 Peacock',    tab:'animals', sub:'Birds of India'},
+    {t:'🐬 Dolphin',    tab:'animals', sub:'Aquatic Animals'},
+    {t:'🌳 Banyan Tree',tab:'plants',  sub:'Famous Trees'},
+    {t:'🌸 Lotus',      tab:'plants',  sub:'Flowers'},
+    {t:'🌾 Rice',       tab:'plants',  sub:'Food Plants'},
+    {t:'🧠 Brain',      tab:'body',    sub:'Human Body'},
+    {t:'🦴 Bones',      tab:'body',    sub:'Human Body'},
+    {t:'☀️ Sun',        tab:'space',   sub:'Solar System'},
+    {t:'🌙 Moon',       tab:'space',   sub:'Solar System'},
+    {t:'🪐 Saturn',     tab:'space',   sub:'Solar System'},
+    {t:'🚀 ISRO',       tab:'space',   sub:'India Space'},
+    {t:'🇮🇳 Chandrayaan-3',tab:'space',sub:'India Space'},
+    {t:'🏛️ Capital – New Delhi',tab:'india',sub:'India'},
+    {t:'🐯 National Animal',tab:'india',sub:'India Symbols'},
+    {t:'🕊️ Mahatma Gandhi',tab:'india',sub:'Freedom Fighters'},
+    {t:'⚡ Subhas Chandra Bose',tab:'india',sub:'Freedom Fighters'},
+    {t:'🏛️ Tirupati Temple',tab:'ap',  sub:'Andhra Pradesh'},
+    {t:'🌶️ Guntur Chilli',tab:'ap',   sub:'Andhra Pradesh'},
+    {t:'🕺 Kuchipudi',  tab:'ap',      sub:'Andhra Pradesh'},
+    {t:'🔢 Zero (0)',   tab:'maths',   sub:'Mathematics'},
+    {t:'π Pi',          tab:'maths',   sub:'Mathematics'},
+    {t:'🌀 Fibonacci',  tab:'maths',   sub:'Mathematics'},
+    {t:'🔬 Photosynthesis',tab:'plants',sub:'Science'},
+    {t:'🧬 DNA',        tab:'body',    sub:'Science'},
+    {t:'🦁 Maurya Empire',tab:'history',sub:'History'},
+    {t:'🏏 Sachin Tendulkar',tab:'sports',sub:'Sports'},
+    {t:'🥊 Neeraj Chopra',tab:'sports',sub:'Sports'},
+    {t:'🪔 Diwali',     tab:'festivals',sub:'Festivals'},
+    {t:'🌈 Holi',       tab:'festivals',sub:'Festivals'},
+    {t:'🎆 Ugadi',      tab:'festivals',sub:'Andhra Pradesh Festival'},
+  ];
+
+  function doSearch(val) {
+    const drop = document.getElementById('searchDrop');
+    if (!val.trim()) { drop.classList.remove('open'); return; }
+    const q = val.toLowerCase();
+    const results = searchIndex.filter(i => i.t.toLowerCase().includes(q) || i.sub.toLowerCase().includes(q)).slice(0,7);
+    if (!results.length) { drop.classList.remove('open'); return; }
+    drop.innerHTML = results.map(r =>
+      `<div class="search-result-item" onclick="goSearch('${r.tab}')">
+        <span>${r.t.split(' ')[0]}</span>
+        <div><div style="font-weight:800;color:#1e293b;font-size:0.85rem">${r.t}</div>
+        <div style="font-size:0.72rem;color:#94a3b8;font-weight:600">${r.sub}</div></div>
+      </div>`
+    ).join('');
+    drop.classList.add('open');
+  }
+
+  function goSearch(tabId) {
+    const btn = document.querySelector(`[onclick="showTab('${tabId}')"]`);
+    if (btn) {
+      btn.click();
+    }
+    closeSearch();
+    document.getElementById('searchInput').value = '';
+  }
+  function closeSearch() {
+    document.getElementById('searchDrop').classList.remove('open');
+  }
+
+  // ══════════════════════════════════════════
+  // CONFETTI
+  // ══════════════════════════════════════════
+  function launchConfetti() {
+    const colors = ['#f43f5e','#f59e0b','#22c55e','#8b5cf6','#0ea5e9','#f97316','#ec4899'];
+    for (let i = 0; i < 80; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.cssText = `
+        left:${Math.random()*100}vw;
+        top:-10px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        width:${6+Math.random()*8}px;
+        height:${6+Math.random()*8}px;
+        border-radius:${Math.random()>0.5?'50%':'2px'};
+        animation-duration:${1.5+Math.random()*2}s;
+        animation-delay:${Math.random()*0.5}s;
+      `;
+      document.body.appendChild(piece);
+      setTimeout(()=>piece.remove(), 3500);
+    }
+  }
+
+  // ══════════════════════════════════════════
+  // QUIZ DATA
+  // ══════════════════════════════════════════
   const questions = [
     { q:"What is the National Animal of India?", opts:["🦁 Lion","🐯 Bengal Tiger","🐘 Elephant","🦒 Giraffe"], ans:1 },
     { q:"Who invented the number Zero (0)?", opts:["Isaac Newton","Albert Einstein","Aryabhatta","Brahmagupta"], ans:2 },
@@ -1068,13 +1763,22 @@
 
   function renderQuestion() {
     if (current >= questions.length) {
+      const pct = Math.round((score/questions.length)*100);
+      if (score >= 10) {
+        quizBadgeEarned = true;
+        lsSet('gkquizbadge','1');
+        launchConfetti();
+        addXP(50, document.getElementById('quizArea'));
+        checkBadges();
+        mascotSay('🏆 Quiz Champion badge EARNED! Amazing job!');
+      }
       document.getElementById('quizArea').innerHTML = `
         <div class="quiz-container" style="text-align:center">
-          <div style="font-size:4rem">🏆</div>
+          <div style="font-size:4rem">${score>=13?'🌟':score>=10?'🎉':score>=7?'👍':'📚'}</div>
           <h2 style="font-family:'Baloo 2',cursive;font-size:2rem;color:#1e293b;margin:12px 0">Quiz Complete!</h2>
           <p style="font-size:1.2rem;font-weight:700;color:#64748b">You scored <span style="color:var(--purple);font-size:1.6rem">${score}</span> out of <span style="color:var(--purple);font-size:1.6rem">${questions.length}</span></p>
-          <div style="font-size:2rem;margin:12px 0">${score>=13?'🌟 Outstanding!':score>=10?'😊 Great Job!':score>=7?'👍 Good effort!':'📚 Keep Learning!'}</div>
-          <p style="color:#64748b;font-weight:600">${score>=13?'You are a GK Champion!':score>=10?'Excellent performance! Revise more topics!':'Keep studying and try again!'}</p>
+          <div style="font-size:1.1rem;margin:12px 0;font-weight:800">${score>=13?'🌟 Outstanding! You are a GK Champion!':score>=10?'😊 Great Job! Excellent performance!':score>=7?'👍 Good effort! Keep revising!':'📚 Keep studying and try again!'}</div>
+          ${score>=10?`<div style="background:#fffbeb;border:2px solid #f59e0b;border-radius:16px;padding:12px;margin:12px 0;font-weight:800;color:#92400e">🏅 Badge Unlocked: Quiz Champion!</div>`:''}
         </div>`;
       return;
     }
@@ -1092,7 +1796,7 @@
         </div>
         <div class="quiz-q">❓ ${q.q}</div>
         <div class="quiz-opts">
-          ${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="checkAnswer(${i},${q.ans})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+          ${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="checkAnswer(${i},${q.ans},this)">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
         </div>
         <div class="quiz-feedback" id="qfb"></div>
         <button class="quiz-next" id="qnext" onclick="nextQuestion()">Next Question ➡️</button>
@@ -1100,7 +1804,7 @@
     answered = false;
   }
 
-  function checkAnswer(selected, correct) {
+  function checkAnswer(selected, correct, btn) {
     if (answered) return;
     answered = true;
     const opts = document.querySelectorAll('.quiz-opt');
@@ -1115,6 +1819,7 @@
       score++;
       fb.textContent = '✅ Correct! Great job!';
       fb.className = 'quiz-feedback show ok';
+      addXP(10, btn);
     } else {
       fb.textContent = `❌ Oops! The correct answer was: ${questions[current].opts[correct]}`;
       fb.className = 'quiz-feedback show nope';
@@ -1134,13 +1839,21 @@
     renderQuestion();
   }
 
-  // Init quiz when tab opens
-  document.querySelector('[onclick="showTab(\'quiz\')"]').addEventListener('click', () => {
-    current = 0; score = 0; renderQuestion();
-  });
+  // ── INIT ──
+  document.addEventListener('DOMContentLoaded', () => {
+    updateXPUI();
+    checkBadges();
+    attachAudioButtons();
 
-  // Init on load
-  renderQuestion();
+    // Quiz tab click
+    const quizBtn = document.querySelector('[onclick="showTab(\'quiz\')"]');
+    if (quizBtn) quizBtn.addEventListener('click', () => { current = 0; score = 0; renderQuestion(); });
+
+    renderQuestion();
+
+    // Welcome mascot
+    setTimeout(() => mascotSay('👋 Hi! I am Panda Explorer! Tap me for hints & earn XP! 🌟'), 1200);
+  });
 </script>
 </body>
 </html>

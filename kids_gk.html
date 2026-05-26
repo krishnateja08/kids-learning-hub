@@ -39,7 +39,7 @@
   }
   .hero-search {
     width: 100%;
-    padding: 12px 20px 12px 46px;
+    padding: 8px 16px 8px 40px;
     border-radius: 50px;
     border: none;
     font-family: 'Nunito', sans-serif;
@@ -90,8 +90,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin-top: 14px;
+    gap: 10px;
+    margin-top: 8px;
     position: relative;
   }
   .avatar-bubble {
@@ -138,7 +138,7 @@
   /* ── HERO HEADER ── */
   .hero {
     background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 50%, #f43f5e 100%);
-    padding: 20px 20px 44px;
+    padding: 10px 20px 18px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -149,17 +149,17 @@
     inset: 0;
     background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='10'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
-  .hero-floating { position: absolute; font-size: 2rem; animation: float 4s ease-in-out infinite; }
+  .hero-floating { position: absolute; font-size: 1.3rem; animation: float 4s ease-in-out infinite; }
   .f1 { top: 10%; left: 5%; animation-delay: 0s; }
   .f2 { top: 20%; right: 8%; animation-delay: 1s; }
   .f3 { top: 50%; left: 2%; animation-delay: 2s; }
   .f4 { bottom: 15%; right: 4%; animation-delay: 0.5s; }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
 
-  .hero-logo { font-size: 4rem; margin-bottom: 8px; display: block; position: relative; }
+  .hero-logo { font-size: 2rem; margin-bottom: 4px; display: block; position: relative; }
   .hero h1 {
     font-family: 'Baloo 2', cursive;
-    font-size: clamp(2rem, 6vw, 3.8rem);
+    font-size: clamp(1.3rem, 4vw, 2.2rem);
     font-weight: 800;
     color: white;
     text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
@@ -167,8 +167,8 @@
   }
   .hero p {
     color: rgba(255,255,255,0.92);
-    font-size: clamp(1rem, 3vw, 1.3rem);
-    margin-top: 10px;
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    margin-top: 4px;
     font-weight: 600;
     position: relative;
   }
@@ -180,7 +180,7 @@
     font-size: 0.85rem;
     padding: 5px 16px;
     border-radius: 50px;
-    margin-top: 14px;
+    margin-top: 6px;
     position: relative;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
@@ -673,7 +673,7 @@
   <div class="hero-badge">🇮🇳 Made for Young Minds of India | Ages 4 – 15</div>
 
   <!-- Search Bar -->
-  <div class="hero-search-wrap" style="position:relative">
+  <div class="hero-search-wrap" style="position:relative;margin-top:8px">
     <span class="hero-search-icon">🔍</span>
     <input class="hero-search" id="searchInput" type="text" placeholder="Search Animals, Space, India…" oninput="doSearch(this.value)" onblur="setTimeout(()=>closeSearch(),200)" autocomplete="off">
     <div class="search-results-drop" id="searchDrop"></div>

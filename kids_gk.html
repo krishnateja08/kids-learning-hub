@@ -24,11 +24,13 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html {
+    overflow-x: clip; /* prevents page-level horizontal scroll without blocking child scrollers */
+  }
   body {
     font-family: 'Nunito', sans-serif;
     background: var(--bg);
     min-height: 100vh;
-    overflow-x: hidden;
   }
 
   /* ── SEARCH BAR ── */
@@ -193,6 +195,7 @@
     top: 0;
     z-index: 100;
     padding: 10px 10px;
+    overflow: hidden;  /* clip boundary — required for child overflow-x:auto to work */
   }
   .nav-scroll {
     display: flex;
@@ -200,6 +203,11 @@
     gap: 7px;
     scrollbar-width: none;
     align-items: center;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    padding-bottom: 4px;
+    padding-right: 16px;  /* last button breathing room */
+    box-sizing: content-box;
   }
   .nav-scroll::-webkit-scrollbar { display: none; }
   .nav-btn {
@@ -513,10 +521,57 @@
 
   /* ── RESPONSIVE ── */
   @media(max-width: 600px) {
-    .quiz-opts { grid-template-columns: 1fr; }
-    .cards-grid { grid-template-columns: 1fr 1fr; }
-    .planet-grid { grid-template-columns: repeat(4, 1fr); }
-    .hero-avatar-row { flex-wrap: wrap; }
+    .quiz-opts         { grid-template-columns: 1fr; }
+    .cards-grid        { grid-template-columns: 1fr 1fr; }
+    .planet-grid       { grid-template-columns: repeat(4, 1fr); }
+    .hero-avatar-row   { flex-wrap: wrap; gap: 6px; }
+    /* New tab grids */
+    .badges-grid       { grid-template-columns: 1fr 1fr; }
+    .food-wheel        { grid-template-columns: 1fr 1fr; }
+    .helper-grid       { gap: 8px; }
+    .weather-hero      { gap: 8px; }
+    /* Hero bar */
+    .hero              { padding: 8px 12px 14px; }
+    .hero-logo         { font-size: 1.6rem; margin-bottom: 2px; }
+    .xp-bar-wrap       { width: 90px; }
+    .avatar-xp         { font-size: 0.8rem; }
+    /* Reduce top section padding on mobile */
+    .main              { padding: 14px 12px 80px; }
+    .section-header    { margin-bottom: 16px; }
+    .section-icon      { font-size: 3rem; }
+    /* Person cards — keep flex row but shrink avatar */
+    .fp-card           { gap: 10px; }
+    .fp-avatar         { width: 44px; height: 44px; font-size: 1.8rem; }
+    .inv-card          { gap: 10px; }
+    .inv-icon          { width: 40px; height: 40px; font-size: 1.6rem; }
+    /* Vocab */
+    .vocab-word        { font-size: 1.8rem; }
+    /* Match the pair */
+    .match-item        { font-size: 0.76rem; padding: 8px 5px; }
+    /* DC Banner inside nav */
+    .dc-question       { font-size: 0.9rem; }
+    /* Story picker */
+    .sp-emoji          { font-size: 2rem; }
+  }
+
+  /* Extra small — 400px and below */
+  @media(max-width: 400px) {
+    .weather-hero      { grid-template-columns: 1fr; }
+    .story-pick-grid   { grid-template-columns: 1fr; }
+    .memory-grid       { gap: 5px; }
+    .mem-card          { border-radius: 10px; }
+    .mem-front, .mem-back { font-size: 1.2rem; }
+    .food-wheel        { grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+    .fw-icon           { font-size: 1.4rem; }
+    .fw-name           { font-size: 0.7rem; }
+    .fw-sub            { font-size: 0.55rem; }
+    .psk-name          { width: 56px; font-size: 0.72rem; }
+    .cert-box          { padding: 14px 12px; }
+    .pd-child-name     { font-size: 1.25rem; }
+    .pd-avatar-ring    { font-size: 2.2rem; }
+    .diff-grid         { grid-template-columns: 1fr 1fr; }
+    .match-mode-row    { gap: 5px; }
+    .match-mode-btn    { font-size: 0.7rem; padding: 5px 10px; }
   }
 
   /* ── SCROLL ANIMATION ── */
@@ -705,8 +760,11 @@
     display:flex; overflow-x:auto; gap:6px;
     background:white; border-radius:16px;
     box-shadow: var(--card-shadow);
-    padding:8px; margin-bottom:18px;
+    padding:8px; padding-right:14px; margin-bottom:18px;
     scrollbar-width:none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    width: 100%;
   }
   .pd-nav::-webkit-scrollbar { display:none; }
   .pd-nav-btn {
@@ -872,9 +930,204 @@
 
   @media(max-width:600px) {
     .diff-grid { grid-template-columns:1fr 1fr; }
-    .pd-head-stats { flex-wrap:wrap; }
-    .phs { min-width:45%; margin-bottom:6px; border-right:none !important; }
+    .pd-head-stats { flex-wrap:wrap; gap: 6px 0; }
+    .phs { min-width:30%; margin-bottom:4px; border-right:none !important; }
+    .phs-num { font-size: 1.2rem; }
+    .dc-banner { border-radius: 14px; padding: 12px 14px; margin: 0 -4px 8px; }
+    .dc-label  { font-size: 0.62rem; }
+    .dc-opt    { font-size: 0.78rem; padding: 7px 10px; }
+    .pd-nav-btn { font-size: 0.72rem; padding: 7px 10px; }
+    .pd-child-name { font-size: 1.3rem; }
+    .pc-title { font-size: 0.92rem; }
+    .json-btn { font-size: 0.72rem; padding: 8px 6px; }
   }
+
+  /* ── NAV GROUP DIVIDER ── */
+  .nav-divider { width:2px; height:28px; background:linear-gradient(180deg,transparent,#e2e8f0,transparent); border:none; border-radius:2px; flex-shrink:0; align-self:center; margin:0 2px; }
+  .nav-tag { font-size:.55rem; font-weight:800; color:white; padding:2px 6px; border-radius:50px; margin-left:3px; background:linear-gradient(135deg,#f43f5e,#f97316); vertical-align:middle; }
+
+  /* ── DAILY CHALLENGE BANNER ── */
+  .dc-banner { background:linear-gradient(135deg,#f97316,#f43f5e,#8b5cf6); border-radius:20px; padding:16px 18px; margin-bottom:14px; color:white; display:none; }
+  .dc-banner.show { display:block; }
+  .dc-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
+  .dc-label { font-size:.7rem; font-weight:800; opacity:.9; letter-spacing:.5px; text-transform:uppercase; }
+  .dc-close { background:rgba(255,255,255,.2); border:none; color:white; border-radius:50%; width:22px; height:22px; cursor:pointer; font-size:.75rem; display:flex; align-items:center; justify-content:center; }
+  .dc-question { font-family:'Baloo 2',cursive; font-size:1rem; font-weight:800; margin-bottom:10px; line-height:1.4; }
+  .dc-opts { display:flex; flex-direction:column; gap:6px; }
+  .dc-opt { background:rgba(255,255,255,.18); border:1.5px solid rgba(255,255,255,.35); border-radius:12px; padding:8px 14px; font-family:'Nunito',sans-serif; font-size:.82rem; font-weight:800; color:white; cursor:pointer; text-align:left; transition:all .15s; }
+  .dc-opt:hover { background:rgba(255,255,255,.28); }
+  .dc-opt.dc-correct { background:rgba(34,197,94,.45); border-color:#4ade80; }
+  .dc-opt.dc-wrong   { background:rgba(244,63,94,.45); border-color:#f87171; }
+  .dc-result { margin-top:8px; font-size:.82rem; font-weight:800; display:none; }
+  .dc-xp-pill { display:inline-block; background:rgba(255,255,255,.25); border-radius:50px; padding:3px 10px; font-size:.72rem; font-weight:800; margin-left:6px; }
+  .dc-streak { font-size:.68rem; opacity:.8; margin-top:4px; }
+
+  /* ── FUN FACTS ── */
+  .funfact-hero { background:linear-gradient(135deg,#8b5cf6,#06b6d4); border-radius:24px; padding:22px 20px; color:white; text-align:center; margin-bottom:14px; }
+  .funfact-num  { font-family:'Baloo 2',cursive; font-size:3.5rem; font-weight:800; line-height:1; }
+  .funfact-lbl  { font-size:.78rem; font-weight:800; opacity:.85; margin-top:2px; }
+  .ff-card { background:white; border-radius:20px; box-shadow:var(--card-shadow); padding:18px 20px; margin-bottom:12px; display:flex; gap:14px; align-items:flex-start; cursor:pointer; transition:transform .2s; }
+  .ff-card:hover { transform:scale(1.01); }
+  .ff-emoji { font-size:2.2rem; flex-shrink:0; }
+  .ff-body  { flex:1; }
+  .ff-cat   { font-size:.65rem; font-weight:800; text-transform:uppercase; letter-spacing:.5px; padding:2px 8px; border-radius:50px; display:inline-block; margin-bottom:5px; }
+  .ff-text  { font-size:.9rem; color:#334155; font-weight:700; line-height:1.5; }
+  .ff-wow   { font-size:.75rem; color:#6366f1; font-weight:800; margin-top:4px; }
+  .ff-cat.animals   { background:#dcfce7; color:#15803d; }
+  .ff-cat.science   { background:#e0f2fe; color:#0369a1; }
+  .ff-cat.space     { background:#ede9fe; color:#6d28d9; }
+  .ff-cat.body      { background:#fce7f3; color:#9d174d; }
+  .ff-cat.india     { background:#fff7ed; color:#c2410c; }
+  .ff-cat.world     { background:#f0fdf4; color:#166534; }
+  .ff-cat.food      { background:#fef9c3; color:#854d0e; }
+  .ff-cat.history   { background:#f5f3ff; color:#5b21b6; }
+
+  /* ── COUNTRIES ── */
+  .country-card { background:white; border-radius:20px; box-shadow:var(--card-shadow); padding:14px 16px; display:flex; gap:12px; align-items:flex-start; margin-bottom:10px; }
+  .cc-flag  { font-size:2.5rem; flex-shrink:0; }
+  .cc-body  { flex:1; }
+  .cc-name  { font-family:'Baloo 2',cursive; font-size:1rem; font-weight:800; color:#1e293b; }
+  .cc-cap   { font-size:.75rem; color:#64748b; font-weight:700; margin-top:1px; }
+  .cc-tags  { display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
+  .cc-tag   { font-size:.68rem; background:#f1f5f9; color:#475569; border-radius:50px; padding:2px 8px; font-weight:700; }
+
+  /* ── MATCH THE PAIR GAME ── */
+  .match-container { background:white; border-radius:20px; box-shadow:var(--card-shadow); padding:18px; margin-bottom:14px; }
+  .match-title  { font-family:'Baloo 2',cursive; font-size:1.1rem; font-weight:800; color:#1e293b; margin-bottom:4px; }
+  .match-sub    { font-size:.75rem; color:#64748b; font-weight:600; margin-bottom:14px; }
+  .match-mode-row { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+  .match-mode-btn { padding:6px 14px; border-radius:50px; border:2px solid #e2e8f0; font-family:'Nunito',sans-serif; font-size:.75rem; font-weight:800; color:#64748b; background:#f8fafc; cursor:pointer; transition:all .2s; }
+  .match-mode-btn.active { border-color:var(--purple); background:#ede9fe; color:var(--purple); }
+  .match-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px; }
+  .match-item { padding:10px 8px; border-radius:14px; border:2.5px solid #e2e8f0; background:#f8fafc; font-family:'Nunito',sans-serif; font-size:.82rem; font-weight:800; color:#334155; cursor:pointer; text-align:center; transition:all .2s; min-height:48px; display:flex; align-items:center; justify-content:center; line-height:1.3; }
+  .match-item:hover:not(.matched):not(.wrong-flash) { border-color:var(--purple); background:#ede9fe; color:var(--purple); }
+  .match-item.selected { border-color:#6366f1; background:#e0e7ff; color:#4338ca; box-shadow:0 0 0 3px rgba(99,102,241,.2); }
+  .match-item.matched  { border-color:#22c55e; background:#dcfce7; color:#15803d; cursor:default; }
+  .match-item.wrong-flash { border-color:#f43f5e; background:#ffe4e6; animation:wrongShake .35s; }
+  @keyframes wrongShake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+  .match-score-row { display:flex; justify-content:space-between; align-items:center; }
+  .match-score-val { font-family:'Baloo 2',cursive; font-size:1.2rem; font-weight:800; }
+  .match-new-btn { padding:7px 18px; border-radius:50px; border:none; background:linear-gradient(135deg,var(--purple),var(--indigo)); color:white; font-family:'Nunito',sans-serif; font-size:.8rem; font-weight:800; cursor:pointer; }
+
+  /* ── MEMORY GAME ── */
+  .memory-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:12px 0; }
+  .mem-card { aspect-ratio:1; border-radius:14px; border:2.5px solid #e2e8f0; background:linear-gradient(135deg,#8b5cf6,#6366f1); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.8rem; transition:all .3s; position:relative; }
+  .mem-card.face-down { background:linear-gradient(135deg,#8b5cf6,#6366f1); }
+  .mem-card.face-down .mem-front { display:none; }
+  .mem-card.face-down .mem-back  { display:flex; }
+  .mem-card.face-up   { background:white; border-color:#e2e8f0; }
+  .mem-card.face-up   .mem-front { display:flex; }
+  .mem-card.face-up   .mem-back  { display:none; }
+  .mem-card.matched   { background:#dcfce7; border-color:#22c55e; cursor:default; }
+  .mem-front,.mem-back { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:1.6rem; border-radius:12px; }
+  .mem-back  { color:rgba(255,255,255,.4); font-size:1.4rem; }
+  .mem-stats { display:flex; gap:12px; margin-bottom:10px; }
+  .mem-stat  { background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:12px; padding:8px 14px; text-align:center; flex:1; }
+  .mem-stat-n { font-family:'Baloo 2',cursive; font-size:1.2rem; font-weight:800; color:var(--purple); }
+  .mem-stat-l { font-size:.62rem; color:#64748b; font-weight:700; }
+  .mem-btn  { width:100%; padding:10px; border:none; border-radius:14px; background:linear-gradient(135deg,#f97316,#f43f5e); color:white; font-family:'Nunito',sans-serif; font-weight:800; font-size:.85rem; cursor:pointer; margin-top:8px; }
+
+  /* ── STORY MODE ── */
+  .story-card { background:white; border-radius:20px; box-shadow:var(--card-shadow); padding:20px; margin-bottom:14px; }
+  .story-pick-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .story-pick { border:2.5px solid #e2e8f0; border-radius:18px; padding:14px; cursor:pointer; text-align:center; transition:all .2s; background:#f8fafc; }
+  .story-pick:hover { border-color:var(--purple); background:#ede9fe; }
+  .sp-emoji { font-size:2.5rem; display:block; margin-bottom:4px; }
+  .sp-title { font-family:'Baloo 2',cursive; font-size:.9rem; font-weight:800; color:#1e293b; }
+  .sp-genre { font-size:.65rem; color:#94a3b8; font-weight:700; }
+  .story-text { font-size:.88rem; color:#334155; line-height:1.8; margin-bottom:16px; background:#fffbeb; border-left:4px solid #f59e0b; border-radius:0 12px 12px 0; padding:14px 16px; }
+  .story-q-label { font-size:.75rem; font-weight:800; color:var(--purple); text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; }
+  .story-opts { display:flex; flex-direction:column; gap:8px; }
+  .story-opt { padding:10px 14px; border-radius:14px; border:2px solid #e2e8f0; background:#f8fafc; font-family:'Nunito',sans-serif; font-size:.84rem; font-weight:800; color:#334155; cursor:pointer; text-align:left; transition:all .2s; }
+  .story-opt:hover { border-color:var(--purple); background:#ede9fe; }
+  .story-opt.correct { border-color:#22c55e; background:#dcfce7; color:#15803d; }
+  .story-opt.wrong   { border-color:#f43f5e; background:#ffe4e6; color:#be123c; }
+  .story-back-btn { margin-top:12px; padding:8px 20px; border:none; border-radius:50px; background:#f1f5f9; color:#64748b; font-family:'Nunito',sans-serif; font-weight:800; font-size:.78rem; cursor:pointer; }
+
+  /* ── VOCAB BUILDER ── */
+  .vocab-hero { background:linear-gradient(135deg,#0ea5e9,#8b5cf6); border-radius:20px; padding:20px; color:white; text-align:center; margin-bottom:14px; }
+  .vocab-word { font-family:'Baloo 2',cursive; font-size:2.2rem; font-weight:800; }
+  .vocab-phonetic { font-size:.78rem; opacity:.8; margin-top:2px; }
+  .vocab-pos { display:inline-block; background:rgba(255,255,255,.25); border-radius:50px; padding:2px 10px; font-size:.7rem; font-weight:800; margin-top:6px; }
+  .vocab-def { margin-top:10px; font-size:.88rem; opacity:.95; line-height:1.6; }
+  .vocab-card { background:white; border-radius:16px; box-shadow:var(--card-shadow); padding:14px 16px; margin-bottom:10px; }
+  .vocab-card-lbl { font-size:.65rem; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:#94a3b8; margin-bottom:5px; }
+  .vocab-tag  { display:inline-block; background:#ede9fe; color:#6d28d9; border-radius:50px; padding:3px 10px; font-size:.75rem; font-weight:800; margin:3px; }
+  .vocab-example { font-size:.85rem; color:#334155; font-style:italic; line-height:1.6; }
+  .vocab-nav-row { display:flex; justify-content:space-between; gap:8px; margin-top:10px; }
+  .vocab-nav-btn { flex:1; padding:9px; border:none; border-radius:50px; font-family:'Nunito',sans-serif; font-weight:800; font-size:.8rem; cursor:pointer; }
+  .vocab-nav-btn.prev { background:#f1f5f9; color:#64748b; }
+  .vocab-nav-btn.next { background:linear-gradient(135deg,#8b5cf6,#6366f1); color:white; }
+
+  /* ── INVENTIONS ── */
+  .inv-card { background:white; border-radius:20px; box-shadow:var(--card-shadow); padding:16px 18px; margin-bottom:12px; display:flex; gap:14px; align-items:flex-start; }
+  .inv-icon { font-size:2.2rem; flex-shrink:0; width:52px; height:52px; border-radius:16px; display:flex; align-items:center; justify-content:center; }
+  .inv-year { font-size:.65rem; font-weight:800; padding:2px 8px; border-radius:50px; margin-bottom:4px; display:inline-block; }
+  .inv-name { font-family:'Baloo 2',cursive; font-size:.95rem; font-weight:800; color:#1e293b; }
+  .inv-who  { font-size:.75rem; color:#64748b; font-weight:700; margin-top:2px; }
+  .inv-fact { font-size:.8rem; color:#334155; margin-top:5px; line-height:1.5; }
+
+  /* ── FAMOUS PEOPLE ── */
+  .fp-card { background:white; border-radius:20px; box-shadow:var(--card-shadow); padding:16px 18px; margin-bottom:12px; display:flex; gap:14px; }
+  .fp-avatar { font-size:2.5rem; width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .fp-field { font-size:.65rem; font-weight:800; padding:2px 8px; border-radius:50px; margin-bottom:3px; display:inline-block; }
+  .fp-name  { font-family:'Baloo 2',cursive; font-size:.98rem; font-weight:800; color:#1e293b; }
+  .fp-era   { font-size:.72rem; color:#94a3b8; font-weight:700; }
+  .fp-quote { font-size:.78rem; color:#475569; font-style:italic; margin-top:5px; line-height:1.5; }
+  .fp-known { font-size:.75rem; color:#334155; margin-top:4px; font-weight:700; }
+
+  /* ── WEATHER ── */
+  .weather-hero { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+  .wh-card  { border-radius:20px; padding:16px; text-align:center; }
+  .wh-card.summer { background:linear-gradient(135deg,#fef3c7,#fed7aa); }
+  .wh-card.winter { background:linear-gradient(135deg,#e0f2fe,#bfdbfe); }
+  .wh-card.monsoon{ background:linear-gradient(135deg,#d1fae5,#a7f3d0); }
+  .wh-card.autumn { background:linear-gradient(135deg,#fce7f3,#fde68a); }
+  .wh-icon  { font-size:2.5rem; display:block; margin-bottom:4px; }
+  .wh-name  { font-family:'Baloo 2',cursive; font-size:.95rem; font-weight:800; }
+  .wh-desc  { font-size:.72rem; color:#475569; font-weight:600; line-height:1.4; }
+
+  /* ── EARTH & ENVIRONMENT ── */
+  .env-pledge { background:linear-gradient(135deg,#dcfce7,#a7f3d0); border-radius:20px; padding:18px; text-align:center; margin-bottom:14px; }
+  .env-pledge h3 { font-family:'Baloo 2',cursive; font-size:1.1rem; color:#14532d; margin-bottom:8px; }
+  .env-pledge p  { font-size:.8rem; color:#166534; line-height:1.6; }
+
+  /* ── COMMUNITY HELPERS ── */
+  .helper-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+  .helper-card { background:white; border-radius:20px; box-shadow:var(--card-shadow); padding:16px; text-align:center; }
+  .hc-icon { font-size:2.5rem; display:block; margin-bottom:6px; }
+  .hc-name { font-family:'Baloo 2',cursive; font-size:.95rem; font-weight:800; color:#1e293b; }
+  .hc-tools { font-size:.72rem; color:#64748b; font-weight:700; margin:3px 0; }
+  .hc-fact  { font-size:.75rem; color:#334155; line-height:1.4; }
+
+  /* ── FOOD & NUTRITION ── */
+  .food-wheel { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:14px; }
+  .fw-item { background:white; border-radius:16px; box-shadow:var(--card-shadow); padding:12px 8px; text-align:center; }
+  .fw-icon { font-size:1.8rem; display:block; margin-bottom:4px; }
+  .fw-name { font-family:'Baloo 2',cursive; font-size:.78rem; font-weight:800; color:#1e293b; }
+  .fw-sub  { font-size:.62rem; color:#64748b; font-weight:700; }
+
+  /* ── TRANSPORT ── */
+  .transport-timeline { position:relative; padding-left:28px; }
+  .tt-line { position:absolute; left:10px; top:0; bottom:0; width:2px; background:linear-gradient(180deg,#8b5cf6,#06b6d4,#22c55e); }
+  .tt-item { position:relative; margin-bottom:18px; }
+  .tt-dot  { position:absolute; left:-22px; top:4px; width:14px; height:14px; border-radius:50%; border:2.5px solid white; box-shadow:0 0 0 2px #8b5cf6; background:var(--purple); }
+  .tt-year { font-size:.65rem; font-weight:800; color:#8b5cf6; margin-bottom:2px; }
+  .tt-name { font-family:'Baloo 2',cursive; font-size:.92rem; font-weight:800; color:#1e293b; }
+  .tt-desc { font-size:.78rem; color:#64748b; line-height:1.5; margin-top:2px; }
+
+  /* ── MYTHOLOGY ── */
+  .myth-card { background:white; border-radius:20px; box-shadow:var(--card-shadow); padding:16px 18px; margin-bottom:12px; border-left:4px solid; }
+  .myth-card.indian { border-color:#f97316; }
+  .myth-card.greek  { border-color:#3b82f6; }
+  .myth-card.egypt  { border-color:#f59e0b; }
+  .myth-region { font-size:.65rem; font-weight:800; text-transform:uppercase; letter-spacing:.5px; padding:2px 8px; border-radius:50px; display:inline-block; margin-bottom:5px; }
+  .myth-region.indian { background:#fff7ed; color:#c2410c; }
+  .myth-region.greek  { background:#eff6ff; color:#1d4ed8; }
+  .myth-region.egypt  { background:#fffbeb; color:#92400e; }
+  .myth-name  { font-family:'Baloo 2',cursive; font-size:1rem; font-weight:800; color:#1e293b; }
+  .myth-story { font-size:.8rem; color:#334155; line-height:1.6; margin-top:5px; }
+  .myth-moral { font-size:.75rem; color:#6366f1; font-weight:800; margin-top:6px; }
 </style>
 </head>
 <body>
@@ -916,6 +1169,17 @@
 
 <!-- NAV -->
 <div class="nav-wrapper">
+  <!-- Daily Challenge Banner -->
+  <div class="dc-banner" id="dcBanner">
+    <div class="dc-top">
+      <span class="dc-label">⭐ Daily Challenge — <span id="dcDateStr"></span></span>
+      <button class="dc-close" onclick="document.getElementById('dcBanner').classList.remove('show')">✕</button>
+    </div>
+    <div class="dc-question" id="dcQuestion"></div>
+    <div class="dc-opts" id="dcOpts"></div>
+    <div class="dc-result" id="dcResult"></div>
+    <div class="dc-streak" id="dcStreak"></div>
+  </div>
   <div class="nav-scroll">
     <button class="nav-btn active" onclick="showTab('animals')">🐾 Animals</button>
     <button class="nav-btn" onclick="showTab('plants')">🌿 Plants</button>
@@ -930,6 +1194,24 @@
     <button class="nav-btn" onclick="showTab('festivals')">🎉 Festivals</button>
     <button class="nav-btn" onclick="showTab('maths')">🔢 Maths</button>
     <button class="nav-btn" onclick="showTab('quiz')">🧠 Quiz Time!</button>
+    <div class="nav-divider"></div>
+    <button class="nav-btn" onclick="showTab('funfacts')">💡 Fun Facts <span class="nav-tag">NEW</span></button>
+    <button class="nav-btn" onclick="showTab('inventions')">⚡ Inventions</button>
+    <button class="nav-btn" onclick="showTab('famouspeople')">🌟 Famous People</button>
+    <button class="nav-btn" onclick="showTab('countries')">🌍 Countries</button>
+    <button class="nav-btn" onclick="showTab('weather')">🌦️ Weather</button>
+    <button class="nav-btn" onclick="showTab('earth')">🌱 Earth & Env</button>
+    <button class="nav-btn" onclick="showTab('food')">🥗 Food</button>
+    <button class="nav-btn" onclick="showTab('transport')">🚗 Transport</button>
+    <button class="nav-btn" onclick="showTab('mythology')">🏛️ Mythology</button>
+    <button class="nav-btn" onclick="showTab('helpers')">👩‍⚕️ Helpers</button>
+    <div class="nav-divider"></div>
+    <button class="nav-btn" onclick="showTab('dailychallenge')">📅 Daily Challenge</button>
+    <button class="nav-btn" onclick="showTab('matchpair')">🎮 Match the Pair</button>
+    <button class="nav-btn" onclick="showTab('storytime')">📖 Story Mode</button>
+    <button class="nav-btn" onclick="showTab('memorygame')">🃏 Memory Game</button>
+    <button class="nav-btn" onclick="showTab('vocab')">📚 Vocab Builder</button>
+    <div class="nav-divider"></div>
     <button class="nav-btn parent-btn" onclick="openParent()">👨‍👩‍👧 Parent</button>
   </div>
 </div>
@@ -1562,6 +1844,389 @@
 </div>
 
 <!-- ══════════════════════════════════════════
+     FUN FACTS
+══════════════════════════════════════════ -->
+<div id="funfacts" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">💡</span>
+    <div class="section-title">Fun Facts!</div>
+    <div class="section-sub">Amazing things you didn't know — yet!</div>
+  </div>
+  <div class="funfact-hero">
+    <div class="funfact-num">50+</div>
+    <div class="funfact-lbl">Mind-blowing facts across 8 categories!</div>
+  </div>
+  <span class="ribbon acc-purple">🐾 Animal World</span>
+  <div class="ff-card"><div class="ff-emoji">🐙</div><div class="ff-body"><span class="ff-cat animals">Animals</span><div class="ff-text">Octopuses have THREE hearts! Two pump blood to the gills, one pumps it to the rest of the body.</div><div class="ff-wow">🤯 AND their blood is BLUE!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">🦈</div><div class="ff-body"><span class="ff-cat animals">Animals</span><div class="ff-text">Sharks are older than trees! Sharks have existed for about 450 million years, while trees appeared around 360 million years ago.</div><div class="ff-wow">🌳 Trees are younger than sharks!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">🦋</div><div class="ff-body"><span class="ff-cat animals">Animals</span><div class="ff-text">A group of flamingos is called a "flamboyance" and they are pink because of the shrimp they eat!</div><div class="ff-wow">🦩 No shrimp = white flamingo!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">🐘</div><div class="ff-body"><span class="ff-cat animals">Animals</span><div class="ff-text">Elephants are the only animals that cannot jump! They also show empathy — they comfort sad friends.</div><div class="ff-wow">💞 They hold funerals for dead elephants!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">🐝</div><div class="ff-body"><span class="ff-cat animals">Animals</span><div class="ff-text">Bees can recognize human faces. A single bee produces only 1/12 teaspoon of honey in its entire lifetime!</div><div class="ff-wow">🍯 Honey never expires — 3000-year-old honey found in Egypt was still edible!</div></div></div>
+
+  <span class="ribbon acc-sky">🔬 Science Wonders</span>
+  <div class="ff-card"><div class="ff-emoji">⚡</div><div class="ff-body"><span class="ff-cat science">Science</span><div class="ff-text">Lightning is five times hotter than the surface of the Sun! A single bolt reaches 30,000 kelvin (Sun surface = 5,778 K).</div><div class="ff-wow">☀️ Hotter than the Sun!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">💧</div><div class="ff-body"><span class="ff-cat science">Science</span><div class="ff-text">Hot water freezes faster than cold water — this is called the Mpemba Effect. Scientists still debate exactly why!</div><div class="ff-wow">🧊 Counter-intuitive science!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">🧲</div><div class="ff-body"><span class="ff-cat science">Science</span><div class="ff-text">There are more atoms in a glass of water than there are glasses of water in all Earth's oceans combined!</div><div class="ff-wow">⚛️ Atoms are TINY beyond imagination!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">🌈</div><div class="ff-body"><span class="ff-cat science">Science</span><div class="ff-text">Rainbows are actually FULL circles! We see only a half-arc because the ground is in the way. From a plane you'd see the whole ring!</div><div class="ff-wow">✈️ Pilots see full circle rainbows!</div></div></div>
+
+  <span class="ribbon acc-coral">🚀 Space Secrets</span>
+  <div class="ff-card"><div class="ff-emoji">🌌</div><div class="ff-body"><span class="ff-cat space">Space</span><div class="ff-text">There are more stars in the universe than grains of sand on ALL Earth's beaches — about 10²⁴ stars!</div><div class="ff-wow">🏖️ More stars than ALL sand grains!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">👣</div><div class="ff-body"><span class="ff-cat space">Space</span><div class="ff-text">Footprints left on the Moon will remain for millions of years — because there's no wind or rain to wash them away!</div><div class="ff-wow">🌕 Neil Armstrong's steps still exist!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">🪐</div><div class="ff-body"><span class="ff-cat space">Space</span><div class="ff-text">Saturn is so light it could float on water! It's the least dense planet in our Solar System.</div><div class="ff-wow">🌊 A planet that floats!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">🔇</div><div class="ff-body"><span class="ff-cat space">Space</span><div class="ff-text">Space is completely SILENT. Sound needs matter to travel. If the Sun exploded, we'd see it before we'd hear it — except we'd never hear it at all!</div><div class="ff-wow">😶 Explosions with zero sound!</div></div></div>
+
+  <span class="ribbon acc-teal">🫀 Human Body</span>
+  <div class="ff-card"><div class="ff-emoji">🦴</div><div class="ff-body"><span class="ff-cat body">Body</span><div class="ff-text">Babies are born with 270 bones, but adults have only 206! Bones fuse together as we grow up.</div><div class="ff-wow">👶 Babies have 64 extra bones!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">👀</div><div class="ff-body"><span class="ff-cat body">Body</span><div class="ff-text">Your eyes can distinguish about 10 million different colours! But only if the lighting is right.</div><div class="ff-wow">🎨 10 million colours!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">❤️</div><div class="ff-body"><span class="ff-cat body">Body</span><div class="ff-text">Your heart beats about 100,000 times every day! In a lifetime it beats over 2.5 billion times without a single rest.</div><div class="ff-wow">💓 2.5 BILLION beats in a lifetime!</div></div></div>
+
+  <span class="ribbon acc-sun">🇮🇳 India Surprises</span>
+  <div class="ff-card"><div class="ff-emoji">🎓</div><div class="ff-body"><span class="ff-cat india">India</span><div class="ff-text">India invented Shampoo! The word comes from the Hindi word "Champo" meaning to massage. Ayurvedic hair treatments date back 2500 years.</div><div class="ff-wow">💇 Shampoo = India's gift to the world!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">🎲</div><div class="ff-body"><span class="ff-cat india">India</span><div class="ff-text">Chess was invented in India around 1500 years ago. It was called "Chaturanga" (four divisions of the military).</div><div class="ff-wow">♟️ Checkmate comes from India!</div></div></div>
+  <div class="ff-card"><div class="ff-emoji">🔢</div><div class="ff-body"><span class="ff-cat india">India</span><div class="ff-text">India gave the world the decimal system, algebra, and the concept of zero! Without zero, modern computers would be impossible.</div><div class="ff-wow">💻 Computers need India's zero!</div></div></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     INVENTIONS & INVENTORS
+══════════════════════════════════════════ -->
+<div id="inventions" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">⚡</span>
+    <div class="section-title">Inventions & Inventors</div>
+    <div class="section-sub">The brilliant minds that changed the world!</div>
+  </div>
+  <span class="ribbon acc-purple">💡 World-Changing Inventions</span>
+  <div class="inv-card"><div class="inv-icon" style="background:#fef9c3">💡</div><div><span class="inv-year" style="background:#fef3c7;color:#92400e">1879</span><div class="inv-name">Light Bulb</div><div class="inv-who">👨‍🔬 Thomas Edison (USA)</div><div class="inv-fact">Edison tried over 10,000 experiments before the bulb worked. He said "I didn't fail — I found 10,000 ways that didn't work!"</div></div></div>
+  <div class="inv-card"><div class="inv-icon" style="background:#dcfce7">📞</div><div><span class="inv-year" style="background:#dcfce7;color:#15803d">1876</span><div class="inv-name">Telephone</div><div class="inv-who">👨‍🔬 Alexander Graham Bell (Scotland)</div><div class="inv-fact">First words ever spoken on a telephone: "Mr. Watson, come here, I want to see you!" Bell's first call ever made.</div></div></div>
+  <div class="inv-card"><div class="inv-icon" style="background:#ede9fe">✈️</div><div><span class="inv-year" style="background:#ede9fe;color:#6d28d9">1903</span><div class="inv-name">Aeroplane</div><div class="inv-who">✈️ Wright Brothers (USA)</div><div class="inv-fact">The first flight lasted only 12 seconds and covered just 37 metres. Today planes fly 40,000+ km!</div></div></div>
+  <div class="inv-card"><div class="inv-icon" style="background:#e0f2fe">💻</div><div><span class="inv-year" style="background:#e0f2fe;color:#0369a1">1833</span><div class="inv-name">Computer</div><div class="inv-who">👨‍🔬 Charles Babbage (England)</div><div class="inv-fact">Babbage designed the first mechanical computer. Ada Lovelace wrote the first computer program — she is the world's first programmer!</div></div></div>
+  <div class="inv-card"><div class="inv-icon" style="background:#fce7f3">🖨️</div><div><span class="inv-year" style="background:#fce7f3;color:#9d174d">1440</span><div class="inv-name">Printing Press</div><div class="inv-who">📚 Johannes Gutenberg (Germany)</div><div class="inv-fact">Before printing presses, books were copied by hand — each book took months! Gutenberg made books available to everyone.</div></div></div>
+  <div class="inv-card"><div class="inv-icon" style="background:#fff7ed">🚀</div><div><span class="inv-year" style="background:#fff7ed;color:#c2410c">1926</span><div class="inv-name">Modern Rocket</div><div class="inv-who">🚀 Robert Goddard (USA)</div><div class="inv-fact">The first liquid-fuelled rocket flew for just 2.5 seconds. Today ISRO rockets carry satellites to space in minutes!</div></div></div>
+  <div class="inv-card"><div class="inv-icon" style="background:#f0fdf4">📡</div><div><span class="inv-year" style="background:#f0fdf4;color:#166534">1895</span><div class="inv-name">Radio</div><div class="inv-who">📻 Guglielmo Marconi (Italy)</div><div class="inv-fact">India's Jagadish Chandra Bose demonstrated radio waves BEFORE Marconi! He is now recognized as a co-inventor of radio.</div></div></div>
+
+  <div class="fact-box fact-sky">
+    <span class="fact-icon">🇮🇳</span>
+    <div><h4>Indian Inventions that Shocked the World</h4>
+    <p>🔢 <b>Zero & Decimal System</b> — Aryabhatta | ♟️ <b>Chess</b> — ancient India | 💇 <b>Shampoo</b> — "Champo" | 🧮 <b>Algebra</b> — Brahmagupta | 🌊 <b>Flush Toilet</b> — Indus Valley Civilization (2500 BCE) | 🎲 <b>Playing Cards</b> — Mogul era India | 🔬 <b>Raman Effect</b> — CV Raman 1928</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     FAMOUS PEOPLE
+══════════════════════════════════════════ -->
+<div id="famouspeople" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🌟</span>
+    <div class="section-title">Famous People</div>
+    <div class="section-sub">Legends who shaped our world!</div>
+  </div>
+  <span class="ribbon acc-purple">🔬 Scientists & Explorers</span>
+  <div class="fp-card"><div class="fp-avatar" style="background:#fef9c3">🍎</div><div><span class="fp-field" style="background:#fef3c7;color:#92400e">Physics</span><div class="fp-name">Isaac Newton</div><div class="fp-era">🇬🇧 England · 1643–1727</div><div class="fp-quote">"If I have seen further, it is by standing on the shoulders of giants."</div><div class="fp-known">Discovered gravity (apple!), laws of motion, invented calculus. Set the foundations of modern physics.</div></div></div>
+  <div class="fp-card"><div class="fp-avatar" style="background:#e0f2fe">⚛️</div><div><span class="fp-field" style="background:#e0f2fe;color:#0369a1">Physics</span><div class="fp-name">Albert Einstein</div><div class="fp-era">🇩🇪 Germany · 1879–1955</div><div class="fp-quote">"Imagination is more important than knowledge."</div><div class="fp-known">Theory of Relativity (E=mc²). Explained how time and gravity warp space. Nobel Prize 1921.</div></div></div>
+  <div class="fp-card"><div class="fp-avatar" style="background:#fce7f3">⚗️</div><div><span class="fp-field" style="background:#fce7f3;color:#9d174d">Chemistry</span><div class="fp-name">Marie Curie</div><div class="fp-era">🇵🇱 Poland · 1867–1934</div><div class="fp-quote">"Nothing in life is to be feared, only to be understood."</div><div class="fp-known">First woman to win a Nobel Prize — and won TWO (Physics & Chemistry)! Discovered radium and polonium.</div></div></div>
+  <div class="fp-card"><div class="fp-avatar" style="background:#dcfce7">🔭</div><div><span class="fp-field" style="background:#dcfce7;color:#15803d">Astronomy</span><div class="fp-name">Aryabhatta</div><div class="fp-era">🇮🇳 India · 476–550 CE</div><div class="fp-quote">"The Moon shines by reflecting the Sun's light."</div><div class="fp-known">Invented Zero, calculated Earth's circumference, explained solar/lunar eclipses 1500 years ago!</div></div></div>
+  <span class="ribbon acc-coral">🚀 Space Heroes</span>
+  <div class="fp-card"><div class="fp-avatar" style="background:#ede9fe">👨‍🚀</div><div><span class="fp-field" style="background:#ede9fe;color:#6d28d9">Astronaut</span><div class="fp-name">Neil Armstrong</div><div class="fp-era">🇺🇸 USA · 1930–2012</div><div class="fp-quote">"That's one small step for man, one giant leap for mankind."</div><div class="fp-known">First human to walk on the Moon on July 20, 1969. Apollo 11 Mission.</div></div></div>
+  <div class="fp-card"><div class="fp-avatar" style="background:#fff7ed">👩‍🚀</div><div><span class="fp-field" style="background:#fff7ed;color:#c2410c">Astronaut</span><div class="fp-name">Kalpana Chawla</div><div class="fp-era">🇮🇳 India · 1962–2003</div><div class="fp-quote">"The path from dreams to success does exist."</div><div class="fp-known">First Indian-American woman in space! Flew on Space Shuttle Columbia. Inspiration to millions of Indian girls.</div></div></div>
+  <span class="ribbon acc-sky">⚔️ Leaders & Freedom Fighters</span>
+  <div class="fp-card"><div class="fp-avatar" style="background:#f0fdf4">🕊️</div><div><span class="fp-field" style="background:#f0fdf4;color:#166534">Freedom Fighter</span><div class="fp-name">Mahatma Gandhi</div><div class="fp-era">🇮🇳 India · 1869–1948</div><div class="fp-quote">"Be the change you wish to see in the world."</div><div class="fp-known">Led India's independence movement through non-violent civil disobedience. "Father of the Nation."</div></div></div>
+  <div class="fp-card"><div class="fp-avatar" style="background:#fef9c3">📚</div><div><span class="fp-field" style="background:#fef9c3;color:#92400e">Leader</span><div class="fp-name">Dr. APJ Abdul Kalam</div><div class="fp-era">🇮🇳 India · 1931–2015</div><div class="fp-quote">"You have to dream before your dreams can come true."</div><div class="fp-known">Missile Man of India, 11th President of India. Led ISRO and DRDO. Beloved by millions of children!</div></div></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     COUNTRIES OF THE WORLD
+══════════════════════════════════════════ -->
+<div id="countries" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🌍</span>
+    <div class="section-title">Countries of the World</div>
+    <div class="section-sub">Flags, capitals, and cool facts!</div>
+  </div>
+  <span class="ribbon acc-sky">🌏 Asia</span>
+  <div class="country-card"><div class="cc-flag">🇮🇳</div><div class="cc-body"><div class="cc-name">India</div><div class="cc-cap">🏛️ Capital: New Delhi</div><div class="cc-tags"><span class="cc-tag">🌏 South Asia</span><span class="cc-tag">🗣️ Hindi + 21 official languages</span><span class="cc-tag">🍛 Biryani &amp; Dosa</span><span class="cc-tag">🐯 Bengal Tiger</span></div></div></div>
+  <div class="country-card"><div class="cc-flag">🇯🇵</div><div class="cc-body"><div class="cc-name">Japan</div><div class="cc-cap">🏛️ Capital: Tokyo</div><div class="cc-tags"><span class="cc-tag">🗺️ East Asia</span><span class="cc-tag">🗣️ Japanese</span><span class="cc-tag">🍱 Sushi &amp; Ramen</span><span class="cc-tag">🦊 Red Fox &amp; Tanuki</span></div></div></div>
+  <div class="country-card"><div class="cc-flag">🇨🇳</div><div class="cc-body"><div class="cc-name">China</div><div class="cc-cap">🏛️ Capital: Beijing</div><div class="cc-tags"><span class="cc-tag">🌏 East Asia</span><span class="cc-tag">🗣️ Mandarin</span><span class="cc-tag">🥟 Dumplings &amp; Noodles</span><span class="cc-tag">🐼 Giant Panda</span></div></div></div>
+  <div class="country-card"><div class="cc-flag">🇸🇦</div><div class="cc-body"><div class="cc-name">Saudi Arabia</div><div class="cc-cap">🏛️ Capital: Riyadh</div><div class="cc-tags"><span class="cc-tag">🌏 Middle East</span><span class="cc-tag">🗣️ Arabic</span><span class="cc-tag">🫔 Dates &amp; Kabsa</span><span class="cc-tag">🐪 Camel</span></div></div></div>
+  <span class="ribbon acc-teal">🌍 Africa</span>
+  <div class="country-card"><div class="cc-flag">🇿🇦</div><div class="cc-body"><div class="cc-name">South Africa</div><div class="cc-cap">🏛️ Capital: Cape Town + Pretoria</div><div class="cc-tags"><span class="cc-tag">🌍 Southern Africa</span><span class="cc-tag">🗣️ 11 official languages!</span><span class="cc-tag">🥘 Biltong &amp; Braai</span><span class="cc-tag">🦁 Lion &amp; Rhino</span></div></div></div>
+  <div class="country-card"><div class="cc-flag">🇪🇬</div><div class="cc-body"><div class="cc-name">Egypt</div><div class="cc-cap">🏛️ Capital: Cairo</div><div class="cc-tags"><span class="cc-tag">🌍 North Africa</span><span class="cc-tag">🗣️ Arabic</span><span class="cc-tag">🧆 Falafel &amp; Koshari</span><span class="cc-tag">🐊 Nile Crocodile</span></div></div></div>
+  <span class="ribbon acc-coral">🌎 Europe &amp; Americas</span>
+  <div class="country-card"><div class="cc-flag">🇫🇷</div><div class="cc-body"><div class="cc-name">France</div><div class="cc-cap">🏛️ Capital: Paris</div><div class="cc-tags"><span class="cc-tag">🌍 Western Europe</span><span class="cc-tag">🗣️ French</span><span class="cc-tag">🥐 Croissant &amp; Baguette</span><span class="cc-tag">🐓 Rooster (symbol)</span></div></div></div>
+  <div class="country-card"><div class="cc-flag">🇧🇷</div><div class="cc-body"><div class="cc-name">Brazil</div><div class="cc-cap">🏛️ Capital: Brasília</div><div class="cc-tags"><span class="cc-tag">🌎 South America</span><span class="cc-tag">🗣️ Portuguese</span><span class="cc-tag">🍖 Churrasco &amp; Açaí</span><span class="cc-tag">🐆 Jaguar &amp; Toucan</span></div></div></div>
+  <div class="country-card"><div class="cc-flag">🇺🇸</div><div class="cc-body"><div class="cc-name">USA</div><div class="cc-cap">🏛️ Capital: Washington DC</div><div class="cc-tags"><span class="cc-tag">🌎 North America</span><span class="cc-tag">🗣️ English</span><span class="cc-tag">🍔 Burgers &amp; Pancakes</span><span class="cc-tag">🦅 Bald Eagle</span></div></div></div>
+  <div class="country-card"><div class="cc-flag">🇦🇺</div><div class="cc-body"><div class="cc-name">Australia</div><div class="cc-cap">🏛️ Capital: Canberra</div><div class="cc-tags"><span class="cc-tag">🌏 Oceania</span><span class="cc-tag">🗣️ English</span><span class="cc-tag">🥧 Vegemite &amp; Tim Tams</span><span class="cc-tag">🦘 Kangaroo &amp; Koala</span></div></div></div>
+
+  <div class="fact-box fact-sky">
+    <span class="fact-icon">🌍</span>
+    <div><h4>World Record Countries</h4>
+    <p>🗺️ <b>Largest country:</b> Russia (17 million km²!) | 🤏 <b>Smallest:</b> Vatican City (0.44 km²) | 👥 <b>Most people:</b> India (1.44 billion) | 🗣️ <b>Most languages:</b> Papua New Guinea (840 languages!) | 🌊 <b>Most islands:</b> Sweden (267,570 islands)</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     WEATHER & SEASONS
+══════════════════════════════════════════ -->
+<div id="weather" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🌦️</span>
+    <div class="section-title">Weather & Seasons</div>
+    <div class="section-sub">Why does weather happen? Let's find out!</div>
+  </div>
+  <span class="ribbon acc-sun">🍂 Four Seasons</span>
+  <div class="weather-hero">
+    <div class="wh-card summer"><span class="wh-icon">☀️</span><div class="wh-name">Summer</div><div class="wh-desc">Hot and sunny! Earth tilts toward the Sun. Days are longer. In India: March–June</div></div>
+    <div class="wh-card monsoon"><span class="wh-icon">🌧️</span><div class="wh-name">Monsoon/Autumn</div><div class="wh-desc">Rain, wind, and relief! In India: June–September. Life-giving rains for farms!</div></div>
+    <div class="wh-card winter"><span class="wh-icon">❄️</span><div class="wh-name">Winter</div><div class="wh-desc">Cool and cold! Earth tilts away from Sun. Days are shorter. In India: Nov–Feb</div></div>
+    <div class="wh-card autumn"><span class="wh-icon">🌸</span><div class="wh-name">Spring</div><div class="wh-desc">Flowers bloom! Perfect temperatures. Earth returns to upright position. In India: Feb–March</div></div>
+  </div>
+  <span class="ribbon acc-sky">🌈 Weather Wonders</span>
+  <div class="cards-grid">
+    <div class="card c1"><span class="emoji">🌈</span><h3>Rainbow</h3><p>Sunlight bends inside raindrops and splits into 7 colours: VIBGYOR! You need both Sun and rain at the same time.</p></div>
+    <div class="card c2"><span class="emoji">⚡</span><h3>Lightning</h3><p>Electricity built up in storm clouds! When it gets too much, ZAP — it jumps to Earth. Thunder is the SOUND of lightning.</p></div>
+    <div class="card c3"><span class="emoji">🌪️</span><h3>Tornado</h3><p>A spinning column of air touching the ground. Can spin at 400+ km/h! Strongest tornadoes can lift cars and houses!</p></div>
+    <div class="card c4"><span class="emoji">🌀</span><h3>Cyclone</h3><p>A giant spinning storm over the ocean. India's east coast (including AP!) faces cyclones in Oct–Dec season.</p></div>
+    <div class="card c5"><span class="emoji">☁️</span><h3>Clouds</h3><p>Made of millions of tiny water droplets floating in air! A fluffy cumulus cloud weighs about 500 tonnes — yet floats!</p></div>
+    <div class="card c6"><span class="emoji">❄️</span><h3>Snowflake</h3><p>Every single snowflake is unique! Each one has 6 sides but no two are ever exactly the same shape. Amazing!</p></div>
+  </div>
+  <div class="fact-box fact-yellow">
+    <span class="fact-icon">🌧️</span>
+    <div><h4>India's Weather Wonders</h4>
+    <p>🌧️ <b>Mawsynram, Meghalaya</b> is the WETTEST place on Earth (11,000 mm rain/year)! | ☀️ <b>Jaisalmer, Rajasthan</b> — scorching 50°C in summer! | ❄️ <b>Siachen Glacier, Ladakh</b> — -60°C, coldest Indian military post | 🌪️ AP and Odisha face most cyclones in India</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     EARTH & ENVIRONMENT
+══════════════════════════════════════════ -->
+<div id="earth" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🌱</span>
+    <div class="section-title">Earth & Environment</div>
+    <div class="section-sub">Our planet needs us to care for it!</div>
+  </div>
+  <div class="env-pledge">
+    <h3>🌍 Earth Pledge</h3>
+    <p>"I will reduce, reuse, and recycle! I will protect trees, save water, and be a friend to all living creatures. Earth is our only home — let's protect it together!"</p>
+  </div>
+  <span class="ribbon acc-teal">♻️ 3Rs — The Golden Rules</span>
+  <div class="cards-grid">
+    <div class="card c1"><span class="emoji">♻️</span><h3>Reduce</h3><p>Use LESS. Shorter showers, turn off lights, avoid single-use plastic. Less waste = healthier planet!</p></div>
+    <div class="card c2"><span class="emoji">🔄</span><h3>Reuse</h3><p>Use things AGAIN. Bring a cloth bag, refill water bottles, donate old toys. Every reuse saves energy!</p></div>
+    <div class="card c3"><span class="emoji">🗑️</span><h3>Recycle</h3><p>Turn OLD into NEW! Paper → new paper. Plastic bottles → benches. Aluminium cans → new cans!</p></div>
+  </div>
+  <span class="ribbon acc-coral">🌡️ Climate Change — Explained Simply</span>
+  <div class="cards-grid">
+    <div class="card c5"><span class="emoji">🏭</span><h3>Greenhouse Effect</h3><p>CO₂ from factories and cars traps the Sun's heat like a blanket around Earth. Too much heat = climate change!</p></div>
+    <div class="card c6"><span class="emoji">🌊</span><h3>Rising Seas</h3><p>Ice caps melt → sea level rises → coastal cities flood! Mumbai and Visakhapatnam are at risk by 2100.</p></div>
+    <div class="card c4"><span class="emoji">🌲</span><h3>Deforestation</h3><p>Cutting trees removes CO₂ absorbers. 1 tree absorbs ~22 kg of CO₂ per year. PLANT MORE TREES!</p></div>
+    <div class="card c7"><span class="emoji">☀️</span><h3>Solar Energy</h3><p>The Sun gives us unlimited clean energy! India has the world's largest solar power plant in Rajasthan!</p></div>
+  </div>
+  <div class="fact-box fact-sky">
+    <span class="fact-icon">🌱</span>
+    <div><h4>India's Green Heroes</h4>
+    <p>🌲 <b>Chipko Movement (1973)</b> — villagers hugged trees to save them from cutting! | 🌊 <b>Jadav Payeng</b> — one man planted a forest bigger than Central Park! | ☀️ <b>India target</b>: 500 GW renewable energy by 2030! | 🌳 <b>AP</b> plants millions of trees every year — "Haritha Haram" movement!</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     FOOD & NUTRITION
+══════════════════════════════════════════ -->
+<div id="food" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🥗</span>
+    <div class="section-title">Food & Nutrition</div>
+    <div class="section-sub">You are what you eat — eat smart, grow strong!</div>
+  </div>
+  <span class="ribbon acc-teal">🌈 Rainbow Eating — Eat ALL the Colours!</span>
+  <div class="food-wheel">
+    <div class="fw-item"><span class="fw-icon">🍎</span><div class="fw-name">Red</div><div class="fw-sub">Apples, tomatoes, watermelon — heart health!</div></div>
+    <div class="fw-item"><span class="fw-icon">🥕</span><div class="fw-name">Orange</div><div class="fw-sub">Carrots, mangoes — good for eyes!</div></div>
+    <div class="fw-item"><span class="fw-icon">🍋</span><div class="fw-name">Yellow</div><div class="fw-sub">Bananas, corn — energy and brain power!</div></div>
+    <div class="fw-item"><span class="fw-icon">🥦</span><div class="fw-name">Green</div><div class="fw-sub">Spinach, peas — strong bones and muscles!</div></div>
+    <div class="fw-item"><span class="fw-icon">🫐</span><div class="fw-name">Blue/Purple</div><div class="fw-sub">Blueberries, brinjal — brain health!</div></div>
+    <div class="fw-item"><span class="fw-icon">🥛</span><div class="fw-name">White</div><div class="fw-sub">Milk, garlic, onion — strong immunity!</div></div>
+  </div>
+  <span class="ribbon acc-coral">💪 Food Groups</span>
+  <div class="cards-grid">
+    <div class="card c1"><span class="emoji">🌾</span><h3>Carbohydrates</h3><p>Rice, wheat, bread — give us ENERGY to run, play and think! Our main fuel source.</p></div>
+    <div class="card c2"><span class="emoji">🥚</span><h3>Proteins</h3><p>Eggs, lentils, milk, meat — build our MUSCLES and repair body cells. Growing kids need lots!</p></div>
+    <div class="card c3"><span class="emoji">🥛</span><h3>Fats</h3><p>Ghee, nuts, avocado — brain food! Good fats protect organs and keep us warm. Healthy fats are good!</p></div>
+    <div class="card c4"><span class="emoji">🍊</span><h3>Vitamins</h3><p>Fruits and vegetables! Vitamin C fights colds. Vitamin D (from Sun!) makes strong bones.</p></div>
+    <div class="card c5"><span class="emoji">🦴</span><h3>Minerals</h3><p>Calcium (milk → strong bones!), Iron (spinach → healthy blood!), Zinc (nuts → immune system!).</p></div>
+    <div class="card c6"><span class="emoji">💧</span><h3>Water</h3><p>60% of your body is water! Drink 8 glasses a day. Dehydration makes you tired and unable to concentrate!</p></div>
+  </div>
+  <div class="fact-box fact-yellow">
+    <span class="fact-icon">🍛</span>
+    <div><h4>Fun Food Facts!</h4>
+    <p>🥭 <b>Mango</b> — India's national fruit, produces 40% of world's mangoes! | 🌶️ <b>Guntur chilli</b> (AP!) — world's hottest Indian chilli! | 🍫 <b>Chocolate</b> from cacao beans — ancient Maya used it as currency! | 🍯 <b>Honey</b> — the ONLY food that never expires (3000-year-old Egyptian honey still edible!)</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TRANSPORT
+══════════════════════════════════════════ -->
+<div id="transport" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🚗</span>
+    <div class="section-title">Transport</div>
+    <div class="section-sub">From bullock carts to rockets — how we travel!</div>
+  </div>
+  <span class="ribbon acc-purple">🗓️ Timeline of Transport</span>
+  <div class="transport-timeline">
+    <div class="tt-line"></div>
+    <div class="tt-item"><div class="tt-dot"></div><div class="tt-year">Ancient times</div><div class="tt-name">🐄 Bullock Cart & Boats</div><div class="tt-desc">First forms of transport! Bullocks pulled carts on land. Wooden boats sailed rivers and seas.</div></div>
+    <div class="tt-item"><div class="tt-dot"></div><div class="tt-year">1825</div><div class="tt-name">🚂 Steam Train</div><div class="tt-desc">George Stephenson's "Rocket" — first steam locomotive! India got its first train in 1853 (Mumbai to Thane).</div></div>
+    <div class="tt-item"><div class="tt-dot"></div><div class="tt-year">1885</div><div class="tt-name">🚗 Automobile</div><div class="tt-desc">Karl Benz invented the first petrol-powered car. Today 1 billion+ cars are on Earth's roads!</div></div>
+    <div class="tt-item"><div class="tt-dot"></div><div class="tt-year">1903</div><div class="tt-name">✈️ Aeroplane</div><div class="tt-desc">Wright Brothers flew for 12 seconds. Today planes carry 4 billion passengers per year!</div></div>
+    <div class="tt-item"><div class="tt-dot"></div><div class="tt-year">1957</div><div class="tt-name">🛰️ Space Rocket</div><div class="tt-desc">USSR launched Sputnik 1 — first object in space. India's ISRO now launches rockets for 30+ countries!</div></div>
+    <div class="tt-item"><div class="tt-dot"></div><div class="tt-year">Future</div><div class="tt-name">🚀 Hyperloop & Space Travel</div><div class="tt-desc">Mumbai to Pune in 25 minutes! Mars in 6 months! The future of transport is electric, fast, and green.</div></div>
+  </div>
+  <span class="ribbon acc-sky">🌊 Water Transport</span>
+  <div class="cards-grid">
+    <div class="card c1"><span class="emoji">⛵</span><h3>Sailboat</h3><p>Uses wind energy — zero fuel! Ancient sailors navigated by stars across oceans for centuries.</p></div>
+    <div class="card c2"><span class="emoji">🚢</span><h3>Cargo Ship</h3><p>Carries 90% of all world goods! One giant ship can carry 20,000 containers. That's 10,000 trucks!</p></div>
+    <div class="card c3"><span class="emoji">🤿</span><h3>Submarine</h3><p>India's Navy submarine INS Arihant can stay underwater for months! It's nuclear-powered and nearly silent.</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MYTHOLOGY
+══════════════════════════════════════════ -->
+<div id="mythology" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🏛️</span>
+    <div class="section-title">Mythology Stories</div>
+    <div class="section-sub">Epic tales from ancient India, Greece & Egypt!</div>
+  </div>
+  <span class="ribbon acc-sun">🇮🇳 Indian Mythology</span>
+  <div class="myth-card indian"><span class="myth-region indian">🇮🇳 Indian</span><div class="myth-name">🐘 How Ganesha Got His Elephant Head</div><div class="myth-story">Goddess Parvati created Ganesha from sandalwood paste and asked him to guard her door. Lord Shiva, not recognizing him, fought with Ganesha and — in the heat of battle — accidentally cut off his head! Horrified, Shiva promised to replace it with the first head he found. The first creature found was an elephant, and so Ganesha received his magnificent elephant head! Now he is worshipped as the Remover of Obstacles, and we pray to Ganesha first before starting anything new.</div><div class="myth-moral">💡 Moral: Even from accidents, great things can emerge!</div></div>
+  <div class="myth-card indian"><span class="myth-region indian">🇮🇳 Indian</span><div class="myth-name">🏹 The Mahabharata's Lesson on Focus</div><div class="myth-story">Guru Dronacharya taught the Pandava and Kaurava princes archery. One day he hung a wooden bird from a tree and asked each student: "What do you see?" Everyone answered "The tree, the branches, the leaves, the bird…" When Arjuna's turn came, he said "I see only the eye of the bird." Drona smiled and said "SHOOT!" — Arjuna hit the target perfectly. Only he saw what mattered.</div><div class="myth-moral">💡 Moral: Focus completely on your goal — ignore all distractions!</div></div>
+  <div class="myth-card indian"><span class="myth-region indian">🇮🇳 Indian</span><div class="myth-name">🌊 Samudra Manthan — Churning of the Ocean</div><div class="myth-story">The Devas (gods) and Asuras (demons) together churned the great cosmic ocean to find Amrita — the nectar of immortality. They used Mount Mandara as a churning rod and the serpent Vasuki as a rope. From this churning emerged many treasures: Lakshmi (goddess of wealth), Kamadhenu (wish-granting cow), and finally Dhanvantari carrying the pot of Amrita!</div><div class="myth-moral">💡 Moral: Great rewards come from great teamwork and effort!</div></div>
+  <span class="ribbon acc-sky">🏛️ Greek Mythology</span>
+  <div class="myth-card greek"><span class="myth-region greek">🏛️ Greek</span><div class="myth-name">⚡ Zeus — King of the Gods</div><div class="myth-story">Zeus was the king of all gods on Mount Olympus. He controlled lightning bolts and ruled the sky. His brothers Poseidon ruled the seas and Hades ruled the underworld. Together they overthrew the Titans (giant beings) who had ruled before them. Zeus is also famous for disguising himself and visiting humans on Earth!</div><div class="myth-moral">💡 Famous symbol: The thunderbolt — also found on India's Ashoka Chakra!</div></div>
+  <div class="myth-card greek"><span class="myth-region greek">🏛️ Greek</span><div class="myth-name">🌞 Icarus and the Wax Wings</div><div class="myth-story">Daedalus, a great inventor, was trapped on an island. He built wings from feathers and wax for himself and his son Icarus to escape. He warned Icarus: "Don't fly too high near the Sun, and don't fly too low near the sea." But Icarus was thrilled by flying — he soared higher and higher. The Sun melted his wings and he fell into the sea.</div><div class="myth-moral">💡 Moral: Listen to warnings. Too much pride leads to downfall.</div></div>
+  <span class="ribbon acc-sun">🌅 Egyptian Mythology</span>
+  <div class="myth-card egypt"><span class="myth-region egypt">🌅 Egyptian</span><div class="myth-name">☀️ Ra — The Sun God</div><div class="myth-story">Ra was the most powerful Egyptian god. Every morning he rode his golden boat across the sky (that's the Sun moving!). At night he sailed through the underworld, fighting the serpent Apophis, and emerged victorious each morning. This is why Egyptians believed sunrise was Ra's daily victory over darkness. Pharaohs called themselves "sons of Ra"!</div><div class="myth-moral">💡 Fun fact: Ra is one of the reasons Egypt built the pyramids to honor the Sun!</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     COMMUNITY HELPERS
+══════════════════════════════════════════ -->
+<div id="helpers" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">👩‍⚕️</span>
+    <div class="section-title">Community Helpers</div>
+    <div class="section-sub">Heroes who make our world work every day!</div>
+  </div>
+  <div class="helper-grid">
+    <div class="helper-card"><span class="hc-icon">👩‍⚕️</span><div class="hc-name">Doctor</div><div class="hc-tools">🔭 Stethoscope · 💊 Medicine</div><div class="hc-fact">Doctors study for 10+ years! They heal the sick, perform operations, and save millions of lives every day.</div></div>
+    <div class="helper-card"><span class="hc-icon">👩‍🏫</span><div class="hc-name">Teacher</div><div class="hc-tools">📚 Books · ✏️ Chalk</div><div class="hc-fact">Every doctor, scientist, and engineer was once taught by a teacher! Teachers shape the future of the whole world.</div></div>
+    <div class="helper-card"><span class="hc-icon">🚒</span><div class="hc-name">Firefighter</div><div class="hc-tools">🪣 Hose · 🪜 Ladder</div><div class="hc-fact">Firefighters wear suits that handle 1000°C heat! They also rescue people from floods, earthquakes, and accidents.</div></div>
+    <div class="helper-card"><span class="hc-icon">👮</span><div class="hc-name">Police Officer</div><div class="hc-tools">🚔 Patrol car · 📻 Radio</div><div class="hc-fact">Police keep our neighborhoods safe, direct traffic, help lost people, and catch criminals.</div></div>
+    <div class="helper-card"><span class="hc-icon">👨‍🌾</span><div class="hc-name">Farmer</div><div class="hc-tools">🌾 Crops · 🚜 Tractor</div><div class="hc-fact">India has 150 million farmers! They wake up at 4 AM every day to grow the food that feeds 1.4 billion people.</div></div>
+    <div class="helper-card"><span class="hc-icon">🧑‍✈️</span><div class="hc-name">Pilot</div><div class="hc-tools">✈️ Aircraft · 🗺️ Navigation</div><div class="hc-fact">Pilots train for 1500+ hours! They fly 40,000 feet above ground and keep hundreds of passengers safe.</div></div>
+    <div class="helper-card"><span class="hc-icon">👨‍🍳</span><div class="hc-name">Chef</div><div class="hc-tools">🍳 Pan · 🔪 Knife</div><div class="hc-fact">A great chef can taste 10,000 flavours! Indian cuisine has 30+ regional styles, each unique and delicious.</div></div>
+    <div class="helper-card"><span class="hc-icon">🧑‍🔧</span><div class="hc-name">Engineer</div><div class="hc-tools">⚙️ Tools · 📐 Blueprint</div><div class="hc-fact">Engineers build bridges, design phones, launch rockets, and write software. The backbone of modern India!</div></div>
+  </div>
+  <div class="fact-box fact-yellow">
+    <span class="fact-icon">👏</span>
+    <div><h4>Say Thank You to a Helper Today!</h4>
+    <p>A kind word to your teacher, doctor, or garbage collector can make their whole day! These unsung heroes make our world run smoothly. Thank them, appreciate them, and maybe one day — BE one of them! 🌟</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DAILY CHALLENGE (full tab)
+══════════════════════════════════════════ -->
+<div id="dailychallenge" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">📅</span>
+    <div class="section-title">Daily Challenge</div>
+    <div class="section-sub">One new question every day — collect your streak!</div>
+  </div>
+  <div id="dcTabContent" style="padding-bottom:10px">
+    <!-- Rendered by JS -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MATCH THE PAIR GAME
+══════════════════════════════════════════ -->
+<div id="matchpair" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🎮</span>
+    <div class="section-title">Match the Pair</div>
+    <div class="section-sub">Match every pair to win! Choose a category!</div>
+  </div>
+  <div class="match-container">
+    <div class="match-title">🎮 Matching Game</div>
+    <div class="match-sub">Tap a card on the left, then its match on the right. Complete all pairs!</div>
+    <div class="match-mode-row" id="matchModeRow">
+      <button class="match-mode-btn active" onclick="loadMatch('flags',this)">🏴 Flags</button>
+      <button class="match-mode-btn" onclick="loadMatch('animals',this)">🐾 Animals</button>
+      <button class="match-mode-btn" onclick="loadMatch('planets',this)">🪐 Planets</button>
+      <button class="match-mode-btn" onclick="loadMatch('inventors',this)">💡 Inventors</button>
+    </div>
+    <div class="match-grid" id="matchGrid"></div>
+    <div class="match-score-row">
+      <span class="match-score-val" id="matchScore">⭐ 0 pairs</span>
+      <button class="match-new-btn" onclick="loadMatch(currentMatchMode, document.querySelector('.match-mode-btn.active'))">🔄 New Game</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     STORY MODE
+══════════════════════════════════════════ -->
+<div id="storytime" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">📖</span>
+    <div class="section-title">Story Mode</div>
+    <div class="section-sub">Read a story, then answer a question!</div>
+  </div>
+  <div id="storyArea">
+    <div class="story-card">
+      <div class="pc-title" style="margin-bottom:12px">📖 Choose Your Story</div>
+      <div class="story-pick-grid" id="storyPickGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MEMORY GAME
+══════════════════════════════════════════ -->
+<div id="memorygame" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">🃏</span>
+    <div class="section-title">Memory Game</div>
+    <div class="section-sub">Flip and match pairs — train your brain!</div>
+  </div>
+  <div style="background:white;border-radius:20px;box-shadow:var(--card-shadow);padding:18px;margin-bottom:14px">
+    <div class="mem-stats">
+      <div class="mem-stat"><div class="mem-stat-n" id="memMoves">0</div><div class="mem-stat-l">Moves</div></div>
+      <div class="mem-stat"><div class="mem-stat-n" id="memPairs">0</div><div class="mem-stat-l">Pairs Found</div></div>
+      <div class="mem-stat"><div class="mem-stat-n" id="memTime">0s</div><div class="mem-stat-l">Time</div></div>
+    </div>
+    <div class="memory-grid" id="memoryGrid"></div>
+    <button class="mem-btn" onclick="initMemory()">🔄 New Game</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     VOCABULARY BUILDER
+══════════════════════════════════════════ -->
+<div id="vocab" class="section fade-in">
+  <div class="section-header">
+    <span class="section-icon">📚</span>
+    <div class="section-title">Vocabulary Builder</div>
+    <div class="section-sub">Grow your word power — one word at a time!</div>
+  </div>
+  <div id="vocabArea">
+    <!-- Rendered by JS -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
      PARENT DASHBOARD
 ══════════════════════════════════════════ -->
 <div id="parent" class="section fade-in">
@@ -1865,10 +2530,15 @@
     event.currentTarget.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Reset quiz state when switching to quiz tab
-    if (id === 'quiz') { current = 0; score = 0; sessionWrong = []; renderQuestion(); }
+    // Boot interactive tabs on first visit
+    if (id === 'quiz')          { current = 0; score = 0; sessionWrong = []; renderQuestion(); }
+    if (id === 'memorygame')    { initMemory(); }
+    if (id === 'matchpair')     { loadMatch('flags', document.querySelector('.match-mode-btn')); }
+    if (id === 'storytime')     { initStories(); }
+    if (id === 'vocab')         { renderVocab(); }
+    if (id === 'dailychallenge'){ renderDailyChallenge(); }
 
-    // XP for visiting new tab
+    // XP for visiting a new tab
     if (!visitedTabs.includes(id)) {
       visitedTabs.push(id);
       saveVisited();
@@ -1907,6 +2577,21 @@
     festivals:"🎉 India has 365 days of festivals!",
     maths:"🔢 Aryabhatta from India invented ZERO!",
     quiz:"🏆 Quiz time! Answer carefully to earn XP & badges!",
+    funfacts:"💡 Did you know octopuses have 3 hearts?!",
+    inventions:"⚡ Edison tried 10,000 times before the bulb worked!",
+    famouspeople:"🌟 Kalpana Chawla was the first Indian woman in space!",
+    countries:"🌍 Papua New Guinea has 840 different languages!",
+    weather:"🌈 Rainbows are actually FULL circles from above!",
+    earth:"🌱 One tree absorbs 22 kg of CO₂ every year!",
+    food:"🥗 Eating the rainbow keeps you healthy and strong!",
+    transport:"🚂 India's first train ran in 1853 — Mumbai to Thane!",
+    mythology:"🏛️ Ganesha is prayed to before every new beginning!",
+    helpers:"👩‍⚕️ Every hero you know was taught by a teacher!",
+    dailychallenge:"📅 Complete today's challenge for bonus XP!",
+    matchpair:"🎮 Match all pairs to earn 30 XP — go fast!",
+    storytime:"📖 Read carefully — there's a question at the end!",
+    memorygame:"🃏 Flip and match! Best score wins 40 XP!",
+    vocab:"📚 One new word every tap — grow your word power!",
   };
   let mascotIdx = 0;
   function mascotTalk() {
@@ -2152,7 +2837,12 @@
     attachAudioButtons();
     renderQuestion();
     applyMissionHighlights();
-    setTimeout(() => mascotSay('👋 Hi! I am Panda Explorer! Tap me for hints & earn XP! 🌟'), 1200);
+    initDCBanner();      // show daily challenge banner if not answered
+    renderVocab();       // pre-render vocab so tab is ready
+    initStories();       // pre-render story picker
+    loadMatch('flags', document.querySelector('.match-mode-btn')); // pre-load match
+    initMemory();        // pre-init memory grid
+    setTimeout(() => mascotSay('👋 Hi! I am Panda Explorer! Tap any tab to earn XP! Today\'s Daily Challenge is waiting! 🌟'), 1200);
   });
 
   // ══════════════════════════════════════════
@@ -2389,6 +3079,7 @@
           <div class="phs"><div class="phs-num">${todayXP}</div><div class="phs-lbl">Today XP</div><div class="phs-delta">${todayXP>0?'active today!':'not yet today'}</div></div>
           <div class="phs"><div class="phs-num">${weekStars}</div><div class="phs-lbl">Week XP</div><div class="phs-delta">${streakDays} active days</div></div>
           <div class="phs"><div class="phs-num">${streakDays>=5?'🔥':''}${streakDays}</div><div class="phs-lbl">Streak</div><div class="phs-delta">${streakDays>=5?'on fire!':'keep going!'}</div></div>
+          <div class="phs"><div class="phs-num">${getDCStreak()}</div><div class="phs-lbl">DC Streak</div><div class="phs-delta">daily challenges</div></div>
         </div>
       </div>
 
@@ -2677,7 +3368,450 @@
     w.document.close();
   }
 
-  // ── JSON Export / Import ──
+  // ══════════════════════════════════════════
+  // DAILY CHALLENGE
+  // ══════════════════════════════════════════
+  const DC_QUESTIONS = [
+    {q:"What is the capital of France?",         opts:["Berlin","Paris","Rome","Madrid"],        ans:1, topic:'countries'},
+    {q:"Who invented the telephone?",            opts:["Edison","Graham Bell","Tesla","Marconi"],ans:1, topic:'inventions'},
+    {q:"Which planet is known as the Red Planet?",opts:["Mars","Venus","Jupiter","Saturn"],      ans:0, topic:'space'},
+    {q:"What gas do plants breathe in?",         opts:["Oxygen","CO₂","Nitrogen","Hydrogen"],    ans:1, topic:'plants'},
+    {q:"How many hearts does an octopus have?",  opts:["1","2","3","4"],                         ans:2, topic:'funfacts'},
+    {q:"Who was India's first Prime Minister?",  opts:["Gandhi","Nehru","Patel","Ambedkar"],     ans:1, topic:'india'},
+    {q:"What is the fastest land animal?",       opts:["Lion","Leopard","Cheetah","Jaguar"],     ans:2, topic:'animals'},
+    {q:"What is E=mc² known as?",               opts:["Newton's Law","Theory of Relativity","Big Bang","Gravity"],ans:1,topic:'famouspeople'},
+    {q:"Which country has the most islands?",   opts:["Indonesia","Japan","Sweden","Greece"],    ans:2, topic:'countries'},
+    {q:"What do we call Earth's protector layer from UV?",opts:["Ozone layer","CO₂ layer","Water layer","Cloud layer"],ans:0,topic:'earth'},
+    {q:"Which vitamin do we get from sunlight?", opts:["Vitamin A","Vitamin B","Vitamin C","Vitamin D"],ans:3,topic:'food'},
+    {q:"What is the largest organ of the body?", opts:["Liver","Brain","Skin","Heart"],          ans:2, topic:'body'},
+    {q:"Which Indian scientist discovered Raman Effect?",opts:["APJ Kalam","CV Raman","Bose","Aryabhatta"],ans:1,topic:'famouspeople'},
+    {q:"In Greek myths, who is the king of gods?",opts:["Poseidon","Hades","Zeus","Apollo"],     ans:2, topic:'mythology'},
+    {q:"Which is the national fruit of India?",  opts:["Banana","Guava","Mango","Papaya"],      ans:2, topic:'india'},
+    {q:"What is the slowest mode of transport?", opts:["Ship","Bullock cart","Submarine","Train"],ans:1,topic:'transport'},
+    {q:"Who was the first human on the Moon?",   opts:["Buzz Aldrin","Yuri Gagarin","Neil Armstrong","John Glenn"],ans:2,topic:'famouspeople'},
+    {q:"What does the 3R stand for in environment?",opts:["Run, Rest, Recycle","Reduce, Reuse, Recycle","Remove, Replace, Repair","Refresh, Revive, Recycle"],ans:1,topic:'earth'},
+    {q:"Which profession studies stars and planets?",opts:["Geologist","Astronomer","Biologist","Chemist"],ans:1,topic:'science'},
+    {q:"Zeus controlled which natural force?",   opts:["Earthquakes","Storms","Lightning","Floods"],ans:2,topic:'mythology'},
+    {q:"Which country is famous for the Eiffel Tower?",opts:["Italy","Germany","France","Spain"],ans:2,topic:'countries'},
+    {q:"Honey never expires because of which property?",opts:["It is cold","Low pH and no water","It has sugar","It is thick"],ans:1,topic:'funfacts'},
+    {q:"AP's Tirupati is famous for which temple?",opts:["Kashi","Vaishno Devi","Lord Venkateswara","Meenakshi"],ans:2,topic:'ap'},
+    {q:"What is shampoo's origin language?",     opts:["Sanskrit","Hindi — Champo","Urdu","Telugu"],ans:1,topic:'funfacts'},
+    {q:"Which game was invented in India?",      opts:["Football","Baseball","Chess","Basketball"],ans:2,topic:'india'},
+    {q:"Which planet could float on water?",     opts:["Jupiter","Neptune","Saturn","Uranus"],   ans:2, topic:'space'},
+    {q:"Kalpana Chawla was from which country?", opts:["Pakistan","USA","India","Canada"],       ans:2, topic:'famouspeople'},
+    {q:"What is the largest ocean on Earth?",    opts:["Atlantic","Indian","Pacific","Arctic"],  ans:2, topic:'world'},
+    {q:"Which vitamin do carrots give for eyes?",opts:["Vitamin A","Vitamin B","Vitamin C","Vitamin D"],ans:0,topic:'food'},
+    {q:"What percentage of Earth's surface is water?",opts:["50%","61%","71%","81%"],            ans:2, topic:'earth'},
+  ];
+
+  function renderDailyChallenge() {
+    const today    = new Date();
+    const dateKey  = todayKey();
+    const dcDone   = lsGet('gk_dc_done_'+dateKey,'');
+    const dcIdx    = today.getDate() % DC_QUESTIONS.length;
+    const q        = DC_QUESTIONS[dcIdx];
+    const dateStr  = today.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+    const streakN  = getDCStreak();
+
+    // Render full-tab version
+    const tabEl = document.getElementById('dcTabContent');
+    if (!tabEl) return;
+
+    if (dcDone) {
+      const wasCorrect = dcDone === 'correct';
+      tabEl.innerHTML = `
+        <div class="dc-banner show" style="display:block!important">
+          <div class="dc-label">📅 ${dateStr}</div>
+          <div class="dc-question">${q.q}</div>
+          <div style="margin-top:10px;font-weight:800;font-size:.95rem">
+            ${wasCorrect ? '✅ You got it right! Great job!' : '❌ Better luck tomorrow!'}
+          </div>
+          <div style="font-size:.75rem;margin-top:4px;opacity:.85">Correct answer: ${q.opts[q.ans]}</div>
+          <div class="dc-streak">🔥 Daily challenge streak: ${streakN} day${streakN!==1?'s':''}</div>
+        </div>
+        <div class="pc" style="text-align:center;background:white;border-radius:20px;padding:20px;box-shadow:var(--card-shadow)">
+          <div style="font-size:3rem">${wasCorrect?'🌟':'📚'}</div>
+          <div style="font-family:\'Baloo 2\',cursive;font-size:1.2rem;font-weight:800;margin:8px 0">${wasCorrect?'Challenge Complete!':'Come back tomorrow!'}</div>
+          <div style="font-size:.82rem;color:#64748b">🔥 Streak: <b>${streakN} day${streakN!==1?'s':''}</b> &nbsp;·&nbsp; Come back tomorrow for a new challenge!</div>
+        </div>`;
+      return;
+    }
+
+    tabEl.innerHTML = `
+      <div class="dc-banner show" style="display:block!important">
+        <div class="dc-label">📅 Today — ${dateStr}</div>
+        <div class="dc-question">${q.q}</div>
+        <div class="dc-opts">
+          ${q.opts.map((o,i)=>`<button class="dc-opt" onclick="answerDC(${i},${q.ans},this)">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+        </div>
+        <div class="dc-result" id="dcTabResult"></div>
+        <div class="dc-streak">🔥 Current streak: ${streakN} day${streakN!==1?'s':''}</div>
+      </div>`;
+  }
+
+  function answerDC(sel, correct, btn) {
+    const opts = document.querySelectorAll('.dc-opt');
+    opts.forEach((o,i) => {
+      o.disabled = true;
+      if (i===correct) o.classList.add('dc-correct');
+      else if (i===sel) o.classList.add('dc-wrong');
+    });
+    const isCorrect = sel === correct;
+    const dateKey   = todayKey();
+    lsSet('gk_dc_done_'+dateKey, isCorrect?'correct':'wrong');
+
+    // Update streak
+    const dcHistory = JSON.parse(lsGet('gk_dc_history','{}'));
+    dcHistory[dateKey] = isCorrect ? 1 : 0;
+    lsSet('gk_dc_history', JSON.stringify(dcHistory));
+
+    const res = document.getElementById('dcTabResult') || document.getElementById('dcResult');
+    if (res) {
+      res.style.display = 'block';
+      res.innerHTML = isCorrect
+        ? `✅ Correct! <span class="dc-xp-pill">+20 XP ⭐</span>`
+        : `❌ The answer was: <b>${DC_QUESTIONS[today_dc_idx()].opts[correct]}</b>`;
+    }
+    if (isCorrect) addXP(20, btn);
+    mascotSay(isCorrect ? '🎉 Daily Challenge done! +20 XP!' : '📚 Good try! Study and come back tomorrow!');
+  }
+
+  function today_dc_idx() {
+    return new Date().getDate() % DC_QUESTIONS.length;
+  }
+
+  function getDCStreak() {
+    const history = JSON.parse(lsGet('gk_dc_history','{}'));
+    let streak = 0;
+    const today = new Date();
+    for (let i=0; i<30; i++) {
+      const d = new Date(today); d.setDate(today.getDate()-i);
+      const key = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+      if (history[key] === 1) streak++;
+      else if (i > 0) break;
+    }
+    return streak;
+  }
+
+  // Show DC banner on load if not done today
+  function initDCBanner() {
+    const dateKey = todayKey();
+    const dcDone  = lsGet('gk_dc_done_'+dateKey,'');
+    if (dcDone) return; // already answered
+    const today   = new Date();
+    const dcIdx   = today.getDate() % DC_QUESTIONS.length;
+    const q       = DC_QUESTIONS[dcIdx];
+    document.getElementById('dcDateStr').textContent = today.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+    document.getElementById('dcQuestion').textContent = q.q;
+    document.getElementById('dcOpts').innerHTML = q.opts.map((o,i) =>
+      `<button class="dc-opt" onclick="answerDC(${i},${q.ans},this)">${String.fromCharCode(65+i)}. ${o}</button>`
+    ).join('');
+    document.getElementById('dcStreak').textContent = `🔥 Streak: ${getDCStreak()} day(s)`;
+    document.getElementById('dcBanner').classList.add('show');
+  }
+
+  // ══════════════════════════════════════════
+  // MATCH THE PAIR GAME
+  // ══════════════════════════════════════════
+  const MATCH_SETS = {
+    flags: {
+      left:  ['🇮🇳 India','🇯🇵 Japan','🇫🇷 France','🇧🇷 Brazil','🇦🇺 Australia','🇪🇬 Egypt'],
+      right: ['New Delhi','Tokyo','Paris','Brasília','Canberra','Cairo'],
+    },
+    animals: {
+      left:  ['🐝 Bee','🦁 Lion','🐧 Penguin','🦒 Giraffe','🦈 Shark','🐘 Elephant'],
+      right: ['Hive','Pride','Colony','Tower','School','Herd'],
+    },
+    planets: {
+      left:  ['☿ Mercury','♀ Venus','⊕ Earth','♂ Mars','♃ Jupiter','♄ Saturn'],
+      right: ['Closest to Sun','Hottest planet','Has life','Red Planet','Largest planet','Has rings'],
+    },
+    inventors: {
+      left:  ['💡 Light Bulb','📞 Telephone','✈️ Aeroplane','💻 Computer','🖨️ Printing Press','📻 Radio'],
+      right: ['Thomas Edison','Graham Bell','Wright Brothers','Charles Babbage','Gutenberg','Marconi'],
+    },
+  };
+  let matchSelected = null;
+  let matchPairsFound = 0;
+  let matchPairsTotal = 0;
+  let currentMatchMode = 'flags';
+
+  function loadMatch(mode, btn) {
+    currentMatchMode = mode;
+    document.querySelectorAll('.match-mode-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    matchSelected    = null;
+    matchPairsFound  = 0;
+    const set = MATCH_SETS[mode];
+    matchPairsTotal  = set.left.length;
+    // Shuffle right column
+    const rightShuffled = [...set.right].sort(()=>Math.random()-.5);
+    const grid = document.getElementById('matchGrid');
+    grid.innerHTML = '';
+    set.left.forEach((l, i) => {
+      const lEl = document.createElement('div');
+      lEl.className = 'match-item'; lEl.textContent = l;
+      lEl.dataset.idx = i; lEl.dataset.side = 'left';
+      lEl.onclick = () => selectMatchItem(lEl, i, 'left');
+      grid.appendChild(lEl);
+      const rEl = document.createElement('div');
+      rEl.className = 'match-item'; rEl.textContent = rightShuffled[i];
+      rEl.dataset.idx = set.right.indexOf(rightShuffled[i]); rEl.dataset.side = 'right';
+      rEl.onclick = () => selectMatchItem(rEl, set.right.indexOf(rightShuffled[i]), 'right');
+      grid.appendChild(rEl);
+    });
+    document.getElementById('matchScore').textContent = `⭐ 0 pairs`;
+  }
+
+  function selectMatchItem(el, idx, side) {
+    if (el.classList.contains('matched')) return;
+    if (!matchSelected) {
+      if (el.classList.contains('selected')) { el.classList.remove('selected'); matchSelected=null; return; }
+      matchSelected = {el, idx, side};
+      el.classList.add('selected');
+    } else {
+      if (el === matchSelected.el) { el.classList.remove('selected'); matchSelected=null; return; }
+      if (matchSelected.side === side) {
+        matchSelected.el.classList.remove('selected'); matchSelected = {el, idx, side};
+        document.querySelectorAll('.match-item').forEach(i=>{ if(i!==el) i.classList.remove('selected'); });
+        el.classList.add('selected'); return;
+      }
+      // Check match
+      const leftIdx  = side==='left' ? idx : matchSelected.idx;
+      const rightIdx = side==='right' ? idx : matchSelected.idx;
+      if (leftIdx === rightIdx) {
+        el.classList.remove('selected'); el.classList.add('matched');
+        matchSelected.el.classList.remove('selected'); matchSelected.el.classList.add('matched');
+        matchPairsFound++;
+        document.getElementById('matchScore').textContent = `⭐ ${matchPairsFound} / ${matchPairsTotal} pairs`;
+        if (matchPairsFound === matchPairsTotal) {
+          addXP(30, el);
+          mascotSay('🎮 Perfect match! All pairs found! +30 XP!');
+        }
+      } else {
+        el.classList.add('wrong-flash'); matchSelected.el.classList.add('wrong-flash');
+        const els = [el, matchSelected.el];
+        setTimeout(() => { els.forEach(e => { e.classList.remove('wrong-flash','selected'); }); }, 400);
+      }
+      matchSelected = null;
+    }
+  }
+
+  // ══════════════════════════════════════════
+  // MEMORY GAME
+  // ══════════════════════════════════════════
+  const MEM_EMOJIS = ['🐯','🦁','🐘','🦚','🚀','🌈','⭐','🎸','🍕','🎃','🦋','🌸','🔬','🏆','🎮','🌍'];
+  let memFlipped = [], memMatched = 0, memMoves = 0, memTimer = null, memSec = 0, memCanFlip = true;
+
+  function initMemory() {
+    clearInterval(memTimer); memSec = 0; memMoves = 0; memMatched = 0; memFlipped = []; memCanFlip = true;
+    document.getElementById('memMoves').textContent = '0';
+    document.getElementById('memPairs').textContent = '0';
+    document.getElementById('memTime').textContent  = '0s';
+    const pairs = MEM_EMOJIS.slice(0,8);
+    const cards = [...pairs,...pairs].sort(()=>Math.random()-.5);
+    const grid  = document.getElementById('memoryGrid');
+    grid.innerHTML = cards.map((em,i) =>
+      `<div class="mem-card face-down" data-em="${em}" data-id="${i}" onclick="flipMem(this)">
+        <div class="mem-front">${em}</div>
+        <div class="mem-back">❓</div>
+      </div>`
+    ).join('');
+    memTimer = setInterval(() => {
+      memSec++;
+      document.getElementById('memTime').textContent = memSec+'s';
+    }, 1000);
+  }
+
+  function flipMem(card) {
+    if (!memCanFlip) return;
+    if (card.classList.contains('face-up') || card.classList.contains('matched')) return;
+    card.classList.replace('face-down','face-up');
+    memFlipped.push(card);
+    if (memFlipped.length === 2) {
+      memCanFlip = false; memMoves++;
+      document.getElementById('memMoves').textContent = memMoves;
+      const [a,b] = memFlipped;
+      if (a.dataset.em === b.dataset.em) {
+        a.classList.add('matched'); b.classList.add('matched');
+        memMatched++; document.getElementById('memPairs').textContent = memMatched;
+        memFlipped = []; memCanFlip = true;
+        if (memMatched === 8) {
+          clearInterval(memTimer);
+          addXP(40, card);
+          mascotSay(`🃏 Memory Master! All pairs in ${memMoves} moves & ${memSec}s! +40 XP!`);
+        }
+      } else {
+        setTimeout(() => {
+          a.classList.replace('face-up','face-down');
+          b.classList.replace('face-up','face-down');
+          memFlipped = []; memCanFlip = true;
+        }, 800);
+      }
+    }
+  }
+
+  // ══════════════════════════════════════════
+  // STORY MODE
+  // ══════════════════════════════════════════
+  const STORIES = [
+    {
+      id:'elephant', emoji:'🐘', title:'The Clever Elephant', genre:'Animals',
+      text:`Once upon a time in a forest near a great river, there lived a herd of elephants. Their leader was a wise old elephant named Gaja. One summer, a terrible drought dried up all the water holes. The elephants were thirsty and tired. Young elephants began to panic. But old Gaja remembered that many years ago, his mother had shown him a secret spring deep in the valley. He closed his eyes, recalled every step of the journey, and led his herd through thorny bushes and rocky paths for three days. On the fourth morning, they found the spring — clear, cool, and full! The whole herd drank joyfully. Gaja smiled and said, "Memory and patience are more powerful than strength."`,
+      q: 'Why were the elephants in trouble?',
+      opts: ['Too many animals in the forest','A drought dried up the water','A hunter chased them','They were lost'],
+      ans: 1,
+    },
+    {
+      id:'lighthouse', emoji:'🏠', title:'The Lighthouse Keeper\'s Son', genre:'Adventure',
+      text:`Young Aarav lived with his father in a lighthouse by the stormy sea. His father kept the great light burning every night so ships could find their way safely. One wild night, a terrible storm came. The electricity failed! The light went dark. Aarav's father had gone to fix the generator but had not returned. Aarav heard a ship's horn in the darkness — a ship was heading straight for the rocks! With trembling hands, Aarav climbed to the top of the lighthouse and held up his lantern — small, but bright. He waved it in circles for half an hour until the ship changed course. When morning came, the captain came ashore and hugged Aarav. "Your little light saved 30 lives," he said. Aarav's father returned safely too — he had been trapped but managed to free himself.`,
+      q: 'How did Aarav save the ship?',
+      opts: ['He called the coast guard','He held up his lantern and waved it','He repaired the generator','He shouted loudly'],
+      ans: 1,
+    },
+    {
+      id:'seed', emoji:'🌱', title:'The Seed That Wouldn\'t Give Up', genre:'Nature',
+      text:`A tiny seed fell in a crack of a concrete pavement in a big city. Other seeds laughed at her. "You'll never grow here! There's no soil, no sunlight, no space!" they said. But the seed refused to give up. She pushed her tiny root down, millimetre by millimetre, finding the tiniest grain of soil. She stretched toward a sliver of sunlight between two buildings. Days became weeks. Weeks became months. One spring morning, a beautiful green shoot burst through the concrete! Children stopped to point and smile. A gardener saw her and carefully moved her to a proper garden, where she grew into a magnificent tree that gave shade to hundreds of people. The tree always remembered: never give up, no matter how hard the ground.`,
+      q: 'What is the main message of this story?',
+      opts: ['Cities are bad for plants','Never give up, even in hard conditions','Trees need concrete to grow','Gardeners are very important'],
+      ans: 1,
+    },
+    {
+      id:'stars', emoji:'⭐', title:'Arjun and the Stars', genre:'Space',
+      text:`Arjun was 8 years old and very afraid of the dark. Every night he pulled his blanket over his head and shivered. One night, his grandfather Thatha came and sat beside him. "Come," said Thatha, "let me show you something." They went to the terrace. The sky was blazing with a million stars. "See that group of seven stars?" Thatha pointed. "That is Sapta Rishi — the Seven Sages. And that bright one? Dhruv Tara — the North Star. It has guided sailors for thousands of years." Arjun looked up, mouth open. He wasn't afraid anymore — he was filled with wonder. That night he slept without his blanket and dreamed of becoming an astronomer.`,
+      q: 'What did Arjun\'s grandfather help him overcome?',
+      opts: ['Fear of animals','Fear of the dark','Fear of heights','Fear of water'],
+      ans: 1,
+    },
+    {
+      id:'river', emoji:'🌊', title:'The River\'s Gift', genre:'Environment',
+      text:`The village of Neelavaram sat beside a sparkling river called Neela. For generations, the river gave them fish, fresh water, and fertile soil. But one day, a factory upstream started dumping waste. Neela turned dark and smelly. Fish died. Crops failed. The children fell sick. Twelve-year-old Priya couldn't bear it. She gathered her friends and they cleaned the riverbank, made signs, and walked to the District Collector's office every day for two weeks. The newspapers noticed. The TV cameras came. Finally, the government shut down the polluting factory and helped clean Neela. Three months later, the river ran clear again. Priya smiled as she watched a kingfisher dive for fish. "Neela is alive again," she whispered.`,
+      q: 'How did Priya help save the river?',
+      opts: ['She built a dam','She called the police','She organized protests and got media attention','She moved to another village'],
+      ans: 2,
+    },
+  ];
+  let currentStory = null;
+
+  function initStories() {
+    const grid = document.getElementById('storyPickGrid');
+    if (!grid) return;
+    grid.innerHTML = STORIES.map((s,i) =>
+      `<div class="story-pick" onclick="showStory(${i})">
+        <span class="sp-emoji">${s.emoji}</span>
+        <div class="sp-title">${s.title}</div>
+        <div class="sp-genre">${s.genre}</div>
+      </div>`
+    ).join('');
+  }
+
+  function showStory(idx) {
+    currentStory = STORIES[idx];
+    const area = document.getElementById('storyArea');
+    area.innerHTML = `
+      <div class="story-card">
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px">
+          <span style="font-size:2rem">${currentStory.emoji}</span>
+          <div>
+            <div style="font-family:'Baloo 2',cursive;font-size:1rem;font-weight:800;color:#1e293b">${currentStory.title}</div>
+            <div style="font-size:.7rem;color:#94a3b8;font-weight:700">${currentStory.genre} · Read aloud available 🎧</div>
+          </div>
+        </div>
+        <div class="story-text">${currentStory.text}</div>
+        <div class="story-q-label">❓ Comprehension Question</div>
+        <div class="story-opts">
+          ${currentStory.opts.map((o,i)=>`<button class="story-opt" onclick="answerStory(${i},${currentStory.ans},this)">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+        </div>
+        <div id="storyFeedback" style="margin-top:10px;font-weight:800;font-size:.85rem;display:none"></div>
+        <button class="story-back-btn" onclick="backToStories()">← Back to Stories</button>
+      </div>`;
+  }
+
+  function answerStory(sel, correct, btn) {
+    document.querySelectorAll('.story-opt').forEach((o,i)=>{
+      o.disabled = true;
+      if(i===correct) o.classList.add('correct');
+      else if(i===sel) o.classList.add('wrong');
+    });
+    const fb = document.getElementById('storyFeedback');
+    if (fb) {
+      fb.style.display='block';
+      if (sel===correct) {
+        fb.textContent = '✅ Excellent! You understood the story!';
+        fb.style.color = '#15803d';
+        addXP(15, btn);
+        mascotSay('📖 Story comprehension mastered! +15 XP!');
+      } else {
+        fb.textContent = `❌ The correct answer was: ${currentStory.opts[correct]}`;
+        fb.style.color = '#be123c';
+      }
+    }
+  }
+
+  function backToStories() {
+    currentStory = null;
+    document.getElementById('storyArea').innerHTML = `
+      <div class="story-card">
+        <div class="pc-title" style="margin-bottom:12px">📖 Choose Your Story</div>
+        <div class="story-pick-grid" id="storyPickGrid"></div>
+      </div>`;
+    initStories();
+  }
+
+  // ══════════════════════════════════════════
+  // VOCABULARY BUILDER
+  // ══════════════════════════════════════════
+  const VOCAB_WORDS = [
+    {word:'Curious',phonetic:'/ˈkjʊəriəs/',pos:'adjective',def:'Eager to know or learn something; showing interest.',synonyms:['Inquisitive','Interested','Nosy'],antonyms:['Indifferent','Bored'],example:'"Arjun was curious about how stars are formed, so he read every book he could find."'},
+    {word:'Resilient',phonetic:'/rɪˈzɪliənt/',pos:'adjective',def:'Able to recover quickly from difficulties; tough.',synonyms:['Strong','Tough','Flexible'],antonyms:['Fragile','Weak'],example:'"After losing the match, she was resilient — she practiced harder and won the championship."'},
+    {word:'Enormous',phonetic:'/ɪˈnɔːməs/',pos:'adjective',def:'Very large in size, quantity, or extent.',synonyms:['Huge','Gigantic','Massive'],antonyms:['Tiny','Miniature'],example:'"The blue whale is enormous — longer than two school buses put together!"'},
+    {word:'Persevere',phonetic:'/ˌpɜːsɪˈvɪə/',pos:'verb',def:'To continue trying in spite of difficulty or failure.',synonyms:['Persist','Continue','Endure'],antonyms:['Give up','Quit'],example:'"Scientists persevere through thousands of failed experiments before making a discovery."'},
+    {word:'Biodiversity',phonetic:'/ˌbaɪəʊdaɪˈvɜːsɪti/',pos:'noun',def:'The variety of plant and animal life in the world or a particular habitat.',synonyms:['Variety of life','Ecological variety'],antonyms:['Uniformity','Monoculture'],example:'"The Amazon rainforest is famous for its incredible biodiversity — millions of species live there."'},
+    {word:'Illuminate',phonetic:'/ɪˈluːmɪneɪt/',pos:'verb',def:'To light up; to make clear and understandable.',synonyms:['Light up','Clarify','Enlighten'],antonyms:['Darken','Confuse'],example:'"The teacher illuminated the difficult concept with a simple example that everyone understood."'},
+    {word:'Abundant',phonetic:'/əˈbʌndənt/',pos:'adjective',def:'Present in great quantities; more than enough.',synonyms:['Plentiful','Ample','Copious'],antonyms:['Scarce','Limited'],example:'"India has abundant sunshine, which makes it perfect for solar energy."'},
+    {word:'Phenomenon',phonetic:'/fɪˈnɒmɪnən/',pos:'noun',def:'A fact, occurrence, or circumstance observed or observable.',synonyms:['Event','Occurrence','Marvel'],antonyms:['Commonplace','Ordinary'],example:'"The Northern Lights are a natural phenomenon caused by solar particles hitting Earth\'s atmosphere."'},
+    {word:'Expedition',phonetic:'/ˌekspɪˈdɪʃən/',pos:'noun',def:'A journey undertaken for a specific purpose, especially exploration.',synonyms:['Journey','Quest','Voyage'],antonyms:['Stay','Retreat'],example:'"The expedition to the Himalayas took months of careful planning and training."'},
+    {word:'Sustainable',phonetic:'/səˈsteɪnəbəl/',pos:'adjective',def:'Able to be maintained at a certain rate without depleting natural resources.',synonyms:['Eco-friendly','Renewable','Green'],antonyms:['Wasteful','Destructive'],example:'"Solar panels provide sustainable energy that does not harm the environment."'},
+  ];
+  let vocabIdx = 0;
+
+  function renderVocab() {
+    const el  = document.getElementById('vocabArea');
+    if (!el) return;
+    const v   = VOCAB_WORDS[vocabIdx];
+    const syn = v.synonyms.map(s=>`<span class="vocab-tag">${s}</span>`).join('');
+    const ant = v.antonyms.map(s=>`<span class="vocab-tag" style="background:#ffe4e6;color:#be123c">${s}</span>`).join('');
+    el.innerHTML = `
+      <div class="vocab-hero">
+        <div style="font-size:.7rem;opacity:.8;font-weight:800;letter-spacing:1px;text-transform:uppercase">Word ${vocabIdx+1} of ${VOCAB_WORDS.length}</div>
+        <div class="vocab-word">${v.word}</div>
+        <div class="vocab-phonetic">${v.phonetic}</div>
+        <div class="vocab-pos">${v.pos}</div>
+        <div class="vocab-def">${v.def}</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-card-lbl">📝 Example Sentence</div>
+        <div class="vocab-example">${v.example}</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-card-lbl">✅ Synonyms (Same meaning)</div>
+        <div style="margin-top:3px">${syn}</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-card-lbl">❌ Antonyms (Opposite meaning)</div>
+        <div style="margin-top:3px">${ant}</div>
+      </div>
+      <div class="vocab-nav-row">
+        <button class="vocab-nav-btn prev" onclick="vocabNav(-1)" ${vocabIdx===0?'disabled':''}>← Previous</button>
+        <button class="vocab-nav-btn next" onclick="vocabNav(1)" ${vocabIdx===VOCAB_WORDS.length-1?'disabled':''}>Next Word →</button>
+      </div>`;
+  }
+
+  function vocabNav(dir) {
+    vocabIdx = Math.max(0, Math.min(VOCAB_WORDS.length-1, vocabIdx+dir));
+    renderVocab();
+    if (dir > 0) addXP(5, document.getElementById('vocabArea'));
+  }
   function getAllData() {
     return {
       version: '1.0',
@@ -2694,6 +3828,7 @@
       parentNotes: lsGet('gk_parent_notes','[]'),
       difficulty:  lsGet('gk_difficulty','auto'),
       parentPin:   lsGet('gk_parent_pin',''),
+      dcHistory:   lsGet('gk_dc_history','{}'),
     };
   }
 
@@ -2732,6 +3867,7 @@
         if (d.parentNotes)  lsSet('gk_parent_notes', d.parentNotes);
         if (d.difficulty)   lsSet('gk_difficulty',   d.difficulty);
         if (d.parentPin)    lsSet('gk_parent_pin',   d.parentPin);
+        if (d.dcHistory)    lsSet('gk_dc_history',   d.dcHistory);
         xp = parseInt(d.xp||'0');
         visitedTabs = JSON.parse(d.visitedTabs||'[]');
         quizBadgeEarned = d.quizBadge === '1';

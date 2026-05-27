@@ -255,6 +255,9 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 /* Memory */
 .memory-board{display:grid;gap:9px;max-width:340px;margin:0 auto;}
 .mem-card{aspect-ratio:1;background:linear-gradient(135deg,#667EEA,#764BA2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;transition:all .3s;user-select:none;box-shadow:0 3px 10px rgba(0,0,0,.12);}
+body.lv3 .memory-board{max-width:420px;gap:6px;padding:0;}
+body.lv3 .mem-card{font-size:18px;border-radius:10px;width:46px;height:46px;}
+body.lv3 .mem-card .mback{font-size:14px;}
 .mem-card.flipped{background:#fff;border:2.5px solid #FFD23F;}
 .mem-card.matched{background:#F0FDF4;border:2.5px solid #22C55E;pointer-events:none;}
 .mem-card .mfront{display:none;}
@@ -1577,6 +1580,12 @@ body.dark .ck-ingr{background:#252540;border-color:#FFD23F;}
     <!-- MATH -->
     <div class="sec-title" id="sec-math">🔢 Math Activities</div>
     <div class="h-scroll" id="row-math">
+      <div class="act-card" data-cat="math" data-lv="1" onclick="goToPage('page-math','nav-math')" style="border-color:#FFD23F;background:linear-gradient(135deg,#FFF8E7,#FFFBEB);">
+        <span class="cbadge" style="background:#FEF3C7;color:#B45309">AI ✨</span>
+        <span class="ce">🧮</span><h3>AI Word Problems</h3>
+        <p>Custom problems for your level!</p>
+        <span class="ctag" style="background:#FEF3C7;color:#B45309">Math AI</span><button class="pbtn">▶</button>
+      </div>
       <div class="act-card cc-yellow" data-cat="math" data-lv="1" onclick="startQuiz('math1')">
         <span class="cbadge" style="background:#FEF3C7;color:#B45309">Lv.1</span>
         <span class="ce">🔢</span><h3>Counting Fun</h3>
@@ -1890,17 +1899,10 @@ body.dark .ck-ingr{background:#252540;border-color:#FFD23F;}
 <!-- ═══════════════ GAMES PAGE ═══════════════ -->
 <div class="page" id="page-games">
   <div class="game-intro"><h2>🎮 Games Zone</h2><p id="gamesub">Pick a game and start playing!</p></div>
-  <!-- Level-based game cards -->
-  <div id="gamesLevelCards" style="padding:0 14px 10px;position:relative;z-index:1"></div>
-
-  <!-- Compact chip nav -->
-  <div style="padding:0 14px 4px;position:relative;z-index:1">
-    <div style="font-family:Fredoka One,cursive;font-size:.75rem;color:rgba(255,255,255,.6);margin-bottom:6px;text-align:center;letter-spacing:.5px">OR PICK A GAME BELOW ↓</div>
-  </div>
   <div class="chips-wrap" style="justify-content:center;flex-wrap:wrap">
     <div class="chip active" onclick="switchGameChip(this,'memory')">🃏 Memory</div>
     <div class="chip" onclick="switchGameChip(this,'quiz')">❓ Quiz</div>
-    <div class="chip" onclick="switchGameChip(this,'sounds')">🔊 Sounds</div>
+
     <div class="chip" onclick="switchGameChip(this,'scramble')">🔤 Scramble</div>
     <div class="chip" onclick="switchGameChip(this,'pattern')">📐 Patterns</div>
     <div class="chip" onclick="startOddOneReset()">🔍 Odd One Out</div>
@@ -1913,10 +1915,7 @@ body.dark .ck-ingr{background:#252540;border-color:#FFD23F;}
       <div class="timer-bar-label"><span id="memBarLabel">⏱ 90s</span><span id="memHsRow" class="highscore-row"></span></div>
       <div class="timer-bar-bg"><div class="timer-bar-fill" id="memTimerFill" style="width:100%"></div></div>
     </div>
-    <!-- Lv3 wrong-flip lives -->
-    <div class="flip-counter" id="flipCounter" style="display:none">
-      Lives: <span class="flip-heart" id="fh1">❤️</span><span class="flip-heart" id="fh2">❤️</span><span class="flip-heart" id="fh3">❤️</span>
-    </div>
+
     <div class="score-row">
       <div class="score-pill"><strong id="movesCount">0</strong><span>Moves</span></div>
       <div class="score-pill"><strong id="matchCount">0</strong><span>Matches</span></div>
@@ -1967,6 +1966,7 @@ body.dark .ck-ingr{background:#252540;border-color:#FFD23F;}
   <div id="game-scramble" class="game-container" style="display:none">
     <div class="quiz-engine">
       <div style="text-align:center;margin-bottom:12px">
+        <div id="scrambleLevelLabel" style="font-size:11px;font-weight:900;color:#fff;background:linear-gradient(135deg,#FF6B35,#FF6B9D);border-radius:50px;padding:4px 14px;display:inline-block;margin-bottom:8px">⭐ Loading...</div>
         <div style="font-family:'Fredoka One',cursive;font-size:.85rem;color:var(--orange);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px" id="scrambleCat">Category</div>
         <div style="background:linear-gradient(135deg,#667EEA,#764BA2);border-radius:18px;padding:16px;margin-bottom:12px">
           <div style="font-size:.85rem;color:rgba(255,255,255,.8);font-weight:800;margin-bottom:8px">Unscramble this word:</div>
@@ -1985,6 +1985,9 @@ body.dark .ck-ingr{background:#252540;border-color:#FFD23F;}
   <!-- Pattern Masters -->
   <div id="game-pattern" class="game-container" style="display:none">
     <div class="quiz-engine">
+      <div style="text-align:center;margin-bottom:8px">
+        <div id="patLevelLabel" style="font-size:11px;font-weight:900;color:#fff;background:linear-gradient(135deg,#A855F7,#3B82F6);border-radius:50px;padding:4px 14px;display:inline-block">🧩 Loading...</div>
+      </div>
       <div class="q-progress" id="patProgress"></div>
       <div class="question-card" id="patCard">
         <div class="qcat">Pattern Masters</div>
@@ -2242,10 +2245,103 @@ body.dark .ck-ingr{background:#252540;border-color:#FFD23F;}
   </div>
 </div>
 
+<!-- ═══════════════ MATH AI PAGE ═══════════════ -->
+<div class="page" id="page-math">
+  <div class="content" style="padding-bottom:100px">
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#FF6B35,#FF8E53 50%,#FFD23F);padding:18px 16px 22px;text-align:center;border-radius:0 0 28px 28px;margin-bottom:18px;">
+      <div style="font-size:40px;animation:bounce 2s ease-in-out infinite;margin-bottom:6px">🧮</div>
+      <h2 style="font-family:'Fredoka One',cursive;font-size:1.7rem;color:#fff;text-shadow:2px 2px 0 rgba(0,0,0,.15);margin:0 0 4px">Math Word Problems</h2>
+      <p style="font-size:13px;font-weight:800;color:rgba(255,255,255,.92);font-family:'Nunito',sans-serif">AI-powered problems made just for you!</p>
+    </div>
+
+    <!-- Level Picker -->
+    <div style="padding:0 16px 16px">
+      <div class="mwp-sec-label">⭐ Pick Your Level</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:11px" id="mwp-age-row">
+        <div class="mwp-age-btn mwp-sel" onclick="mwpSelAge(1,this)">
+          <span class="mwp-ae">🐣</span>
+          <span class="mwp-at">Ages 5–6</span>
+          <span class="mwp-alv mwp-lv1">⭐ Level 1</span>
+        </div>
+        <div class="mwp-age-btn" onclick="mwpSelAge(2,this)">
+          <span class="mwp-ae">🦊</span>
+          <span class="mwp-at">Ages 7–8</span>
+          <span class="mwp-alv mwp-lv2">⭐⭐ Level 2</span>
+        </div>
+        <div class="mwp-age-btn" onclick="mwpSelAge(3,this)">
+          <span class="mwp-ae">🦁</span>
+          <span class="mwp-at">Ages 9–10</span>
+          <span class="mwp-alv mwp-lv3">⭐⭐⭐ Level 3</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic Picker -->
+    <div style="padding:0 16px 16px">
+      <div class="mwp-sec-label">📚 Pick Topics <span style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:#aaa">(tap to select)</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" id="mwp-topic-grid"></div>
+    </div>
+
+    <!-- Theme Picker -->
+    <div style="padding:0 16px 16px">
+      <div class="mwp-sec-label">🎨 Fun Theme</div>
+      <div style="display:flex;gap:9px;flex-wrap:wrap" id="mwp-theme-row"></div>
+    </div>
+
+    <!-- Difficulty -->
+    <div style="padding:0 16px 16px">
+      <div class="mwp-sec-label">⚡ Difficulty</div>
+      <div style="display:flex;gap:10px">
+        <div class="mwp-diff-btn mwp-easy mwp-diff-sel" onclick="mwpSelDiff('easy',this)">🟢 Easy</div>
+        <div class="mwp-diff-btn mwp-medium" onclick="mwpSelDiff('medium',this)">🟡 Medium</div>
+        <div class="mwp-diff-btn mwp-hard" onclick="mwpSelDiff('hard',this)">🔴 Hard</div>
+      </div>
+    </div>
+
+    <!-- Quantity -->
+    <div style="padding:0 16px 16px">
+      <div class="mwp-sec-label">🔢 Number of Problems</div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <button onclick="mwpChangeQty(-1)" style="width:38px;height:38px;border-radius:50%;border:2.5px solid #FF6B35;background:var(--card-bg,#fff);font-family:'Fredoka One',cursive;font-size:20px;color:#FF6B35;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s" onmouseover="this.style.background='#FF6B35';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color='#FF6B35'">−</button>
+        <span id="mwp-qty-num" style="font-family:'Fredoka One',cursive;font-size:1.6rem;color:#FF6B35;min-width:28px;text-align:center">3</span>
+        <button onclick="mwpChangeQty(1)" style="width:38px;height:38px;border-radius:50%;border:2.5px solid #FF6B35;background:var(--card-bg,#fff);font-family:'Fredoka One',cursive;font-size:20px;color:#FF6B35;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s" onmouseover="this.style.background='#FF6B35';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color='#FF6B35'">+</button>
+        <span style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:#aaa">(max 5)</span>
+      </div>
+    </div>
+
+    <!-- Generate Button -->
+    <div style="padding:0 16px 18px">
+      <button id="mwp-gen-btn" onclick="mwpGenerate()">✨ Generate Problems!</button>
+    </div>
+
+    <!-- Spinner -->
+    <div id="mwp-spinner" style="display:none;text-align:center;padding:28px">
+      <span style="font-size:40px;animation:spin 1s linear infinite;display:inline-block">🧮</span>
+      <p style="font-family:'Fredoka One',cursive;font-size:1.1rem;color:#FF6B35;margin-top:12px">Cooking up problems...</p>
+    </div>
+
+    <!-- Error -->
+    <div id="mwp-error" style="display:none;margin:0 16px;background:#FEF2F2;border:2px solid #FCA5A5;border-radius:16px;padding:16px;text-align:center">
+      <p style="font-family:'Fredoka One',cursive;font-size:1rem;color:#DC2626">😕 Couldn't generate problems. Check your connection and try again!</p>
+    </div>
+
+    <!-- Problems Output -->
+    <div id="mwp-output" style="padding:0 16px"></div>
+
+    <!-- Empty State -->
+    <div id="mwp-empty" style="text-align:center;padding:36px 16px">
+      <span style="font-size:56px;display:block;margin-bottom:14px">✏️</span>
+      <p style="font-family:'Fredoka One',cursive;font-size:1.1rem;color:#aaa">Choose your settings above<br>and hit Generate!</p>
+    </div>
+  </div>
+</div>
+
 <!-- Bottom Nav -->
 <div class="bottom-nav" id="bottomNav" style="display:none">
   <button class="nav-btn active" id="nav-home" onclick="goToPage('page-home','nav-home')"><span class="ne">🏠</span><span class="nl">Home</span></button>
   <button class="nav-btn" id="nav-games" onclick="goToPage('page-games','nav-games')"><span class="ne">🎮</span><span class="nl">Games</span></button>
+  <button class="nav-btn" id="nav-math" onclick="goToPage('page-math','nav-math')"><span class="ne">🧮</span><span class="nl">Math AI</span></button>
   <button class="nav-btn" id="nav-art" onclick="goToPage('page-art','nav-art')"><span class="ne">🎨</span><span class="nl">Art</span></button>
   <button class="nav-btn" id="nav-rewards" onclick="goToPage('page-rewards','nav-rewards')"><span class="ne">🏆</span><span class="nl">Rewards</span></button>
   <button class="nav-btn" id="nav-profile" onclick="goToPage('page-profile','nav-profile')"><span class="ne">👤</span><span class="nl">Profile</span></button>
@@ -2331,7 +2427,7 @@ function launchApp() {
   document.getElementById('bottomNav').style.display = 'flex';
   applyLevel();
   initMemory();
-  renderLevelGameTiles();
+
   confetti();
 }
 function showWelcome() {
@@ -2399,61 +2495,7 @@ function applyLevel() {
   document.getElementById('dailyDesc').textContent = d.desc;
 
   // Memory grid size by level
-  memGridCols = userLevel === 1 ? 3 : userLevel === 2 ? 4 : 5;
-}
-
-// ═══════════════════════════════════════
-// LEVEL-BASED GAME TILES FOR GAMES PAGE
-// ═══════════════════════════════════════
-function renderLevelGameTiles() {
-  var el = document.getElementById('gamesLevelCards');
-  if (!el) return;
-
-  var lvLabel = [
-    '',
-    '🐣 Ages 5–6 · Your Fun Games!',
-    '🦊 Ages 7–8 · Challenge Mode!',
-    '🦁 Ages 9–10 · Master Zone!'
-  ][userLevel] || '🎮 Pick a Game!';
-
-  var gameDefs = {
-    1: [
-      {id:'memory',      icon:'🃏', title:'Memory Match',   desc:'Flip cards & find pairs!',             bg:'linear-gradient(135deg,#FF6B35,#FF8E53)', fn:"switchGameChip(null,'memory')"},
-      {id:'sounds',      icon:'🔊', title:'Animal Sounds',  desc:'Hear the sound · Guess the animal!',   bg:'linear-gradient(135deg,#14B8A6,#3B82F6)', fn:"switchGameChip(null,'sounds')"},
-      {id:'oddone',      icon:'🔍', title:'Odd One Out',    desc:'Find the one that is different!',       bg:'linear-gradient(135deg,#A855F7,#667EEA)', fn:'startOddOneReset()'},
-      {id:'makepattern', icon:'🎨', title:'Make a Pattern', desc:'What shape comes next?',               bg:'linear-gradient(135deg,#FF6B9D,#A855F7)', fn:'startMakePatternReset()'}
-    ],
-    2: [
-      {id:'memory',   icon:'🃏', title:'Memory Match',    desc:'8 cards · Race the clock! ⏱',           bg:'linear-gradient(135deg,#FF6B35,#FF8E53)', fn:"switchGameChip(null,'memory')"},
-      {id:'quiz',     icon:'❓', title:'Quiz Challenge',  desc:'Math & language · Test yourself!',       bg:'linear-gradient(135deg,#3B82F6,#667EEA)', fn:"switchGameChip(null,'quiz')"},
-      {id:'scramble', icon:'🔤', title:'Word Scramble',   desc:'Unscramble the hidden word!',            bg:'linear-gradient(135deg,#22C55E,#14B8A6)', fn:"switchGameChip(null,'scramble')"},
-      {id:'pattern',  icon:'📐', title:'Pattern Masters', desc:'Find the number pattern rule!',          bg:'linear-gradient(135deg,#F59E0B,#FF6B35)', fn:"switchGameChip(null,'pattern')"},
-      {id:'oddone',   icon:'🔍', title:'Odd One Out',     desc:'4 items · Find the odd one!',            bg:'linear-gradient(135deg,#A855F7,#667EEA)', fn:'startOddOneReset()'}
-    ],
-    3: [
-      {id:'memory',      icon:'🃏', title:'Memory Match',   desc:'10 cards · 90s · 3 lives! 🔥',        bg:'linear-gradient(135deg,#FF6B35,#FF8E53)', fn:"switchGameChip(null,'memory')"},
-      {id:'quiz',        icon:'❓', title:'Quiz Master',    desc:'Word problems · 20s per Q! ⏱',         bg:'linear-gradient(135deg,#3B82F6,#667EEA)', fn:"switchGameChip(null,'quiz')"},
-      {id:'scramble',    icon:'🔤', title:'Word Scramble',  desc:'Harder words · Full score!',            bg:'linear-gradient(135deg,#22C55E,#14B8A6)', fn:"switchGameChip(null,'scramble')"},
-      {id:'pattern',     icon:'📐', title:'Pattern Masters',desc:'Fibonacci · Squares · Series!',         bg:'linear-gradient(135deg,#F59E0B,#FF6B35)', fn:"switchGameChip(null,'pattern')"},
-      {id:'oddone',      icon:'🔍', title:'Odd One Out',    desc:'5-item expert challenge!',              bg:'linear-gradient(135deg,#A855F7,#667EEA)', fn:'startOddOneReset()'},
-      {id:'makepattern', icon:'🎨', title:'Make a Pattern', desc:'AABB · ABC advanced patterns!',        bg:'linear-gradient(135deg,#FF6B9D,#A855F7)', fn:'startMakePatternReset()'}
-    ]
-  };
-
-  var games = gameDefs[userLevel] || gameDefs[1];
-
-  el.innerHTML =
-    '<div style="font-family:Fredoka One,cursive;font-size:.95rem;color:rgba(255,255,255,.95);text-align:center;margin-bottom:12px;padding:6px 10px;background:rgba(255,255,255,.1);border-radius:50px;letter-spacing:.5px">' + lvLabel + '</div>' +
-    '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">' +
-    games.map(function(g) {
-      return '<div onclick="' + g.fn + ';scrollToGame()" style="background:' + g.bg + ';border-radius:20px;padding:18px 12px 16px;cursor:pointer;text-align:center;box-shadow:0 6px 22px rgba(0,0,0,.28);transition:transform .18s,box-shadow .18s;position:relative;overflow:hidden" onmouseover="this.style.transform=\'scale(1.05)\';this.style.boxShadow=\'0 10px 30px rgba(0,0,0,.35)\'" onmouseout="this.style.transform=\'scale(1)\';this.style.boxShadow=\'0 6px 22px rgba(0,0,0,.28)\'">' +
-        '<div style="position:absolute;top:8px;right:10px;font-size:10px;font-weight:900;background:rgba(255,255,255,.28);border-radius:20px;padding:2px 8px;color:#fff">▶ PLAY</div>' +
-        '<div style="font-size:38px;margin-bottom:8px;display:block">' + g.icon + '</div>' +
-        '<div style="font-family:Fredoka One,cursive;font-size:.98rem;color:#fff;margin-bottom:5px;line-height:1.2">' + g.title + '</div>' +
-        '<div style="font-size:10px;color:rgba(255,255,255,.88);font-weight:800;line-height:1.4">' + g.desc + '</div>' +
-        '</div>';
-    }).join('') +
-    '</div>';
+  memGridCols = userLevel === 1 ? 3 : userLevel === 2 ? 4 : 8;
 }
 
 function scrollToGame() {
@@ -2525,7 +2567,7 @@ function goToPage(pageId, navId) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(pageId).classList.add('active');
-  const navMap = {'page-home':'nav-home','page-games':'nav-games','page-art':'nav-art','page-rewards':'nav-rewards','page-profile':'nav-profile','page-science':'nav-games','page-music':'nav-games'};
+  const navMap = {'page-home':'nav-home','page-games':'nav-games','page-art':'nav-art','page-rewards':'nav-rewards','page-profile':'nav-profile','page-science':'nav-games','page-music':'nav-games','page-math':'nav-math'};
   const nid = navId || navMap[pageId];
   if (nid) document.getElementById(nid).classList.add('active');
   window.scrollTo(0,0);
@@ -2538,7 +2580,7 @@ function goToPage(pageId, navId) {
     document.getElementById('game-memory').style.display='block';
     initMemory();
     document.querySelectorAll('#page-games .chips-wrap .chip').forEach(function(c,i){ c.classList.toggle('active', i===0); });
-    if(typeof renderLevelGameTiles==='function') renderLevelGameTiles();
+
   }
 }
 
@@ -2713,14 +2755,18 @@ function confetti() {
 const memEmojis6=['🦁','🐘','🦊','🐬','🦋','🌈'];
 const memEmojis8=['🦁','🐘','🦊','🐬','🦋','🌈','🚀','⭐'];
 const memEmojis10=['🦁','🐘','🦊','🐬','🦋','🌈','🚀','⭐','🐉','🍕'];
+const memEmojis32=['🦁','🐘','🦊','🐬','🦋','🌈','🚀','⭐','🐉','🍕','🎯','🔮','🌙','🪐','🎨','🏆','🦄','🐯','🦅','🐙','🍉','🎸','🎺','🎻','🏄','🧩','🎭','🦚','🌺','🍄','💎','🔥'];
 let memCards=[],flipped=[],memMatched=0,memMoves=0,memTimer,memStart,memActive=true,memGridCols=4;
 
 function initMemory() {
   const board=document.getElementById('memoryBoard');
   if(!board)return;
-  const pool = userLevel===1?memEmojis6:userLevel===2?memEmojis8:memEmojis10;
+  const pool = userLevel===1?memEmojis6:userLevel===2?memEmojis8:memEmojis32;
   const pairs=[...pool,...pool].sort(()=>Math.random()-.5);
-  board.innerHTML='';board.style.gridTemplateColumns=`repeat(${userLevel===1?3:userLevel===2?4:5},1fr)`;
+  board.innerHTML='';
+  board.style.gridTemplateColumns=`repeat(${userLevel===1?3:userLevel===2?4:8},1fr)`;
+  board.style.maxWidth = '';
+  board.style.padding = '';
   memCards=[];flipped=[];memMatched=0;memMoves=0;memActive=true;
   document.getElementById('movesCount').textContent=0;
   document.getElementById('matchCount').textContent=0;
@@ -2745,7 +2791,7 @@ function flipCard(card){
       if(flipped[0].dataset.emoji===flipped[1].dataset.emoji){
         flipped.forEach(c=>c.classList.replace('flipped','matched'));memMatched++;
         document.getElementById('matchCount').textContent=memMatched;
-        const total=userLevel===1?6:userLevel===2?8:10;
+        const total=userLevel===1?6:userLevel===2?8:32;
         if(memMatched===total){
           clearInterval(memTimer);
           const secs=userLevel>=2?Math.floor((Date.now()-memStart)/1000):'–';
@@ -2760,68 +2806,142 @@ function flipCard(card){
 // ═══ QUIZ DATA ═══
 const quizDB = {
   math1:[
-    {q:'How many apples?',emoji:'🍎🍎🍎',opts:['2','3','4','5'],ans:1},
+    {q:'How many apples? 🍎🍎🍎',emoji:'🍎',opts:['2','3','4','5'],ans:1},
     {q:'What is 2 + 3?',emoji:'➕',opts:['4','5','6','7'],ans:1},
-    {q:'What is 10 – 4?',emoji:'➖',opts:['5','6','7','8'],ans:1},
-    {q:'Which shape has 3 sides?',emoji:'🔷',opts:['Circle','Square','Triangle','Rectangle'],ans:2},
-    {q:'What is 1 + 1?',emoji:'🐾',opts:['1','2','3','4'],ans:1},
+    {q:'What is 10 - 4?',emoji:'➖',opts:['5','6','7','8'],ans:1},
+    {q:'Which shape has 3 sides?',emoji:'🔺',opts:['Circle','Square','Triangle','Rectangle'],ans:2},
+    {q:'What is 1 + 1?',emoji:'➕',opts:['1','2','3','4'],ans:1},
+    {q:'Count the stars: 5 stars',emoji:'⭐',opts:['3','4','5','6'],ans:2},
+    {q:'What is 5 - 2?',emoji:'➖',opts:['1','2','3','4'],ans:2},
+    {q:'Which number comes after 7?',emoji:'🔢',opts:['6','7','8','9'],ans:2},
+    {q:'How many sides does a square have?',emoji:'🔲',opts:['3','4','5','6'],ans:1},
+    {q:'What is 4 + 4?',emoji:'➕',opts:['6','7','8','9'],ans:2},
+    {q:'What is half of 6?',emoji:'🍕',opts:['2','3','4','5'],ans:1},
+    {q:'Which is bigger: 9 or 5?',emoji:'🔢',opts:['5','9','Same','Neither'],ans:1},
+  ],
+  lang1:[
+    {q:'Which word starts with B?',emoji:'🅱️',opts:['Apple','Banana','Cat','Dog'],ans:1},
+    {q:'How many letters in SUN?',emoji:'☀️',opts:['2','3','4','5'],ans:1},
+    {q:'Which animal says Moo?',emoji:'🐄',opts:['Dog','Cat','Cow','Duck'],ans:2},
+    {q:'What colour is a banana?',emoji:'🍌',opts:['Red','Blue','Green','Yellow'],ans:3},
+    {q:'Which word rhymes with cat?',emoji:'🐱',opts:['Dog','Hat','Fish','Bird'],ans:1},
+    {q:'How many vowels in APPLE?',emoji:'🍎',opts:['1','2','3','4'],ans:1},
+    {q:'Which letter comes after D?',emoji:'🔤',opts:['B','C','E','F'],ans:2},
+    {q:'What do you call a baby dog?',emoji:'🐶',opts:['Kitten','Puppy','Cub','Foal'],ans:1},
+    {q:'Which word is a colour?',emoji:'🎨',opts:['Run','Happy','Blue','Eat'],ans:2},
+    {q:'How many days in a week?',emoji:'📅',opts:['5','6','7','8'],ans:2},
   ],
   math2:[
     {q:'What is 34 + 27?',emoji:'🔢',opts:['51','59','61','63'],ans:2},
-    {q:'A clock shows 3:30. What time is it?',emoji:'🕐',opts:['Quarter past 3','Half past 3','Quarter to 4','3 o\'clock'],ans:1},
+    {q:'What is 7 x 3?',emoji:'✖️',opts:['18','21','24','27'],ans:1},
+    {q:'What is 45 - 18?',emoji:'➖',opts:['24','26','27','28'],ans:2},
     {q:'You have 50p and spend 20p. How much left?',emoji:'💰',opts:['20p','25p','30p','35p'],ans:2},
-    {q:'What is 7 × 3?',emoji:'✖️',opts:['18','21','24','27'],ans:1},
-    {q:'What is 45 – 18?',emoji:'➖',opts:['24','26','27','28'],ans:2},
-  ],
-  math3:[
-    {q:'What is 6 × 8?',emoji:'✖️',opts:['42','46','48','54'],ans:2},
-    {q:'What is ½ of 36?',emoji:'🍕',opts:['12','16','18','20'],ans:2},
-    {q:'What is 125 + 278?',emoji:'➕',opts:['393','403','413','423'],ans:1},
-    {q:'If 3 books cost £12, how much is 1 book?',emoji:'📚',opts:['£3','£4','£5','£6'],ans:1},
     {q:'What is 1/4 of 40?',emoji:'🔢',opts:['8','10','12','15'],ans:1},
-  ],
-  lang1:[
-    {q:'Which word starts with "B"?',emoji:'🅱️',opts:['Apple','Banana','Cat','Dog'],ans:1},
-    {q:'What sound does "sh" make?',emoji:'🔤',opts:['"s"','"h"','"sh" as in shoe','"ch"'],ans:2},
-    {q:'Which is a sight word?',emoji:'👁️',opts:['Elephant','The','Rainbow','Butterfly'],ans:1},
-    {q:'Match the picture: 🐱 = ?',emoji:'🐱',opts:['Dog','Fish','Cat','Bird'],ans:2},
-    {q:'How many letters in "SUN"?',emoji:'☀️',opts:['2','3','4','5'],ans:1},
+    {q:'What is 8 x 6?',emoji:'✖️',opts:['42','46','48','54'],ans:2},
+    {q:'What is 100 - 37?',emoji:'➖',opts:['53','63','67','73'],ans:1},
+    {q:'A clock shows 3:30. What time is it?',emoji:'🕞',opts:['Quarter past 3','Half past 3','Quarter to 4','3 oclock'],ans:1},
+    {q:'What is 9 x 4?',emoji:'✖️',opts:['32','36','40','42'],ans:1},
+    {q:'How many cm in 1 metre?',emoji:'📏',opts:['10','50','100','1000'],ans:2},
+    {q:'What is 56 divided by 7?',emoji:'➗',opts:['6','7','8','9'],ans:2},
+    {q:'What is 15% of 100?',emoji:'💯',opts:['10','15','20','25'],ans:1},
   ],
   lang2:[
     {q:'How do you spell the colour of the sky?',emoji:'🌤️',opts:['Bloo','Blew','Blue','Bleu'],ans:2},
-    {q:'Spell the fruit: 🍎',emoji:'🍎',opts:['Aple','Apple','Appel','Appl'],ans:1},
-    {q:'Build a sentence: "___ cat sat on the ___"',emoji:'🐱',opts:['The / mat','A / sat','Run / floor','Big / jump'],ans:0},
-    {q:'What does "enormous" mean?',emoji:'🐘',opts:['Tiny','Very big','Funny','Loud'],ans:1},
-    {q:'Spell the animal: 🐘',emoji:'🐘',opts:['Elefant','Elephant','Eliphant','Elephnt'],ans:1},
-  ],
-  lang3:[
-    {q:'What is a synonym for "happy"?',emoji:'😊',opts:['Sad','Angry','Joyful','Tired'],ans:2},
-    {q:'What punctuation ends a question?',emoji:'❓',opts:['.','!','?',','],ans:2},
-    {q:'Which word is a verb (action)?',emoji:'🏃',opts:['Blue','Run','Table','Happy'],ans:1},
-    {q:'What is an antonym of "ancient"?',emoji:'🏛️',opts:['Old','Modern','Big','Slow'],ans:1},
-    {q:'Which sentence is correct?',emoji:'📝',opts:['Her run fast','She runs fast','She run fast','Her runs fast'],ans:1},
+    {q:'What does enormous mean?',emoji:'🐘',opts:['Tiny','Very big','Funny','Loud'],ans:1},
+    {q:'Fill in: ___ cat sat on the ___',emoji:'🐱',opts:['The / mat','A / sat','Run / floor','Big / jump'],ans:0},
+    {q:'Which is the correct plural of mouse?',emoji:'🐭',opts:['Mouses','Mice','Mices','Mouse'],ans:1},
+    {q:'What is a noun?',emoji:'📚',opts:['An action word','A describing word','A person place or thing','A joining word'],ans:2},
+    {q:'Which word is an adjective?',emoji:'✏️',opts:['Run','Quickly','Beautiful','Jump'],ans:2},
+    {q:'What does ancient mean?',emoji:'🏛️',opts:['Very new','Very old','Very big','Very fast'],ans:1},
+    {q:'Which sentence uses correct punctuation?',emoji:'📝',opts:['the dog ran','The dog ran.','the dog ran.','The dog ran'],ans:1},
+    {q:'What is a synonym for fast?',emoji:'🏃',opts:['Slow','Quick','Big','Small'],ans:1},
+    {q:'Which word is an adverb?',emoji:'📖',opts:['Cat','Jump','Beautiful','Quickly'],ans:3},
   ],
   logic2:[
-    {q:'Which one does NOT belong?',emoji:'🍎🍊🍋🚗',opts:['Apple','Orange','Car','Lemon'],ans:2},
     {q:'What comes next? 2, 4, 6, 8, __',emoji:'🔢',opts:['9','10','11','12'],ans:1},
-    {q:'If all cats have tails, and Whiskers is a cat, does Whiskers have a tail?',emoji:'🐱',opts:['Maybe','No','Yes','Can\'t tell'],ans:2},
-    {q:'How many squares in a 3×3 grid?',emoji:'🔲',opts:['6','8','9','12'],ans:2},
-    {q:'Which shape comes next? ●■●■__',emoji:'🔷',opts:['●','■','▲','◆'],ans:0},
+    {q:'Which one does NOT belong? apple orange car lemon',emoji:'🔢',opts:['Apple','Orange','Car','Lemon'],ans:2},
+    {q:'How many squares in a 3x3 grid?',emoji:'🔲',opts:['6','8','9','12'],ans:2},
+    {q:'If today is Monday, what day is in 3 days?',emoji:'📅',opts:['Tuesday','Wednesday','Thursday','Friday'],ans:2},
+    {q:'What comes next? 5, 10, 15, 20, __',emoji:'🔢',opts:['22','24','25','30'],ans:2},
+    {q:'I have 4 legs and say woof. What am I?',emoji:'🐶',opts:['Cat','Dog','Horse','Cow'],ans:1},
+    {q:'Which is the odd one out? 2, 4, 7, 8, 10',emoji:'🔢',opts:['2','4','7','8'],ans:2},
+    {q:'A bag has 3 red and 2 blue balls. How many total?',emoji:'🎒',opts:['3','4','5','6'],ans:2},
+  ],
+  math3:[
+    {q:'Leo has 5 apples. He buys 2 boxes of 6 each. Total?',emoji:'🧮',opts:['11','15','17','22'],ans:2},
+    {q:'A pizza cut into 8 slices. Sara eats 1/4. How many slices?',emoji:'🍕',opts:['1','2','3','4'],ans:1},
+    {q:'Train travels 60km/h for 2.5 hours. Distance?',emoji:'🚂',opts:['100km','120km','150km','180km'],ans:2},
+    {q:'Class has 32 pupils. 3/8 are girls. How many boys?',emoji:'📚',opts:['12','18','20','24'],ans:2},
+    {q:'Square field has perimeter 48m. What is its area?',emoji:'📐',opts:['96m2','112m2','144m2','192m2'],ans:2},
+    {q:'What is 15% of 240?',emoji:'💯',opts:['24','30','36','48'],ans:2},
+    {q:'What is 2 cubed + 3 squared?',emoji:'🔢',opts:['13','17','18','21'],ans:1},
+    {q:'12 workers finish in 8 days. How many days for 16 workers?',emoji:'👷',opts:['4','6','8','10'],ans:1},
+    {q:'What is the LCM of 4 and 6?',emoji:'🔢',opts:['8','10','12','24'],ans:2},
+    {q:'Ratio boys to girls is 3:2. There are 30 pupils. How many girls?',emoji:'👧',opts:['10','12','15','18'],ans:1},
+    {q:'Rectangle is 12cm x 7cm. What is its area?',emoji:'📐',opts:['38cm2','74cm2','84cm2','96cm2'],ans:2},
+    {q:'What is 0.25 x 80?',emoji:'🔢',opts:['15','18','20','25'],ans:2},
+  ],
+  lang3:[
+    {q:'What is a synonym for courageous?',emoji:'🦁',opts:['Afraid','Brave','Weak','Tired'],ans:1},
+    {q:'Which word is a conjunction?',emoji:'📝',opts:['Run','Because','Slowly','Happy'],ans:1},
+    {q:'What is the past tense of swim?',emoji:'🏊',opts:['Swimmed','Swum','Swam','Swimming'],ans:2},
+    {q:'What does melancholy mean?',emoji:'😔',opts:['Very happy','Very angry','Very sad','Very confused'],ans:2},
+    {q:'Which sentence is in passive voice?',emoji:'📖',opts:['The cat ate the mouse','The mouse was eaten by the cat','The cat is eating','The mouse ran away'],ans:1},
+    {q:'What is an oxymoron?',emoji:'💭',opts:['Two words that rhyme','A contradiction in terms','A long word','A type of poem'],ans:1},
+    {q:'What does the prefix mis- mean?',emoji:'🔤',opts:['Again','Before','Wrongly','Not enough'],ans:2},
+    {q:'Which is the correct spelling?',emoji:'✏️',opts:['Recieve','Receive','Receve','Receeve'],ans:1},
+    {q:'What is a metaphor?',emoji:'🎭',opts:['Comparison using like/as','Direct comparison without like/as','A very long description','A rhyming phrase'],ans:1},
+    {q:'Which word is a preposition?',emoji:'📚',opts:['Run','Beautiful','Under','Quickly'],ans:2},
   ],
   logic3:[
-    {q:'I have a neck but no head. What am I?',emoji:'🤔',opts:['Snake','Shirt/Bottle','Giraffe','Scarf'],ans:1},
+    {q:'I speak without a mouth and hear without ears. What am I?',emoji:'🤔',opts:['Wind','Shadow','Echo','Mirror'],ans:2},
     {q:'What is the next prime number after 7?',emoji:'🔢',opts:['8','9','10','11'],ans:3},
-    {q:'If 5 cats catch 5 mice in 5 minutes, how long for 1 cat to catch 1 mouse?',emoji:'🐱',opts:['1 min','5 min','10 min','25 min'],ans:1},
+    {q:'5 cats catch 5 mice in 5 mins. How long for 1 cat to catch 1 mouse?',emoji:'🐱',opts:['1 min','5 min','10 min','25 min'],ans:1},
     {q:'Which number is missing? 1, 1, 2, 3, 5, __, 13',emoji:'📐',opts:['6','7','8','9'],ans:2},
-    {q:'A boy is 8. His sister is twice his age. How old will his sister be when he is 16?',emoji:'👧',opts:['24','26','28','32'],ans:0},
+    {q:'A boy is 8. Sister is twice his age. How old is sister when he is 16?',emoji:'👧',opts:['24','26','28','32'],ans:0},
+    {q:'If today is Wednesday, what day is 100 days from now?',emoji:'📅',opts:['Monday','Tuesday','Friday','Saturday'],ans:2},
+    {q:'What 3-digit number reads same forwards and backwards AND divisible by 5?',emoji:'🔢',opts:['505','515','525','545'],ans:0},
+    {q:'Series: 1, 8, 27, 64, __',emoji:'🔢',opts:['100','115','125','135'],ans:2},
+    {q:'A snail climbs 3m up by day, slides 2m down at night. Days to climb 10m?',emoji:'🐌',opts:['7','8','9','10'],ans:1},
+    {q:'How many triangles in a hexagon split from centre?',emoji:'🔷',opts:['4','5','6','8'],ans:2},
+    {q:'If ABCD=1234 what is DCBA?',emoji:'🔤',opts:['1234','4321','3412','2143'],ans:1},
+    {q:'A clock gains 5 minutes every hour. How much does it gain in 12 hours?',emoji:'🕐',opts:['30 min','45 min','60 min','90 min'],ans:2},
   ],
 };
 
+// 7-day question seen tracker
+function getSeenKey(level){ return 'kz_seen_q_lv'+level; }
+function getSeenQuestions(level){
+  try{
+    var raw=localStorage.getItem(getSeenKey(level));
+    if(!raw) return {};
+    var data=JSON.parse(raw);
+    var now=Date.now(), cutoff=7*24*60*60*1000;
+    Object.keys(data).forEach(function(k){ if(now-data[k]>cutoff) delete data[k]; });
+    return data;
+  }catch(e){ return {}; }
+}
+function markQuestionsSeen(level, questions){
+  try{
+    var data=getSeenQuestions(level);
+    questions.forEach(function(q){ data[q.q]=Date.now(); });
+    localStorage.setItem(getSeenKey(level), JSON.stringify(data));
+  }catch(e){}
+}
+function pickFreshQuestions(pool, level, count){
+  var seen=getSeenQuestions(level);
+  var fresh=pool.filter(function(q){ return !seen[q.q]; });
+  if(fresh.length<count) fresh=pool;
+  return fresh.sort(function(){ return Math.random()-.5; }).slice(0,count);
+}
+
 let currentQuiz=[],currentQ=0,quizScore=0;
 function startQuiz(type) {
-  const data = quizDB[type];
-  if(!data){showModal('picmatch');return;}
-  currentQuiz=data;currentQ=0;quizScore=0;
+  var allData=quizDB[type];
+  if(!allData){showModal('picmatch');return;}
+  var pool=pickFreshQuestions(allData,userLevel,5);
+  markQuestionsSeen(userLevel,pool);
+  currentQuiz=pool;currentQ=0;quizScore=0;
   goToPage('page-games','nav-games');
   switchGame(null,'quiz');
   renderQuestion();
@@ -2925,80 +3045,291 @@ Object.assign(quizDB,{
   scramble_data_placeholder:[] // handled separately
 });
 
-// ═══ WORD SCRAMBLE DATA ═══
-const scrambleWords = [
-  {word:'APPLE',hint:'🍎',cat:'Fruit'},
-  {word:'TIGER',hint:'🐯',cat:'Animal'},
-  {word:'CLOUD',hint:'☁️',cat:'Weather'},
-  {word:'BREAD',hint:'🍞',cat:'Food'},
-  {word:'FROG',hint:'🐸',cat:'Animal'},
-  {word:'SMILE',hint:'😊',cat:'Feeling'},
-  {word:'TRAIN',hint:'🚂',cat:'Transport'},
-  {word:'STAR',hint:'⭐',cat:'Space'},
-];
-let scrIdx=0,scrScore=0;
-function scramble(word){return word.split('').sort(()=>Math.random()-.5).join('');}
-function startScramble(){
-  scrIdx=0;scrScore=0;renderScramble();
+// ═══ WORD SCRAMBLE DATA — Age-Group Specific ═══
+// Level 1 (Ages 5–6): 3–4 letter simple words
+const scrambleByLevel = {
+  1: [
+    {word:'CAT',hint:'🐱',cat:'Animal'},
+    {word:'DOG',hint:'🐶',cat:'Animal'},
+    {word:'SUN',hint:'☀️',cat:'Nature'},
+    {word:'HAT',hint:'🎩',cat:'Clothing'},
+    {word:'BUS',hint:'🚌',cat:'Transport'},
+    {word:'CUP',hint:'🥛',cat:'Food'},
+    {word:'BED',hint:'🛏️',cat:'Home'},
+    {word:'EGG',hint:'🥚',cat:'Food'},
+    {word:'PIG',hint:'🐷',cat:'Animal'},
+    {word:'HEN',hint:'🐔',cat:'Animal'},
+    {word:'BAT',hint:'🏏',cat:'Sport'},
+    {word:'MAP',hint:'🗺️',cat:'School'},
+    {word:'JAR',hint:'🫙',cat:'Home'},
+    {word:'FAN',hint:'🌀',cat:'Home'},
+    {word:'GUM',hint:'🍬',cat:'Food'},
+    {word:'NET',hint:'🥅',cat:'Sport'},
+    {word:'POT',hint:'🪴',cat:'Home'},
+    {word:'RAT',hint:'🐀',cat:'Animal'},
+    {word:'VAN',hint:'🚐',cat:'Transport'},
+    {word:'YAK',hint:'🦬',cat:'Animal'},
+  ],
+  // Level 2 (Ages 7–8): 5–6 letter everyday words
+  2: [
+    {word:'APPLE',hint:'🍎',cat:'Fruit'},
+    {word:'TIGER',hint:'🐯',cat:'Animal'},
+    {word:'CLOUD',hint:'☁️',cat:'Weather'},
+    {word:'BREAD',hint:'🍞',cat:'Food'},
+    {word:'FROG',hint:'🐸',cat:'Animal'},
+    {word:'SMILE',hint:'😊',cat:'Feeling'},
+    {word:'TRAIN',hint:'🚂',cat:'Transport'},
+    {word:'GRAPE',hint:'🍇',cat:'Fruit'},
+    {word:'SHARK',hint:'🦈',cat:'Animal'},
+    {word:'PLANT',hint:'🌱',cat:'Nature'},
+    {word:'FLAME',hint:'🔥',cat:'Nature'},
+    {word:'BROOM',hint:'🧹',cat:'Home'},
+    {word:'GLOBE',hint:'🌍',cat:'School'},
+    {word:'JEWEL',hint:'💎',cat:'Things'},
+    {word:'KNIFE',hint:'🔪',cat:'Kitchen'},
+    {word:'LEMON',hint:'🍋',cat:'Fruit'},
+    {word:'MANGO',hint:'🥭',cat:'Fruit'},
+    {word:'OCEAN',hint:'🌊',cat:'Nature'},
+    {word:'PIANO',hint:'🎹',cat:'Music'},
+    {word:'QUEEN',hint:'👑',cat:'Royalty'},
+    {word:'RIVER',hint:'🏞️',cat:'Nature'},
+    {word:'SPOON',hint:'🥄',cat:'Kitchen'},
+    {word:'THUMB',hint:'👍',cat:'Body'},
+    {word:'UNCLE',hint:'👨',cat:'Family'},
+    {word:'WITCH',hint:'🧙',cat:'Fantasy'},
+  ],
+  // Level 3 (Ages 9–10): 7–10 letter challenging words
+  3: [
+    {word:'ELEPHANT',hint:'🐘',cat:'Animal'},
+    {word:'VOLCANO',hint:'🌋',cat:'Nature'},
+    {word:'DOLPHIN',hint:'🐬',cat:'Animal'},
+    {word:'COMPASS',hint:'🧭',cat:'Science'},
+    {word:'CALCIUM',hint:'🥛',cat:'Science'},
+    {word:'PYRAMID',hint:'🔺',cat:'History'},
+    {word:'JOURNEY',hint:'🗺️',cat:'Adventure'},
+    {word:'LANTERN',hint:'🏮',cat:'Things'},
+    {word:'FEATHER',hint:'🪶',cat:'Nature'},
+    {word:'CRYSTAL',hint:'💎',cat:'Science'},
+    {word:'CAPTAIN',hint:'⚓',cat:'Adventure'},
+    {word:'GRAMMAR',hint:'📚',cat:'Language'},
+    {word:'BLANKET',hint:'🛏️',cat:'Home'},
+    {word:'CHAPTER',hint:'📖',cat:'Language'},
+    {word:'THUNDER',hint:'⛈️',cat:'Weather'},
+    {word:'CABINET',hint:'🗄️',cat:'Home'},
+    {word:'BALANCE',hint:'⚖️',cat:'Science'},
+    {word:'ANCIENT',hint:'🏛️',cat:'History'},
+    {word:'HARVEST',hint:'🌾',cat:'Nature'},
+    {word:'IMAGINE',hint:'🌈',cat:'Feeling'},
+    {word:'KINGDOM',hint:'👑',cat:'History'},
+    {word:'MACHINE',hint:'⚙️',cat:'Science'},
+    {word:'SILENCE',hint:'🤫',cat:'Feeling'},
+    {word:'TROPICAL',hint:'🌴',cat:'Nature'},
+    {word:'PATIENCE',hint:'⏳',cat:'Feeling'},
+    {word:'SKELETON',hint:'💀',cat:'Science'},
+    {word:'CHEMICAL',hint:'⚗️',cat:'Science'},
+    {word:'DOLPHINS',hint:'🐬',cat:'Animal'},
+    {word:'FRACTION',hint:'🔢',cat:'Math'},
+    {word:'PENTAGON',hint:'🔷',cat:'Math'},
+  ],
+};
+
+// ── 5-day scramble seen-word tracker (per level) ──
+function getScrambleSeenKey(level){ return 'kz_scr_seen_lv' + level; }
+function getScrambleSeen(level){
+  try {
+    var raw = localStorage.getItem(getScrambleSeenKey(level));
+    if (!raw) return {};
+    var data = JSON.parse(raw);
+    var now = Date.now(), cutoff = 5 * 24 * 60 * 60 * 1000; // 5 days
+    Object.keys(data).forEach(function(k){ if (now - data[k] > cutoff) delete data[k]; });
+    return data;
+  } catch(e){ return {}; }
 }
-function renderScramble(){
-  if(scrIdx>=scrambleWords.length){
-    document.getElementById('scrambledWord').textContent='DONE!';
-    document.getElementById('scrambleOpts').innerHTML=`<button class="opt-btn correct" style="grid-column:span 2;padding:15px" onclick="startScramble()">🔄 Play Again! Score: ${scrScore}/${scrambleWords.length}</button>`;
-    if(scrScore===scrambleWords.length)confetti();return;
-  }
-  const w=scrambleWords[scrIdx];
-  document.getElementById('scrambleCat').textContent=w.cat;
-  document.getElementById('scrambleHintEmoji').textContent=w.hint;
-  document.getElementById('scrambleQ').textContent=(scrIdx+1)+'/'+scrambleWords.length;
-  let sc=scramble(w.word);while(sc===w.word)sc=scramble(w.word);
-  document.getElementById('scrambledWord').textContent=sc;
-  // Generate wrong options
-  const wrongs=scrambleWords.filter((_,i)=>i!==scrIdx).map(x=>x.word).sort(()=>Math.random()-.5).slice(0,3);
-  const opts=[w.word,...wrongs].sort(()=>Math.random()-.5);
-  const ci=opts.indexOf(w.word);
-  document.getElementById('scrambleOpts').innerHTML=opts.map((o,i)=>`<button class="opt-btn" onclick="answerScramble(this,${i},${ci})">${o}</button>`).join('');
+function markScrambleSeen(level, words){
+  try {
+    var data = getScrambleSeen(level);
+    words.forEach(function(w){ data[w.word] = Date.now(); });
+    localStorage.setItem(getScrambleSeenKey(level), JSON.stringify(data));
+  } catch(e){}
 }
-function answerScramble(btn,chosen,correct){
-  document.querySelectorAll('#scrambleOpts .opt-btn').forEach(b=>b.style.pointerEvents='none');
-  if(chosen===correct){btn.classList.add('correct');scrScore++;document.getElementById('scrambleScore').textContent=scrScore;confetti();}
-  else{btn.classList.add('wrong');document.querySelectorAll('#scrambleOpts .opt-btn')[correct].classList.add('correct');}
-  setTimeout(()=>{scrIdx++;renderScramble();},900);
+function pickFreshScrambleWords(level, count){
+  var pool = scrambleByLevel[level] || scrambleByLevel[2];
+  var seen = getScrambleSeen(level);
+  var fresh = pool.filter(function(w){ return !seen[w.word]; });
+  // If fewer fresh than needed, reset and use all
+  if (fresh.length < count) fresh = pool.slice();
+  var picked = fresh.sort(function(){ return Math.random() - .5; }).slice(0, count);
+  return picked;
 }
 
-// ═══ PATTERN MASTERS DATA ═══
-const patterns=[
-  {seq:'2, 4, 6, 8',next:'10',opts:['9','10','11','12'],cat:'Number Pattern'},
-  {seq:'2, 4, 8, 16',next:'32',opts:['24','28','32','36'],cat:'Doubling Pattern'},
-  {seq:'1, 4, 9, 16',next:'25',opts:['20','23','25','30'],cat:'Square Numbers'},
-  {seq:'🔵🔴🔵🔴',next:'🔵',opts:['🔵','🔴','🟡','🟢'],cat:'Colour Pattern'},
-  {seq:'3, 6, 9, 12',next:'15',opts:['13','14','15','18'],cat:'Times 3 Pattern'},
-  {seq:'1, 1, 2, 3, 5, 8',next:'13',opts:['10','12','13','14'],cat:'Fibonacci!'},
-];
-let patIdx=0,patScore=0;
+let scrIdx=0, scrScore=0, scrSession=[];
+function scramble(word){
+  var arr = word.split('');
+  var sc;
+  var attempts = 0;
+  do { sc = arr.slice().sort(function(){ return Math.random()-.5; }).join(''); attempts++; }
+  while (sc === word && attempts < 20);
+  return sc;
+}
+function startScramble(){
+  scrIdx = 0; scrScore = 0;
+  var lv = (typeof userLevel !== 'undefined') ? userLevel : 2;
+  scrSession = pickFreshScrambleWords(lv, 8);
+  markScrambleSeen(lv, scrSession);
+  // Show level label to child
+  var levelLabels = {1:'⭐ Starter (Ages 5–6)', 2:'🔥 Explorer (Ages 7–8)', 3:'🧠 Champion (Ages 9–10)'};
+  var intro = document.getElementById('scrambleLevelLabel');
+  if (intro) { intro.textContent = levelLabels[lv] || ''; }
+  renderScramble();
+}
+function renderScramble(){
+  var pool = scrSession;
+  if (scrIdx >= pool.length) {
+    document.getElementById('scrambledWord').textContent = '🎉 DONE!';
+    document.getElementById('scrambleOpts').innerHTML = '<button class="opt-btn correct" style="grid-column:span 2;padding:15px" onclick="startScramble()">🔄 Play Again! Score: '+scrScore+'/'+pool.length+'</button>';
+    document.getElementById('scrambleCat').textContent = 'Complete!';
+    document.getElementById('scrambleHintEmoji').textContent = '🏆';
+    if (scrScore === pool.length) confetti();
+    return;
+  }
+  var w = pool[scrIdx];
+  document.getElementById('scrambleCat').textContent = w.cat;
+  document.getElementById('scrambleHintEmoji').textContent = w.hint;
+  document.getElementById('scrambleQ').textContent = (scrIdx+1) + '/' + pool.length;
+  var sc = scramble(w.word);
+  document.getElementById('scrambledWord').textContent = sc;
+  // Wrong options come from same level pool only
+  var levelPool = scrambleByLevel[(typeof userLevel !== 'undefined') ? userLevel : 2] || scrambleByLevel[2];
+  var wrongs = levelPool.filter(function(x){ return x.word !== w.word; }).sort(function(){ return Math.random()-.5; }).slice(0,3).map(function(x){ return x.word; });
+  var opts = [w.word].concat(wrongs).sort(function(){ return Math.random()-.5; });
+  var ci = opts.indexOf(w.word);
+  document.getElementById('scrambleOpts').innerHTML = opts.map(function(o,i){
+    return '<button class="opt-btn" onclick="answerScramble(this,'+i+','+ci+')">'+o+'</button>';
+  }).join('');
+}
+function answerScramble(btn,chosen,correct){
+  document.querySelectorAll('#scrambleOpts .opt-btn').forEach(function(b){ b.style.pointerEvents='none'; });
+  if(chosen===correct){ btn.classList.add('correct'); scrScore++; document.getElementById('scrambleScore').textContent=scrScore; confetti(); }
+  else { btn.classList.add('wrong'); document.querySelectorAll('#scrambleOpts .opt-btn')[correct].classList.add('correct'); }
+  setTimeout(function(){ scrIdx++; renderScramble(); }, 900);
+}
+
+// ═══ PATTERN MASTERS DATA — Age-Group Specific with 2-day tracking ═══
+// Level 1 (Ages 5–6): simple colour/shape AB repeating patterns & basic +1/+2 counting
+// Level 2 (Ages 7–8): doubling, skip-count, simple square numbers
+// Level 3 (Ages 9–10): Fibonacci, cube numbers, prime numbers, n(n+1), tricky differences
+const patternsByLevel = {
+  1: [
+    {seq:'🔴🔵🔴🔵🔴',next:'🔵',opts:['🔵','🟡','🔴','🟢'],cat:'Colour AB Pattern'},
+    {seq:'🟡🟢🟡🟢🟡',next:'🟢',opts:['🟡','🟢','🔴','🔵'],cat:'Colour AB Pattern'},
+    {seq:'1, 2, 3, 4',next:'5',opts:['4','5','6','7'],cat:'Count On by 1'},
+    {seq:'2, 4, 6, 8',next:'10',opts:['9','10','11','12'],cat:'Even Numbers'},
+    {seq:'5, 10, 15, 20',next:'25',opts:['22','24','25','30'],cat:'Count in 5s'},
+    {seq:'10, 9, 8, 7',next:'6',opts:['4','5','6','7'],cat:'Count Back'},
+    {seq:'🔶🔵🔶🔵🔶',next:'🔵',opts:['🔶','🔵','🟢','🟡'],cat:'Shape AB Pattern'},
+    {seq:'⭐🌙⭐🌙⭐',next:'🌙',opts:['⭐','🌙','☀️','🌟'],cat:'AB Sky Pattern'},
+    {seq:'🍎🍌🍎🍌🍎',next:'🍌',opts:['🍌','🍎','🍇','🍊'],cat:'Fruit AB Pattern'},
+    {seq:'3, 6, 9, 12',next:'15',opts:['13','14','15','16'],cat:'Count in 3s'},
+    {seq:'🟣🟠🟣🟠🟣',next:'🟠',opts:['🟠','🟣','🟡','🔵'],cat:'Colour AB Pattern'},
+    {seq:'20, 18, 16, 14',next:'12',opts:['10','11','12','13'],cat:'Count Back by 2'},
+  ],
+  2: [
+    {seq:'2, 4, 8, 16',next:'32',opts:['24','28','32','36'],cat:'Doubling Pattern'},
+    {seq:'3, 6, 9, 12',next:'15',opts:['13','14','15','18'],cat:'Times 3'},
+    {seq:'100, 90, 80, 70',next:'60',opts:['50','55','60','65'],cat:'Count Back 10'},
+    {seq:'1, 4, 9, 16',next:'25',opts:['20','23','25','30'],cat:'Square Numbers'},
+    {seq:'5, 10, 20, 40',next:'80',opts:['60','70','80','90'],cat:'Double Each Time'},
+    {seq:'🔺🔺🔵🔺🔺🔵',next:'🔺',opts:['🔺','🔵','🟡','🟢'],cat:'AAB Repeating Pattern'},
+    {seq:'4, 8, 12, 16',next:'20',opts:['18','19','20','24'],cat:'Times 4'},
+    {seq:'1, 3, 5, 7',next:'9',opts:['8','9','10','11'],cat:'Odd Numbers'},
+    {seq:'50, 45, 40, 35',next:'30',opts:['28','29','30','31'],cat:'Count Back 5'},
+    {seq:'🟥🟥🟦🟥🟥🟦',next:'🟥',opts:['🟥','🟦','🟩','🟨'],cat:'AAB Pattern'},
+    {seq:'6, 12, 18, 24',next:'30',opts:['28','29','30','36'],cat:'Times 6'},
+    {seq:'7, 14, 21, 28',next:'35',opts:['30','32','35','42'],cat:'Times 7'},
+  ],
+  3: [
+    {seq:'1, 1, 2, 3, 5, 8',next:'13',opts:['10','11','12','13'],cat:'Fibonacci Sequence'},
+    {seq:'2, 6, 12, 20, 30',next:'42',opts:['38','40','42','44'],cat:'n×(n+1) Pattern'},
+    {seq:'1, 8, 27, 64',next:'125',opts:['100','115','125','135'],cat:'Cube Numbers'},
+    {seq:'3, 7, 13, 21, 31',next:'43',opts:['39','41','43','45'],cat:'Differences +4,+6,+8,+10...'},
+    {seq:'512, 256, 128, 64',next:'32',opts:['16','24','32','48'],cat:'Halving Pattern'},
+    {seq:'1, 3, 6, 10, 15',next:'21',opts:['18','19','20','21'],cat:'Triangular Numbers'},
+    {seq:'2, 3, 5, 7, 11, 13',next:'17',opts:['14','15','16','17'],cat:'Prime Numbers'},
+    {seq:'0, 1, 3, 6, 10, 15',next:'21',opts:['18','20','21','22'],cat:'Triangle Sum'},
+    {seq:'1, 2, 4, 7, 11, 16',next:'22',opts:['20','21','22','23'],cat:'Diff Increases by 1'},
+    {seq:'4, 9, 16, 25, 36',next:'49',opts:['42','45','48','49'],cat:'Square Numbers'},
+    {seq:'2, 5, 11, 23, 47',next:'95',opts:['71','91','94','95'],cat:'Double +1 Pattern'},
+    {seq:'1, 5, 14, 30, 55',next:'91',opts:['77','84','88','91'],cat:'Tetrahedral Numbers'},
+    {seq:'6, 10, 15, 21, 28',next:'36',opts:['33','35','36','38'],cat:'Triangular +4,+5,+6...'},
+    {seq:'1, 4, 13, 40, 121',next:'364',opts:['246','324','364','400'],cat:'×3+1 Pattern'},
+  ],
+};
+
+// ── 2-day Pattern seen tracker (per level) ──
+function getPatSeenKey(level){ return 'kz_pat_seen_lv' + level; }
+function getPatSeen(level){
+  try {
+    var raw = localStorage.getItem(getPatSeenKey(level));
+    if (!raw) return {};
+    var data = JSON.parse(raw);
+    var now = Date.now(), cutoff = 2 * 24 * 60 * 60 * 1000;
+    Object.keys(data).forEach(function(k){ if (now - data[k] > cutoff) delete data[k]; });
+    return data;
+  } catch(e){ return {}; }
+}
+function markPatSeen(level, patterns){
+  try {
+    var data = getPatSeen(level);
+    patterns.forEach(function(p){ data[p.seq] = Date.now(); });
+    localStorage.setItem(getPatSeenKey(level), JSON.stringify(data));
+  } catch(e){}
+}
+function pickFreshPatterns(level, count){
+  var pool = patternsByLevel[level] || patternsByLevel[2];
+  var seen = getPatSeen(level);
+  var fresh = pool.filter(function(p){ return !seen[p.seq]; });
+  if (fresh.length < count) fresh = pool.slice();
+  return fresh.sort(function(){ return Math.random() - .5; }).slice(0, count);
+}
+
+var patLevelLabels = {1:'⭐ Starter (Ages 5–6)', 2:'🔥 Explorer (Ages 7–8)', 3:'🧠 Champion (Ages 9–10)'};
+var patSession = [];
+var patIdx=0, patScore=0;
+
 function startPatterns(){
-  patIdx=0;patScore=0;renderPattern();
+  var lv = (typeof userLevel !== 'undefined') ? userLevel : 2;
+  patSession = pickFreshPatterns(lv, 6);
+  markPatSeen(lv, patSession);
+  patIdx = 0; patScore = 0;
+  // Show level badge
+  var badge = document.getElementById('patLevelLabel');
+  if (badge) badge.textContent = patLevelLabels[lv] || '';
+  renderPattern();
 }
 function renderPattern(){
-  if(patIdx>=patterns.length){
-    document.getElementById('patCard').innerHTML=`<div class="qcat">Pattern Master! 🏆</div><span class="qbig">🧩</span><div class="qtext">Score: ${patScore}/${patterns.length}!</div>`;
-    document.getElementById('patOpts').innerHTML=`<button class="opt-btn correct" style="grid-column:span 2;padding:15px" onclick="startPatterns()">🔄 Play Again!</button>`;
-    document.getElementById('patProgress').innerHTML='';document.getElementById('patNext').style.display='none';
-    if(patScore===patterns.length)confetti();return;
+  var patterns = patSession;
+  if (patIdx >= patterns.length) {
+    document.getElementById('patCard').innerHTML = '<div class="qcat">Pattern Master! 🏆</div><span class="qbig">🧩</span><div class="qtext">Score: '+patScore+'/'+patterns.length+'!</div>';
+    document.getElementById('patOpts').innerHTML = '<button class="opt-btn correct" style="grid-column:span 2;padding:15px" onclick="startPatterns()">🔄 Play Again!</button>';
+    document.getElementById('patProgress').innerHTML = ''; document.getElementById('patNext').style.display='none';
+    if (patScore === patterns.length) confetti();
+    return;
   }
-  const p=patterns[patIdx];
-  document.getElementById('patProgress').innerHTML=patterns.map((_,i)=>`<div class="q-dot ${i<patIdx?'done':i===patIdx?'cur':''}"></div>`).join('');
-  document.getElementById('patCard').innerHTML=`<div class="qcat">${p.cat}</div><span class="qbig">🧩</span><div class="qtext">What comes next?</div><div style="font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--orange);margin:10px 0;letter-spacing:2px">${p.seq}, <span style="color:#FFD23F">?</span></div>`;
-  document.getElementById('patOpts').innerHTML=p.opts.map((o,i)=>`<button class="opt-btn" onclick="answerPattern(this,'${o}','${p.next}')">${o}</button>`).join('');
+  var p = patterns[patIdx];
+  document.getElementById('patProgress').innerHTML = patterns.map(function(_,i){ return '<div class="q-dot '+(i<patIdx?'done':i===patIdx?'cur':'')+'"></div>'; }).join('');
+  document.getElementById('patCard').innerHTML =
+    '<div class="qcat">'+p.cat+'</div><span class="qbig">🧩</span><div class="qtext">What comes next?</div>' +
+    '<div style="font-family:\'Fredoka One\',cursive;font-size:1.5rem;color:var(--orange);margin:10px 0;letter-spacing:2px">'+p.seq+', <span style="color:#FFD23F">?</span></div>';
+  document.getElementById('patOpts').innerHTML = p.opts.map(function(o){ return '<button class="opt-btn" onclick="answerPattern(this,\''+o+'\',\''+p.next+'\')">'+o+'</button>'; }).join('');
   document.getElementById('patNext').style.display='none';
 }
-function answerPattern(btn,chosen,correct){
-  document.querySelectorAll('#patOpts .opt-btn').forEach(b=>b.style.pointerEvents='none');
-  if(chosen===correct){btn.classList.add('correct');patScore++;confetti();}
-  else{btn.classList.add('wrong');[...document.querySelectorAll('#patOpts .opt-btn')].find(b=>b.textContent===correct)?.classList.add('correct');}
-  document.getElementById('patNext').style.display='inline-block';
+function answerPattern(btn, chosen, correct){
+  document.querySelectorAll('#patOpts .opt-btn').forEach(function(b){ b.style.pointerEvents='none'; });
+  if (chosen === correct) { btn.classList.add('correct'); patScore++; confetti(); }
+  else { btn.classList.add('wrong'); Array.from(document.querySelectorAll('#patOpts .opt-btn')).filter(function(b){ return b.textContent===correct; }).forEach(function(b){ b.classList.add('correct'); }); }
+  document.getElementById('patNext').style.display = 'inline-block';
 }
-function nextPattern(){patIdx++;renderPattern();}
+function nextPattern(){ patIdx++; renderPattern(); }
 
 // ═══ ANIMAL SOUNDS MATCHER ═══
 const animals=[
@@ -3412,7 +3743,7 @@ applyLevel = function() {
   _origApplyLevel2();
   applyBodyLevelClass();
   applyLevelUX();
-  if(typeof renderLevelGameTiles==='function') renderLevelGameTiles();
+
 };
 
 // ── Level-aware quiz data: simpler Lv1, emoji-rich Lv2, word-problems Lv3 ──
@@ -3435,35 +3766,35 @@ var lv1Quiz = {
 
 var lv2QuizEnhanced = {
   math2:[
-    {q:'There are 34 🍎 + 27 more 🍎. Total?', emoji:'🍎', opts:['51','59','61 ✓','63'], ans:2},
-    {q:'🕐 Clock shows 3:30. What time?', emoji:'🕞', opts:['Quarter past 3','Half past 3 ✓','Quarter to 4','3 oclock'], ans:1},
-    {q:'You have 50p 💰 and spend 20p. Left?', emoji:'💰', opts:['20p','25p','30p ✓','35p'], ans:2},
-    {q:'7 × 3 = ? (7 groups of 3 🍭🍭🍭)', emoji:'🍭', opts:['18','21 ✓','24','27'], ans:1},
-    {q:'45 🍊 take away 18 🍊 = ?', emoji:'🍊', opts:['24','26','27 ✓','28'], ans:2},
+    {q:'There are 34 🍎 + 27 more 🍎. Total?', emoji:'🍎', opts:['51','59','61','63'], ans:2},
+    {q:'🕐 Clock shows 3:30. What time?', emoji:'🕞', opts:['Quarter past 3','Half past 3','Quarter to 4','3 oclock'], ans:1},
+    {q:'You have 50p 💰 and spend 20p. Left?', emoji:'💰', opts:['20p','25p','30p','35p'], ans:2},
+    {q:'7 × 3 = ? (7 groups of 3 🍭🍭🍭)', emoji:'🍭', opts:['18','21','24','27'], ans:1},
+    {q:'45 🍊 take away 18 🍊 = ?', emoji:'🍊', opts:['24','26','27','28'], ans:2},
   ],
   lang2:[
-    {q:'Sky colour ☁️ — how do you spell it?', emoji:'🌤️', opts:['Bloo','Blew','Blue ✓','Bleu'], ans:2},
-    {q:'This fruit 🍎 is spelled...', emoji:'🍎', opts:['Aple','Apple ✓','Appel','Appl'], ans:1},
-    {q:'"___ cat sat on the ___" — fill in!', emoji:'🐱', opts:['The / mat ✓','A / sat','Run / floor','Big / jump'], ans:0},
-    {q:'"enormous" 🐘 means...', emoji:'🐘', opts:['Tiny','Very big ✓','Funny','Loud'], ans:1},
-    {q:'This animal 🐘 is spelled...', emoji:'🐘', opts:['Elefant','Elephant ✓','Eliphant','Elephnt'], ans:1},
+    {q:'Sky colour ☁️ — how do you spell it?', emoji:'🌤️', opts:['Bloo','Blew','Blue','Bleu'], ans:2},
+    {q:'This fruit 🍎 is spelled...', emoji:'🍎', opts:['Aple','Apple','Appel','Appl'], ans:1},
+    {q:'"___ cat sat on the ___" — fill in!', emoji:'🐱', opts:['The / mat','A / sat','Run / floor','Big / jump'], ans:0},
+    {q:'"enormous" 🐘 means...', emoji:'🐘', opts:['Tiny','Very big','Funny','Loud'], ans:1},
+    {q:'This animal 🐘 is spelled...', emoji:'🐘', opts:['Elefant','Elephant','Eliphant','Elephnt'], ans:1},
   ]
 };
 
 var lv3QuizWordProblems = {
   math3:[
-    {q:'Leo has 5 🍎. He buys 2 boxes of 6 🍎 each. Total?', emoji:'🧮', opts:['11','15','17 ✓','22'], ans:2},
-    {q:'A pizza 🍕 is cut into 8 slices. Sara eats 1/4 of it. How many slices?', emoji:'🍕', opts:['1','2 ✓','3','4'], ans:1},
-    {q:'Train travels 60km/h for 2.5 hours 🚂. Distance?', emoji:'🚂', opts:['100km','120km','150km ✓','180km'], ans:2},
-    {q:'Class has 32 pupils. 3/8 are girls. How many boys?', emoji:'📚', opts:['12','18','20 ✓','24'], ans:2},
-    {q:'A square field has perimeter 48m. What is its area?', emoji:'📐', opts:['96m²','112m²','144m² ✓','192m²'], ans:2},
+    {q:'Leo has 5 🍎. He buys 2 boxes of 6 🍎 each. Total?', emoji:'🧮', opts:['11','15','17','22'], ans:2},
+    {q:'A pizza 🍕 is cut into 8 slices. Sara eats 1/4 of it. How many slices?', emoji:'🍕', opts:['1','2','3','4'], ans:1},
+    {q:'Train travels 60km/h for 2.5 hours 🚂. Distance?', emoji:'🚂', opts:['100km','120km','150km','180km'], ans:2},
+    {q:'Class has 32 pupils. 3/8 are girls. How many boys?', emoji:'📚', opts:['12','18','20','24'], ans:2},
+    {q:'A square field has perimeter 48m. What is its area?', emoji:'📐', opts:['96m²','112m²','144m²','192m²'], ans:2},
   ],
   logic3:[
-    {q:'I speak without a mouth and hear without ears. What am I?', emoji:'🤔', opts:['Wind','Shadow','Echo ✓','Mirror'], ans:2},
-    {q:'If today is Wednesday, what day is 100 days from now?', emoji:'📅', opts:['Monday','Tuesday','Friday ✓','Saturday'], ans:2},
-    {q:'A farmer has 17 🐑. All but 9 die. How many remain?', emoji:'🐑', opts:['8','9 ✓','10','17'], ans:1},
-    {q:'What 3-digit number reads same forwards and backwards AND is divisible by 5?', emoji:'🔢', opts:['505 ✓','515','525','545'], ans:0},
-    {q:'Series: 1, 1, 2, 3, 5, 8, 13, __', emoji:'📐', opts:['18','20','21 ✓','24'], ans:2},
+    {q:'I speak without a mouth and hear without ears. What am I?', emoji:'🤔', opts:['Wind','Shadow','Echo','Mirror'], ans:2},
+    {q:'If today is Wednesday, what day is 100 days from now?', emoji:'📅', opts:['Monday','Tuesday','Friday','Saturday'], ans:2},
+    {q:'A farmer has 17 🐑. All but 9 die. How many remain?', emoji:'🐑', opts:['8','9','10','17'], ans:1},
+    {q:'What 3-digit number reads same forwards and backwards AND is divisible by 5?', emoji:'🔢', opts:['505','515','525','545'], ans:0},
+    {q:'Series: 1, 1, 2, 3, 5, 8, 13, __', emoji:'📐', opts:['18','20','21','24'], ans:2},
   ]
 };
 
@@ -3579,22 +3910,17 @@ var _origInitMemory = initMemory;
 initMemory = function() {
   memWrongFlips = 0;
   _origInitMemory();
-  // Lv1: hide timer column, hide flip counter
   var barWrap = document.getElementById('memTimerBarWrap');
-  var flipCtr = document.getElementById('flipCounter');
   var sbWrap = document.getElementById('speedBonusWrap');
   if (userLevel === 1) {
     if(barWrap) barWrap.style.display = 'none';
-    if(flipCtr) flipCtr.style.display = 'none';
     if(sbWrap)  sbWrap.style.display = 'none';
   } else if (userLevel === 2) {
     if(barWrap) barWrap.style.display = 'none';
-    if(flipCtr) flipCtr.style.display = 'none';
     if(sbWrap)  { sbWrap.style.display = 'block'; sbWrap.innerHTML = ''; }
   } else {
-    // Lv3: show countdown bar and flip lives
+    // Lv3: show countdown bar
     if(barWrap) barWrap.style.display = 'block';
-    if(flipCtr) { flipCtr.style.display = 'block'; resetFlipHearts(); }
     if(sbWrap)  sbWrap.style.display = 'none';
     startMemCountdown();
   }
@@ -3626,28 +3952,7 @@ function startMemCountdown() {
   }, 1000);
 }
 
-function resetFlipHearts() {
-  memWrongFlips = 0;
-  ['fh1','fh2','fh3'].forEach(function(id){
-    var el = document.getElementById(id); if(el){ el.textContent='❤️'; el.classList.remove('lost'); }
-  });
-}
-function loseHeart() {
-  memWrongFlips++;
-  var heartId = 'fh' + memWrongFlips;
-  var el = document.getElementById(heartId);
-  if(el){ el.textContent='🖤'; el.classList.add('lost'); }
-  if (memWrongFlips >= memMaxWrongFlips) {
-    // Board resets!
-    clearInterval(memCountdownItv);
-    setTimeout(function(){
-      document.getElementById('winTitle').textContent = '💔 Board Reset!';
-      document.getElementById('winMsg').textContent = '3 wrong flips! The board reshuffles — stay sharp next time!';
-      showModal('win');
-      initMemory();
-    }, 500);
-  }
-}
+
 
 // Patch flipCard to call loseHeart on Lv3
 var _origFlipCard = flipCard;
@@ -3660,7 +3965,7 @@ flipCard = function(card) {
       if(flipped[0].dataset.emoji===flipped[1].dataset.emoji){
         flipped.forEach(function(c){c.classList.replace('flipped','matched');});memMatched++;
         document.getElementById('matchCount').textContent=memMatched;
-        var total=userLevel===1?6:userLevel===2?8:10;
+        var total=userLevel===1?6:userLevel===2?8:32;
         if(memMatched===total){
           clearInterval(memTimer);clearInterval(memCountdownItv);
           var secs=userLevel>=2?Math.floor((Date.now()-memStart)/1000):'';
@@ -3688,7 +3993,6 @@ flipCard = function(card) {
         }
       } else {
         flipped.forEach(function(c){c.classList.remove('flipped');});
-        if(userLevel===3) loseHeart();
       }
       flipped=[];memActive=true;
     },700);
@@ -4179,34 +4483,99 @@ function waterLater() {
 }
 
 // ══════════════════════════════════════════════════════════════════════
-// ODD ONE OUT GAME
+// ODD ONE OUT GAME — Age-Group Specific + 2-day no-repeat
 // ══════════════════════════════════════════════════════════════════════
-var ooCategories = [
-  {n:'Animals',  i:['🐱','🐶','🦊','🐸','🦁','🐘','🐯','🦒','🐬','🦋']},
-  {n:'Fruits',   i:['🍎','🍊','🍌','🍇','🍓','🍑','🥝','🍍','🫐','🍋']},
-  {n:'Vehicles', i:['🚗','🚕','🚌','🚒','🚓','✈️','🚂','🚀','🛸','🚁']},
-  {n:'Sports',   i:['⚽','🏀','🎾','🏈','🥊','🎯','⛳','🏸','🏒','🥋']},
-  {n:'Weather',  i:['☀️','🌧️','❄️','⛈️','🌪️','🌤️','🌊','🌈','⭐','🌙']},
-  {n:'Food',     i:['🍕','🍔','🌮','🍜','🍣','🍩','🎂','🧁','🍦','🥞']},
-];
+// Level 1 (Ages 5–6): obvious picture categories — animals vs food vs toys
+// Level 2 (Ages 7–8): wider semantic categories needing more thought
+// Level 3 (Ages 9–10): abstract / science / math — genuinely tricky
+var ooCategoriesByLevel = {
+  1: [
+    {n:'Animals',   i:['🐱','🐶','🦊','🐸','🦁','🐘','🐯','🦒','🐬','🦋']},
+    {n:'Fruits',    i:['🍎','🍊','🍌','🍇','🍓','🍑','🥝','🍍','🫐','🍋']},
+    {n:'Vehicles',  i:['🚗','🚕','🚌','🚒','🚓','✈️','🚂','🛵','🚁','🛻']},
+    {n:'Colours',   i:['🔴','🔵','🟡','🟢','🟠','🟣','🟤','⚫','⚪','🔶']},
+    {n:'Food',      i:['🍕','🍔','🌮','🍜','🌭','🥪','🥙','🧆','🥚','🥞']},
+    {n:'Clothes',   i:['👕','👖','👗','🧥','🧤','🎩','👒','👟','🥾','🧦']},
+    {n:'Toys',      i:['🎮','🪁','🪀','🎲','🧸','🪆','🎯','🎪','🎠','🎡']},
+  ],
+  2: [
+    {n:'Sports',    i:['⚽','🏀','🎾','🏈','🥊','🎯','⛳','🏸','🏒','🥋']},
+    {n:'Weather',   i:['☀️','🌧️','❄️','⛈️','🌪️','🌤️','🌊','🌈','⭐','🌙']},
+    {n:'Tools',     i:['🔨','🪛','🔧','🪚','🔩','⚙️','🪜','🧲','🪤','🔑']},
+    {n:'Music',     i:['🎸','🎺','🎻','🥁','🎹','🪗','🎷','🪘','🎵','🎶']},
+    {n:'Buildings', i:['🏠','🏢','🏥','🏦','🏫','🏪','🕌','⛪','🏯','🗼']},
+    {n:'Sea Life',  i:['🐟','🐠','🦈','🐙','🦑','🦀','🦞','🐡','🐚','🦭']},
+    {n:'Vegetables',i:['🥦','🥕','🌽','🫑','🧅','🧄','🥔','🌶️','🍆','🥒']},
+    {n:'Countries', i:['🇬🇧','🇫🇷','🇩🇪','🇯🇵','🇧🇷','🇦🇺','🇺🇸','🇮🇳','🇨🇳','🇿🇦']},
+    {n:'Insects',   i:['🐝','🦋','🐛','🐜','🦗','🪲','🐞','🦟','🪳','🕷️']},
+  ],
+  3: [
+    {n:'Mammals',          i:['🐘','🦁','🐯','🐺','🦊','🦒','🐬','🦓','🦏','🐻']},
+    {n:'Reptiles',         i:['🐊','🐢','🦎','🐍','🦕','🦖','🪲','🦗','🐛','🪳']},
+    {n:'Planets',          i:['🌍','🌕','☀️','⭐','🌟','💫','🌠','🪐','☄️','🌌']},
+    {n:'Chemical Symbols', i:['💧','🔥','💨','🪨','⚡','🧪','🧫','🧬','☢️','⚗️']},
+    {n:'Geometric Shapes', i:['🔺','🔻','🔷','🔶','⬛','⬜','🔘','🔲','🔳','🟥']},
+    {n:'Musical Notes',    i:['🎵','🎶','🎼','🎹','🎸','🎺','🎻','🥁','🪗','🎷']},
+    {n:'Space Objects',    i:['🌍','🌙','⭐','☀️','🌌','🪐','🌠','☄️','🔭','🛸']},
+    {n:'Mathematical Ops', i:['➕','➖','✖️','➗','🟰','💯','🔢','📐','📏','🧮']},
+    {n:'Lab Equipment',    i:['🧪','⚗️','🔬','🧫','🧬','💉','🩺','🩻','🧲','🔭']},
+    {n:'Dinosaurs/Extinct',i:['🦕','🦖','🦣','🦤','🐦‍⬛','🐅','🦏','🦒','🦙','🦬']},
+  ],
+};
+
+// ── 2-day Odd One Out round tracker (track by category name + level) ──
+function getOoSeenKey(level){ return 'kz_oo_seen_lv' + level; }
+function getOoSeen(level){
+  try {
+    var raw = localStorage.getItem(getOoSeenKey(level));
+    if (!raw) return {};
+    var data = JSON.parse(raw);
+    var now = Date.now(), cutoff = 2 * 24 * 60 * 60 * 1000;
+    Object.keys(data).forEach(function(k){ if (now - data[k] > cutoff) delete data[k]; });
+    return data;
+  } catch(e){ return {}; }
+}
+function markOoCatSeen(level, catName){
+  try {
+    var data = getOoSeen(level);
+    data[catName] = Date.now();
+    localStorage.setItem(getOoSeenKey(level), JSON.stringify(data));
+  } catch(e){}
+}
+function getFreshOoCats(level){
+  var cats = ooCategoriesByLevel[level] || ooCategoriesByLevel[1];
+  var seen = getOoSeen(level);
+  var fresh = cats.filter(function(c){ return !seen[c.n]; });
+  if (fresh.length < 2) fresh = cats.slice(); // reset if too few
+  return fresh;
+}
+
+var ooLevelLabels = {1:'⭐ Starter (Ages 5–6)', 2:'🔥 Explorer (Ages 7–8)', 3:'🧠 Champion (Ages 9–10)'};
 var ooScore=0, ooRound=0, ooTotal=5;
 
 function startOddOne() {
   ooScore=0; ooRound=0;
   switchGame(null, 'oddone');
-  // nextOoRound called by switchGame patch — do NOT call again here
+  // Show level badge
+  var badge = document.getElementById('ooLevelLabel');
+  if (badge) badge.textContent = ooLevelLabels[userLevel] || ooLevelLabels[2];
 }
 function nextOoRound() {
   ooRound++;
   if (ooRound > ooTotal) { endOoGame(); return; }
-  var numItems = userLevel===1 ? 4 : userLevel===2 ? 4 : 5;
-  var mainCat = ooCategories[Math.floor(Math.random() * ooCategories.length)];
-  var otherCat = ooCategories.filter(function(c){ return c!==mainCat; })[Math.floor(Math.random()*(ooCategories.length-1))];
-  var mainItems = [...mainCat.i].sort(function(){ return Math.random()-.5; }).slice(0, numItems-1);
+  var lv = (typeof userLevel !== 'undefined') ? userLevel : 2;
+  var cats = getFreshOoCats(lv);
+  // Lv1=4 items, Lv2=5 items, Lv3=6 items on grid
+  var numItems = lv===1 ? 4 : lv===2 ? 5 : 6;
+  var mainCat = cats[Math.floor(Math.random() * cats.length)];
+  var otherCats = cats.filter(function(c){ return c!==mainCat; });
+  var otherCat = otherCats[Math.floor(Math.random()*otherCats.length)];
+  markOoCatSeen(lv, mainCat.n);
+  var mainItems = mainCat.i.slice().sort(function(){ return Math.random()-.5; }).slice(0, numItems-1);
   var oddItem = otherCat.i[Math.floor(Math.random()*otherCat.i.length)];
   var correctIdx = Math.floor(Math.random() * numItems);
-  var allItems = [...mainItems.slice(0,correctIdx), oddItem, ...mainItems.slice(correctIdx)];
-  var cols = numItems <= 4 ? 2 : 3;
+  var allItems = mainItems.slice(0,correctIdx).concat([oddItem]).concat(mainItems.slice(correctIdx));
+  var cols = numItems <= 4 ? 2 : numItems <= 6 ? 3 : 3;
   var label = document.getElementById('ooRoundLabel');
   if(label) label.textContent = 'Round ' + ooRound + ' of ' + ooTotal + ' · Score: ' + ooScore + ' ⭐';
   var grid = document.getElementById('ooGrid');
@@ -4217,7 +4586,7 @@ function nextOoRound() {
     return '<div class="oo-cell" onclick="checkOo(this,' + isC + ')">' + item + '</div>';
   }).join('');
   var hint = document.getElementById('ooHint');
-  if(hint) hint.textContent = (numItems-1) + ' items belong to one group — find the one that is different!';
+  if(hint) hint.textContent = (numItems-1) + ' items belong to one group — find the one that does not belong!';
   speakText('Which one does not belong? Find the odd one out!');
 }
 function checkOo(el, correct) {
@@ -4231,7 +4600,8 @@ function checkOo(el, correct) {
     el.classList.add('oo-wrong');
     playWrong(); mascotHint();
     speakText('Look more carefully! Which one is from a different group?');
-    setTimeout(function(){el.classList.remove('oo-wrong');
+    setTimeout(function(){
+      el.classList.remove('oo-wrong');
       document.querySelectorAll('.oo-cell').forEach(function(c){ c.onclick=null; });
       nextOoRound();
     }, 1400);
@@ -4241,39 +4611,101 @@ function endOoGame() {
   var qc = document.getElementById('ooCard');
   if(qc) qc.innerHTML = '<div class="qcat">Game Over! 🎉</div><span class="qbig">🏆</span><div class="qtext">You scored ' + ooScore + ' out of ' + ooTotal + '!</div>';
   var grid = document.getElementById('ooGrid');
-    if(grid) { grid.innerHTML = '<div style="text-align:center;margin-top:10px">'; var btn=document.createElement("button"); btn.style.cssText="background:linear-gradient(135deg,#FF6B35,#FF6B9D);color:#fff;border:none;border-radius:50px;padding:12px 26px;font-size:15px;cursor:pointer;font-family:Fredoka One,cursive"; btn.textContent="🔄 Play Again!"; btn.onclick=startOddOne; grid.children[0].appendChild(btn); }
+  if(grid) { grid.innerHTML = '<div style="text-align:center;margin-top:10px">'; var btn=document.createElement("button"); btn.style.cssText="background:linear-gradient(135deg,#FF6B35,#FF6B9D);color:#fff;border:none;border-radius:50px;padding:12px 26px;font-size:15px;cursor:pointer;font-family:Fredoka One,cursive"; btn.textContent="🔄 Play Again!"; btn.onclick=startOddOne; grid.children[0].appendChild(btn); }
   addStars(Math.max(1, ooScore), 'Odd One Out');
   playWin();
 }
 
 // ══════════════════════════════════════════════════════════════════════
-// MAKE A PATTERN GAME
+// MAKE A PATTERN GAME — Age-Group Specific + 2-day tracking
 // ══════════════════════════════════════════════════════════════════════
-var MP_SHAPES = ['🔴','🔵','🟡','🟢','🟠','🟣','🟤','⚫'];
-var MP_TYPES = [
-  {name:'AB',  seq:function(s){ return [s[0],s[1],s[0],s[1],s[0],s[1]]; }},
-  {name:'AAB', seq:function(s){ return [s[0],s[0],s[1],s[0],s[0],s[1]]; }},
-  {name:'ABC', seq:function(s){ return [s[0],s[1],s[2],s[0],s[1],s[2]]; }},
-  {name:'ABB', seq:function(s){ return [s[0],s[1],s[1],s[0],s[1],s[1]]; }},
-  {name:'AABB',seq:function(s){ return [s[0],s[0],s[1],s[1],s[0],s[0]]; }},
-];
+// Lv1: only AB patterns, big shapes, short sequences (show 3, guess 4th)
+// Lv2: AB, AAB, ABB, AABB patterns, medium — show 4 guess 5th
+// Lv3: AB, AAB, ABC, ABB, AABB, ABAC, ABBC — show 5, guess 6th (tricky)
+var MP_SHAPES_LV1 = ['🔴','🔵','🟡','🟢','🟠'];
+var MP_SHAPES_LV2 = ['🔴','🔵','🟡','🟢','🟠','🟣','🟤','⚫'];
+var MP_SHAPES_LV3 = ['🔴','🔵','🟡','🟢','🟠','🟣','🟤','⚫','🔶','🔷'];
+
+var MP_TYPES_BY_LEVEL = {
+  1: [
+    {name:'AB',   seq:function(s){ return [s[0],s[1],s[0],s[1],s[0],s[1]]; }},
+  ],
+  2: [
+    {name:'AB',   seq:function(s){ return [s[0],s[1],s[0],s[1],s[0],s[1]]; }},
+    {name:'AAB',  seq:function(s){ return [s[0],s[0],s[1],s[0],s[0],s[1]]; }},
+    {name:'ABB',  seq:function(s){ return [s[0],s[1],s[1],s[0],s[1],s[1]]; }},
+    {name:'AABB', seq:function(s){ return [s[0],s[0],s[1],s[1],s[0],s[0]]; }},
+  ],
+  3: [
+    {name:'AB',   seq:function(s){ return [s[0],s[1],s[0],s[1],s[0],s[1]]; }},
+    {name:'AAB',  seq:function(s){ return [s[0],s[0],s[1],s[0],s[0],s[1]]; }},
+    {name:'ABC',  seq:function(s){ return [s[0],s[1],s[2],s[0],s[1],s[2]]; }},
+    {name:'ABB',  seq:function(s){ return [s[0],s[1],s[1],s[0],s[1],s[1]]; }},
+    {name:'AABB', seq:function(s){ return [s[0],s[0],s[1],s[1],s[0],s[0]]; }},
+    {name:'ABAC', seq:function(s){ return [s[0],s[1],s[0],s[2],s[0],s[1]]; }},
+    {name:'ABBC', seq:function(s){ return [s[0],s[1],s[1],s[2],s[0],s[1]]; }},
+    {name:'ABCA', seq:function(s){ return [s[0],s[1],s[2],s[0],s[0],s[1]]; }},
+  ],
+};
+
+// ── 2-day Make Pattern seen tracker ──
+function getMpSeenKey(level){ return 'kz_mp_seen_lv' + level; }
+function getMpSeen(level){
+  try {
+    var raw = localStorage.getItem(getMpSeenKey(level));
+    if (!raw) return {};
+    var data = JSON.parse(raw);
+    var now = Date.now(), cutoff = 2 * 24 * 60 * 60 * 1000;
+    Object.keys(data).forEach(function(k){ if (now - data[k] > cutoff) delete data[k]; });
+    return data;
+  } catch(e){ return {}; }
+}
+function markMpSeen(level, patName){
+  try {
+    var data = getMpSeen(level);
+    data[patName + '_' + Date.now() % 1000] = Date.now(); // allow repeat of types but not consecutive
+    localStorage.setItem(getMpSeenKey(level), JSON.stringify(data));
+  } catch(e){}
+}
+function getLastMpType(level){
+  try {
+    return localStorage.getItem('kz_mp_last_lv' + level) || '';
+  } catch(e){ return ''; }
+}
+function setLastMpType(level, name){
+  try { localStorage.setItem('kz_mp_last_lv' + level, name); } catch(e){}
+}
+
+var mpLevelLabels = {1:'⭐ Starter (Ages 5–6)', 2:'🔥 Explorer (Ages 7–8)', 3:'🧠 Champion (Ages 9–10)'};
 var mpScore=0, mpRound=0, mpTotal=5;
 
 function startMakePattern() {
   mpScore=0; mpRound=0;
   switchGame(null,'makepattern');
-  // nextMpRound called by switchGame patch — do NOT call again here
+  var badge = document.getElementById('mpLevelLabel');
+  if (badge) badge.textContent = mpLevelLabels[(typeof userLevel!=='undefined'?userLevel:2)] || '';
 }
 function nextMpRound() {
   mpRound++;
   if (mpRound > mpTotal) { endMpGame(); return; }
-  var pt = MP_TYPES[Math.floor(Math.random()*MP_TYPES.length)];
-  var shapes = [...MP_SHAPES].sort(function(){ return Math.random()-.5; }).slice(0,3);
-  var seq = pt.seq(shapes);
-  var showCount = 4;
+  var lv = (typeof userLevel !== 'undefined') ? userLevel : 2;
+  var types = MP_TYPES_BY_LEVEL[lv] || MP_TYPES_BY_LEVEL[2];
+  var shapes = lv===1 ? MP_SHAPES_LV1 : lv===2 ? MP_SHAPES_LV2 : MP_SHAPES_LV3;
+  // Avoid repeating the exact same pattern type consecutively
+  var lastType = getLastMpType(lv);
+  var avail = types.length > 1 ? types.filter(function(t){ return t.name !== lastType; }) : types;
+  var pt = avail[Math.floor(Math.random()*avail.length)];
+  setLastMpType(lv, pt.name);
+  // Lv1 needs 2 shapes, Lv2 needs 2, Lv3 needs 2-3
+  var numShapes = (lv===3 && pt.name.length >= 3) ? 3 : 2;
+  var picked = shapes.slice().sort(function(){ return Math.random()-.5; }).slice(0, numShapes);
+  var seq = pt.seq(picked);
+  // Lv1: show 3 items; Lv2: show 4; Lv3: show 5
+  var showCount = lv===1 ? 3 : lv===2 ? 4 : 5;
   var shown = seq.slice(0, showCount);
   var answer = seq[showCount];
-  var wrongs = shapes.filter(function(s){ return s!==answer; }).concat(MP_SHAPES.filter(function(s){ return !shapes.includes(s); })).slice(0,3);
+  // Build wrong options from same shape set + pool
+  var wrongs = shapes.filter(function(s){ return s!==answer; }).sort(function(){ return Math.random()-.5; }).slice(0,3);
   var opts = [answer].concat(wrongs).sort(function(){ return Math.random()-.5; });
 
   var label = document.getElementById('mpRoundLabel');
@@ -4283,7 +4715,8 @@ function nextMpRound() {
     return '<div class="pat-block">' + s + '</div>';
   }).join('') + '<div class="pat-block pat-q">?</div>';
   var patName = document.getElementById('mpPatName');
-  if(patName) patName.textContent = 'Pattern type: ' + pt.name;
+  // Lv1 kids don't need to see pattern type name; Lv2/3 do
+  if(patName) patName.textContent = lv===1 ? 'What comes next? 🤔' : 'Pattern type: ' + pt.name;
   var optsEl = document.getElementById('mpOpts');
   if(optsEl) {
     optsEl.innerHTML = '';
@@ -4319,7 +4752,8 @@ function endMpGame() {
   var qc = document.getElementById('mpCard');
   if(qc) qc.innerHTML = '<div class="qcat">Done! 🎉</div><span class="qbig">🎨</span><div class="qtext">Score: ' + mpScore + '/' + mpTotal + '!</div>';
   document.getElementById('mpSeq').innerHTML = '';
-  var mpOptsEl=document.getElementById('mpOpts'); if(mpOptsEl){mpOptsEl.innerHTML=''; var mpBtn=document.createElement('button'); mpBtn.style.cssText='background:linear-gradient(135deg,#A855F7,#3B82F6);color:#fff;border:none;border-radius:50px;padding:12px 26px;font-size:15px;cursor:pointer'; mpBtn.textContent='Play Again!'; mpBtn.onclick=startMakePattern; mpOptsEl.appendChild(mpBtn);}
+  var mpOptsEl=document.getElementById('mpOpts');
+  if(mpOptsEl){ mpOptsEl.innerHTML=''; var mpBtn=document.createElement('button'); mpBtn.style.cssText='background:linear-gradient(135deg,#A855F7,#3B82F6);color:#fff;border:none;border-radius:50px;padding:12px 26px;font-size:15px;cursor:pointer'; mpBtn.textContent='Play Again!'; mpBtn.onclick=startMakePattern; mpOptsEl.appendChild(mpBtn); }
   addStars(Math.max(1, mpScore), 'Make a Pattern');
   playWin();
 }
@@ -5409,5 +5843,252 @@ function attachActCardVoice() {
   <div id="starPanelBody" style="padding:16px 18px 0"></div>
 </div>
 
+<!-- ═══════ MATH AI PAGE STYLES & LOGIC ═══════ -->
+<style>
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Age buttons — big card style matching welcome screen */
+.mwp-age-btn{
+  border:3px solid #FFE4D0;background:var(--card-bg,#fff);border-radius:24px;
+  padding:18px 10px 14px;cursor:pointer;text-align:center;transition:all .25s;
+  box-shadow:0 4px 16px rgba(0,0,0,.08);
+}
+body.dark .mwp-age-btn{background:#1E1E32;border-color:#2E2E50;box-shadow:0 4px 16px rgba(0,0,0,.35);}
+.mwp-age-btn:hover{transform:translateY(-5px) scale(1.04);}
+.mwp-age-btn .mwp-ae{font-size:40px;display:block;margin-bottom:10px;}
+.mwp-age-btn .mwp-at{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--text,#1A1A2E);display:block;margin-bottom:5px;}
+.mwp-age-btn .mwp-alv{display:inline-block;font-size:11px;font-weight:900;padding:4px 12px;border-radius:20px;margin-top:2px;}
+.mwp-lv1{background:#FFF3E0;color:#E65100;}
+.mwp-lv2{background:#E3F2FD;color:#1565C0;}
+.mwp-lv3{background:#F3E5F5;color:#6A1B9A;}
+.mwp-sel{border-color:#FFD23F!important;transform:scale(1.06)!important;box-shadow:0 8px 24px rgba(255,107,53,.22)!important;}
+/* Topic buttons */
+.mwp-topic-btn{
+  border:2.5px solid #FFE4D0;background:var(--card-bg,#fff);border-radius:16px;
+  padding:13px 12px;cursor:pointer;display:flex;align-items:center;gap:9px;
+  font-family:'Fredoka One',cursive;font-size:1rem;color:var(--text,#1A1A2E);
+  transition:all .2s;text-align:left;box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+body.dark .mwp-topic-btn{background:#1E1E32;border-color:#2E2E50;color:#F0ECF8;}
+.mwp-topic-btn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 6px 18px rgba(0,0,0,.12);}
+.mwp-topic-btn .mwp-te{font-size:22px;flex-shrink:0;}
+.mwp-topic-sel{border-color:transparent!important;color:#fff!important;box-shadow:0 4px 14px rgba(0,0,0,.18)!important;}
+/* Theme chips */
+.mwp-theme-chip{
+  border:2.5px solid #FFD23F;background:var(--card-bg,#fff);border-radius:50px;
+  padding:8px 16px;font-family:'Fredoka One',cursive;font-size:.95rem;
+  cursor:pointer;color:var(--orange,#FF6B35);transition:all .2s;
+  display:flex;align-items:center;gap:6px;white-space:nowrap;
+}
+body.dark .mwp-theme-chip{background:#1E1E32;border-color:#3B3B60;color:#FF8E53;}
+.mwp-theme-chip:hover{transform:translateY(-2px);}
+.mwp-theme-sel{background:linear-gradient(135deg,#FF6B35,#FF6B9D)!important;color:#fff!important;border-color:transparent!important;}
+/* Difficulty buttons */
+.mwp-diff-btn{
+  flex:1;border:2.5px solid #FFE4D0;background:var(--card-bg,#fff);border-radius:16px;
+  padding:12px 8px;text-align:center;cursor:pointer;
+  font-family:'Fredoka One',cursive;font-size:1rem;color:var(--text,#1A1A2E);
+  transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+body.dark .mwp-diff-btn{background:#1E1E32;border-color:#2E2E50;color:#F0ECF8;}
+.mwp-diff-btn:hover{transform:scale(1.05);}
+.mwp-easy.mwp-diff-sel{background:#F0FDF4!important;border-color:#22C55E!important;color:#15803D!important;}
+.mwp-medium.mwp-diff-sel{background:#FFFBEB!important;border-color:#F59E0B!important;color:#B45309!important;}
+.mwp-hard.mwp-diff-sel{background:#FEF2F2!important;border-color:#EF4444!important;color:#DC2626!important;}
+/* Section label */
+.mwp-sec-label{font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--text,#1A1A2E);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+/* Problem cards */
+.mwp-card{
+  background:var(--card-bg,#fff);border-radius:22px;padding:18px 16px;
+  margin-bottom:14px;border:2.5px solid #FFE4D0;
+  animation:fadeIn .4s ease;position:relative;overflow:hidden;
+  box-shadow:0 4px 18px rgba(0,0,0,.08);
+}
+body.dark .mwp-card{background:#1E1E32;border-color:#2E2E50;box-shadow:0 4px 18px rgba(0,0,0,.35);}
+.mwp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;border-radius:22px 22px 0 0;}
+.mwp-card-num{font-family:'Fredoka One',cursive;font-size:.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:9px;display:flex;align-items:center;gap:7px;}
+.mwp-card-q{font-family:'Fredoka One',cursive;font-size:1.15rem;color:var(--text,#1A1A2E);line-height:1.5;margin-bottom:12px;}
+.mwp-hint-btn{
+  background:#FFF0E8;border:2px solid #FFD23F;border-radius:50px;
+  padding:7px 16px;font-family:'Fredoka One',cursive;font-size:.88rem;
+  color:#E65100;cursor:pointer;margin-right:8px;display:inline-block;transition:all .18s;
+}
+.mwp-hint-btn:hover{transform:scale(1.05);}
+.mwp-hint-text{
+  font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;
+  color:#888;background:rgba(255,210,63,.15);border-radius:12px;
+  padding:10px 13px;margin-top:10px;display:none;line-height:1.6;
+}
+body.dark .mwp-hint-text{color:#9090B0;background:rgba(255,210,63,.07);}
+.mwp-ans-btn{
+  background:#F0FDF4;border:2px solid #86EFAC;border-radius:50px;
+  padding:7px 16px;font-family:'Fredoka One',cursive;font-size:.88rem;
+  color:#15803D;cursor:pointer;display:inline-block;transition:all .18s;
+}
+.mwp-ans-btn:hover{transform:scale(1.05);}
+.mwp-ans-text{
+  font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;
+  color:#15803D;background:#F0FDF4;border-radius:12px;
+  padding:10px 13px;margin-top:10px;display:none;line-height:1.7;
+}
+body.dark .mwp-ans-text{color:#86EFAC;background:#0F2A1A;}
+/* Generate button */
+#mwp-gen-btn{
+  width:100%;background:linear-gradient(135deg,#FF6B35,#FF6B9D);color:#fff;
+  border:none;border-radius:50px;padding:16px;
+  font-family:'Fredoka One',cursive;font-size:1.2rem;
+  cursor:pointer;box-shadow:0 6px 20px rgba(255,107,53,.4);transition:all .2s;
+}
+#mwp-gen-btn:hover{transform:scale(1.03);box-shadow:0 8px 26px rgba(255,107,53,.5);}
+#mwp-gen-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+</style>
+<script>
+(function(){
+var mwpAge=1, mwpTopics=[], mwpTheme='animals', mwpDiff='easy', mwpQty=3;
+var mwpTopicDefs=[
+  {id:'addition',label:'Addition',emoji:'➕',color:'#FF6B35'},
+  {id:'subtraction',label:'Subtraction',emoji:'➖',color:'#FF6B9D'},
+  {id:'multiplication',label:'Multiplication',emoji:'✖️',color:'#A855F7'},
+  {id:'division',label:'Division',emoji:'➗',color:'#3B82F6'},
+  {id:'fractions',label:'Fractions',emoji:'🍕',color:'#F59E0B'},
+  {id:'percentages',label:'Percentages',emoji:'💯',color:'#14B8A6'},
+  {id:'speed',label:'Speed & Distance',emoji:'🚀',color:'#EF4444'},
+  {id:'time',label:'Time',emoji:'⏰',color:'#8B5CF6'},
+  {id:'money',label:'Money',emoji:'💰',color:'#22C55E'},
+  {id:'measurement',label:'Measurement',emoji:'📏',color:'#667EEA'}
+];
+var mwpThemeDefs=[
+  {id:'animals',label:'Animals',emoji:'🐾'},
+  {id:'food',label:'Food',emoji:'🍕'},
+  {id:'superheroes',label:'Superheroes',emoji:'🦸'},
+  {id:'space',label:'Space',emoji:'🚀'},
+  {id:'sports',label:'Sports',emoji:'⚽'},
+  {id:'school',label:'School',emoji:'🏫'}
+];
+var mwpTopicColors={addition:'#FF6B35',subtraction:'#FF6B9D',multiplication:'#A855F7',division:'#3B82F6',fractions:'#F59E0B',percentages:'#14B8A6',speed:'#EF4444',time:'#8B5CF6',money:'#22C55E',measurement:'#667EEA'};
+
+window.mwpSelAge=function(n,el){
+  mwpAge=n;
+  document.querySelectorAll('.mwp-age-btn').forEach(function(b){b.classList.remove('mwp-sel');});
+  el.classList.add('mwp-sel');
+  var dMap={1:'easy',2:'medium',3:'hard'};
+  mwpDiff=dMap[n];
+  document.querySelectorAll('.mwp-diff-btn').forEach(function(b){b.classList.remove('mwp-diff-sel');});
+  document.querySelectorAll('.mwp-diff-btn').forEach(function(b){
+    if((mwpDiff==='easy'&&b.classList.contains('mwp-easy'))||(mwpDiff==='medium'&&b.classList.contains('mwp-medium'))||(mwpDiff==='hard'&&b.classList.contains('mwp-hard'))){b.classList.add('mwp-diff-sel');}
+  });
+};
+
+window.mwpSelDiff=function(val,el){
+  mwpDiff=val;
+  document.querySelectorAll('.mwp-diff-btn').forEach(function(b){b.classList.remove('mwp-diff-sel');});
+  el.classList.add('mwp-diff-sel');
+};
+
+window.mwpChangeQty=function(d){mwpQty=Math.max(1,Math.min(5,mwpQty+d));document.getElementById('mwp-qty-num').textContent=mwpQty;};
+
+function mwpBuildTopics(){
+  var g=document.getElementById('mwp-topic-grid');
+  if(!g)return;
+  g.innerHTML='';
+  mwpTopicDefs.forEach(function(t){
+    var d=document.createElement('div');
+    d.className='mwp-topic-btn';
+    d.setAttribute('data-id',t.id);
+    d.innerHTML='<span style="font-size:18px">'+t.emoji+'</span><span>'+t.label+'</span>';
+    d.onclick=function(){
+      var idx=mwpTopics.indexOf(t.id);
+      if(idx===-1){mwpTopics.push(t.id);d.classList.add('mwp-topic-sel');d.style.background=t.color;d.style.borderColor='transparent';}
+      else{mwpTopics.splice(idx,1);d.classList.remove('mwp-topic-sel');d.style.background='';d.style.borderColor='';}
+    };
+    g.appendChild(d);
+  });
+}
+
+function mwpBuildThemes(){
+  var r=document.getElementById('mwp-theme-row');
+  if(!r)return;
+  r.innerHTML='';
+  mwpThemeDefs.forEach(function(t){
+    var d=document.createElement('div');
+    d.className='mwp-theme-chip'+(t.id===mwpTheme?' mwp-theme-sel':'');
+    d.innerHTML=t.emoji+' '+t.label;
+    d.onclick=function(){
+      mwpTheme=t.id;
+      document.querySelectorAll('.mwp-theme-chip').forEach(function(b){b.classList.remove('mwp-theme-sel');});
+      d.classList.add('mwp-theme-sel');
+    };
+    r.appendChild(d);
+  });
+}
+
+window.mwpGenerate=function(){
+  var topics=mwpTopics.length>0?mwpTopics:['addition','subtraction','money'];
+  var ageLabel={1:'Ages 5–6 (Level 1 — very simple single-step problems, small numbers)',2:'Ages 7–8 (Level 2 — two-step problems, moderate numbers)',3:'Ages 9–10 (Level 3 — multi-step challenging problems)'}[mwpAge];
+  var prompt='Create '+mwpQty+' fun math word problems for kids '+ageLabel+'. Topics: '+topics.join(', ')+'. Theme: '+mwpTheme+' (use characters and scenarios related to this theme). Difficulty: '+mwpDiff+'. Return ONLY a valid JSON array — no markdown, no backticks, no explanation. Each object must have: "emoji" (1 emoji string), "topic" (topic name), "question" (the word problem), "hint" (a short helpful hint), "answer" (step-by-step solution). Kid-friendly language.';
+
+  var btn=document.getElementById('mwp-gen-btn');
+  btn.disabled=true;btn.style.opacity='.6';
+  document.getElementById('mwp-spinner').style.display='block';
+  document.getElementById('mwp-output').innerHTML='';
+  document.getElementById('mwp-empty').style.display='none';
+  document.getElementById('mwp-error').style.display='none';
+
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+  }).then(function(r){return r.json();}).then(function(data){
+    document.getElementById('mwp-spinner').style.display='none';
+    btn.disabled=false;btn.style.opacity='1';
+    var raw='';
+    if(data.content&&data.content[0]&&data.content[0].text){raw=data.content[0].text;}else{throw new Error('no content');}
+    raw=raw.replace(/```json|```/g,'').trim();
+    var arr=JSON.parse(raw);
+    mwpRender(arr);
+    if(typeof confetti==='function')confetti();
+  }).catch(function(){
+    document.getElementById('mwp-spinner').style.display='none';
+    btn.disabled=false;btn.style.opacity='1';
+    document.getElementById('mwp-error').style.display='block';
+    document.getElementById('mwp-empty').style.display='block';
+  });
+};
+
+function mwpRender(arr){
+  var out=document.getElementById('mwp-output');
+  out.innerHTML='';
+  arr.forEach(function(p,i){
+    var color=mwpTopicColors[(p.topic||'').toLowerCase()]||'#FF6B35';
+    var card=document.createElement('div');
+    card.className='mwp-card';
+    card.style.borderColor=color+'55';
+    card.innerHTML=
+      '<style>.mwp-card:nth-of-type('+(i+1)+')::before{background:'+color+';}</style>'+
+      '<div class="mwp-card-num" style="color:'+color+'">'+
+        '<span style="background:'+color+'22;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-family:Fredoka One,cursive;font-size:.95rem;color:'+color+'">'+String(i+1)+'</span>'+
+        (p.topic||'Math')+
+      '</div>'+
+      '<div style="font-size:36px;display:block;text-align:center;margin:10px 0">'+p.emoji+'</div>'+
+      '<div class="mwp-card-q">'+p.question+'</div>'+
+      '<button class="mwp-hint-btn" onclick="mwpToggle(this,\'hint\')">💡 Show Hint</button>'+
+      '<button class="mwp-ans-btn" onclick="mwpToggle(this,\'ans\')">✅ Show Answer</button>'+
+      '<div class="mwp-hint-text">'+p.hint+'</div>'+
+      '<div class="mwp-ans-text">'+p.answer+'</div>';
+    out.appendChild(card);
+  });
+}
+
+window.mwpToggle=function(btn,which){
+  var card=btn.closest('.mwp-card');
+  var target=which==='hint'?card.querySelector('.mwp-hint-text'):card.querySelector('.mwp-ans-text');
+  var open=target.style.display==='block';
+  target.style.display=open?'none':'block';
+  if(which==='hint')btn.textContent=open?'💡 Show Hint':'💡 Hide Hint';
+  else btn.textContent=open?'✅ Show Answer':'✅ Hide Answer';
+};
+
+document.addEventListener('DOMContentLoaded',function(){mwpBuildTopics();mwpBuildThemes();});
+})();
+</script>
 </body>
 </html>

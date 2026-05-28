@@ -395,14 +395,21 @@
   .fact-teal { background: #ccfbf1; color: #0f766e; }
 
   /* ── TABLE ── */
+  .gk-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 24px;
+  }
   .gk-table {
     width: 100%;
+    min-width: 480px;
     border-collapse: collapse;
     background: white;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: var(--card-shadow);
-    margin-bottom: 24px;
     font-size: 0.9rem;
   }
   .gk-table th {
@@ -556,6 +563,12 @@
   .site-footer span { color: var(--coral); }
 
   /* ── RESPONSIVE ── */
+
+  /* Tablet — 601px to 800px: 3-col cards */
+  @media(min-width: 601px) and (max-width: 800px) {
+    .cards-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
   @media(max-width: 600px) {
     .quiz-opts         { grid-template-columns: 1fr; }
     .cards-grid        { grid-template-columns: 1fr 1fr; }
@@ -586,14 +599,19 @@
     .match-item        { font-size: 0.76rem; padding: 8px 5px; }
     /* DC Banner inside nav */
     .dc-question       { font-size: 0.9rem; }
-    /* Story picker */
+    /* Story picker — collapse at 500px not 400px */
+    .story-pick-grid   { grid-template-columns: 1fr 1fr; }
     .sp-emoji          { font-size: 2rem; }
+  }
+
+  /* Story picker single col from 500px down */
+  @media(max-width: 500px) {
+    .story-pick-grid   { grid-template-columns: 1fr; }
   }
 
   /* Extra small — 400px and below */
   @media(max-width: 400px) {
     .weather-hero      { grid-template-columns: 1fr; }
-    .story-pick-grid   { grid-template-columns: 1fr; }
     .memory-grid       { gap: 5px; }
     .mem-card          { border-radius: 10px; }
     .mem-front, .mem-back { font-size: 1.2rem; }
@@ -608,6 +626,16 @@
     .diff-grid         { grid-template-columns: 1fr 1fr; }
     .match-mode-row    { gap: 5px; }
     .match-mode-btn    { font-size: 0.7rem; padding: 5px 10px; }
+  }
+
+  /* Tiny screens — 360px and below: shrink XP bar */
+  @media(max-width: 360px) {
+    .xp-bar-wrap       { width: 60px; }
+    .avatar-bubble     { padding: 4px 10px 4px 6px; }
+    .avatar-face       { font-size: 1.3rem; }
+    .avatar-xp         { font-size: 0.78rem; }
+    .badge-count-pill  { font-size: 0.72rem; padding: 5px 10px; }
+    .cards-grid        { grid-template-columns: 1fr 1fr; gap: 10px; }
   }
 
   /* ── SCROLL ANIMATION ── */
@@ -757,15 +785,18 @@
   .pin-overlay {
     display: none; position: fixed; inset: 0;
     background: rgba(0,0,0,0.65); z-index: 800;
-    align-items: center; justify-content: center;
+    align-items: flex-start; justify-content: center;
     backdrop-filter: blur(6px);
+    overflow-y: auto;
+    padding: 16px 0;
   }
   .pin-overlay.open { display: flex; }
   .pin-card {
     background: white; border-radius: 28px;
-    padding: 32px 28px; max-width: 320px; width: 90%;
+    padding: 28px 24px; max-width: 320px; width: 90%;
     text-align: center; box-shadow: 0 24px 80px rgba(0,0,0,0.3);
     animation: fadeInUp 0.3s ease;
+    margin: auto;
   }
   .pin-card h3 { font-family:'Baloo 2',cursive; font-size:1.4rem; color:#1e293b; margin-bottom:6px; }
   .pin-card p  { font-size:0.8rem; color:#64748b; margin-bottom:18px; font-weight:600; }
@@ -1546,7 +1577,7 @@
   </div>
 
   <span class="ribbon acc-orange">🗺️ States & Capitals (Selected)</span>
-  <table class="gk-table">
+  <div class="gk-table-wrap"><table class="gk-table">
     <thead><tr style="background: linear-gradient(90deg,#f97316,#f59e0b)">
       <th>State 🏛️</th><th>Capital 🌆</th><th>Famous For 🌟</th>
     </tr></thead>
@@ -1562,7 +1593,7 @@
       <tr><td>🎭 West Bengal</td><td>Kolkata</td><td>Durga Puja, Rabindranath Tagore, Sweets</td></tr>
       <tr><td>🌲 Karnataka</td><td>Bengaluru</td><td>IT Capital, Mysore Palace, Coffee</td></tr>
     </tbody>
-  </table>
+  </table></div>
 
   <span class="ribbon acc-coral">🏆 National Symbols of India</span>
   <div class="cards-grid">
@@ -1648,7 +1679,7 @@
   </div>
 
   <span class="ribbon acc-sky">🗺️ Countries & Capitals</span>
-  <table class="gk-table">
+  <div class="gk-table-wrap"><table class="gk-table">
     <thead><tr style="background:linear-gradient(90deg,#0ea5e9,#8b5cf6)">
       <th>Country 🌍</th><th>Capital 🏙️</th><th>Famous For ⭐</th>
     </tr></thead>
@@ -1664,7 +1695,7 @@
       <tr><td>🇿🇦 South Africa</td><td>Pretoria/Cape Town</td><td>Nelson Mandela, Wildlife, Diamonds</td></tr>
       <tr><td>🇸🇦 Saudi Arabia</td><td>Riyadh</td><td>Mecca, Medina, Oil, Deserts</td></tr>
     </tbody>
-  </table>
+  </table></div>
 
   <span class="ribbon acc-coral">🏆 World Records & Wonders</span>
   <div class="cards-grid">
@@ -1735,7 +1766,7 @@
   </div>
 
   <span class="ribbon acc-sun">🏛️ Ancient Indian Empires</span>
-  <table class="gk-table">
+  <div class="gk-table-wrap"><table class="gk-table">
     <thead><tr style="background:linear-gradient(90deg,#f59e0b,#f97316)">
       <th>Empire 🏛️</th><th>Period ⏳</th><th>Famous For 🌟</th>
     </tr></thead>
@@ -1746,10 +1777,10 @@
       <tr><td>🕌 Mughal Empire</td><td>1526 – 1857 CE</td><td>Akbar the Great; Built Taj Mahal, Red Fort, Humayun's Tomb</td></tr>
       <tr><td>🏹 Maratha Empire</td><td>1674 – 1818 CE</td><td>Chhatrapati Shivaji Maharaj built a powerful naval & land army</td></tr>
     </tbody>
-  </table>
+  </table></div>
 
   <span class="ribbon acc-coral">🇮🇳 Important Dates in Indian History</span>
-  <table class="gk-table">
+  <div class="gk-table-wrap"><table class="gk-table">
     <thead><tr style="background:linear-gradient(90deg,#f43f5e,#f97316)">
       <th>Date 📅</th><th>Event 📖</th>
     </tr></thead>
@@ -1762,7 +1793,7 @@
       <tr><td>11 July 1958</td><td>🚀 ISRO (Indian Space Research Organisation) established</td></tr>
       <tr><td>23 August 2023</td><td>🌙 Chandrayaan-3 landed on Moon's South Pole — India made history!</td></tr>
     </tbody>
-  </table>
+  </table></div>
 
   <div class="fact-box fact-yellow">
     <span class="fact-icon">🌍</span>
@@ -1799,7 +1830,7 @@
     <div class="card c4"><span class="emoji">🏊</span><h3>Mirabai Chanu</h3><p>Silver medal in Weightlifting at Tokyo Olympics 2020. Incredible strength!</p></div>
   </div>
 
-  <table class="gk-table">
+  <div class="gk-table-wrap"><table class="gk-table">
     <thead><tr style="background:linear-gradient(90deg,#22c55e,#0ea5e9)">
       <th>Sport ⚽</th><th>Origin 🌍</th><th>Olympic? 🏅</th><th>India's Best 🇮🇳</th>
     </tr></thead>
@@ -1811,7 +1842,7 @@
       <tr><td>🥋 Kabaddi</td><td>India</td><td>No (Asian Games yes)</td><td>India wins almost every time!</td></tr>
       <tr><td>♟️ Chess</td><td>India (Chaturanga)</td><td>No</td><td>Viswanathan Anand – 5× World Champion!</td></tr>
     </tbody>
-  </table>
+  </table></div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -1852,6 +1883,8 @@
     <div class="section-sub">Maths is the language of the Universe!</div>
   </div>
 
+  <!-- Big Number Concepts -->
+  <span class="ribbon acc-purple">🧠 Big Number Concepts</span>
   <div class="cards-grid">
     <div class="card c5"><span class="emoji">0️⃣</span><h3>Zero (0)</h3><p>INVENTED IN INDIA by Aryabhatta! Without zero, computers and phones cannot work.</p></div>
     <div class="card c1"><span class="emoji">π</span><h3>Pi (π)</h3><p>Pi = 3.14159... Never-ending number! Used to calculate circles. Aryabhatta calculated it too!</p></div>
@@ -1859,35 +1892,98 @@
     <div class="card c4"><span class="emoji">🌀</span><h3>Fibonacci Numbers</h3><p>Each number = sum of previous two: 0,1,1,2,3,5,8,13,21... Found in flowers, shells, nature!</p></div>
     <div class="card c2"><span class="emoji">📐</span><h3>Pythagoras Theorem</h3><p>a² + b² = c² for right-angled triangles. Used in building construction daily!</p></div>
     <div class="card c6"><span class="emoji">∞</span><h3>Infinity</h3><p>A concept of something without end. Numbers go on forever — there's no "biggest number!"</p></div>
+    <div class="card c7"><span class="emoji">🧮</span><h3>Even &amp; Odd Numbers</h3><p>Even numbers divide by 2 perfectly: 2,4,6,8... Odd numbers don't: 1,3,5,7... Simple but super useful!</p></div>
+    <div class="card c8"><span class="emoji">🔣</span><h3>Roman Numerals</h3><p>I=1, V=5, X=10, L=50, C=100, M=1000. Used on clocks, movies and monuments!</p></div>
   </div>
 
+  <!-- Shapes & Geometry -->
+  <span class="ribbon acc-coral">📐 Shapes & Geometry</span>
+  <div class="cards-grid">
+    <div class="card c2"><span class="emoji">🔺</span><h3>Triangle</h3><p>3 sides, 3 angles. All angles add up to 180°! Used in bridges — strongest shape in engineering.</p></div>
+    <div class="card c1"><span class="emoji">⬛</span><h3>Square</h3><p>4 equal sides, 4 right angles (90° each). Area = side × side. Perimeter = 4 × side.</p></div>
+    <div class="card c3"><span class="emoji">⭕</span><h3>Circle</h3><p>All points equal distance from centre (radius). Area = πr². Circumference = 2πr.</p></div>
+    <div class="card c5"><span class="emoji">🔷</span><h3>Cube</h3><p>6 equal square faces. Volume = side³. A dice is a cube! Used in architecture everywhere.</p></div>
+    <div class="card c4"><span class="emoji">🔶</span><h3>Cylinder</h3><p>2 circular faces + 1 curved surface. Volume = πr²h. Cans, drums, pipes are cylinders!</p></div>
+    <div class="card c6"><span class="emoji">🔵</span><h3>Sphere</h3><p>Perfectly round 3D shape. Volume = (4/3)πr³. Earth, Sun, balls — all spheres!</p></div>
+  </div>
+
+  <!-- India's Gift to Maths -->
   <div class="fact-box fact-purple">
     <span class="fact-icon">🇮🇳</span>
     <div><h4>India's Gift to Mathematics!</h4>
-    <p>🔢 <b>Zero (0)</b> – invented by Aryabhatta (5th century AD) | 📐 <b>Decimal system</b> – invented in India | 🧮 <b>Algebra</b> – developed by Indian mathematician Brahmagupta | 🌀 <b>Trigonometry</b> – foundations laid by Indian scholars | 🎯 <b>Ramanujan</b> – from Tamil Nadu, solved problems that puzzled top mathematicians!</p></div>
+    <p>🔢 <b>Zero (0)</b> – invented by Aryabhatta (5th century AD) | 📐 <b>Decimal system</b> – invented in India | 🧮 <b>Algebra</b> – developed by Brahmagupta | 🌀 <b>Trigonometry</b> – foundations by Indian scholars | 🎯 <b>Ramanujan</b> – from Tamil Nadu, solved problems that puzzled top mathematicians worldwide!</p></div>
   </div>
 
+  <!-- Indian Maths Geniuses -->
+  <span class="ribbon acc-sun">🌟 India's Maths Geniuses</span>
+  <div class="cards-grid">
+    <div class="card c4"><span class="emoji">🧑‍🔬</span><h3>Aryabhatta</h3><p>Born 476 AD in India. Invented Zero, calculated Pi, and explained Earth rotates around the Sun — 1000 years before Europeans!</p></div>
+    <div class="card c5"><span class="emoji">🧮</span><h3>Brahmagupta</h3><p>628 AD mathematician. First to define rules for zero and negative numbers. Father of modern arithmetic!</p></div>
+    <div class="card c2"><span class="emoji">✨</span><h3>Srinivasa Ramanujan</h3><p>Born in Tamil Nadu, 1887. Self-taught genius! Discovered 3,900 formulas. Cambridge called him a "natural mathematical genius."</p></div>
+    <div class="card c1"><span class="emoji">🔭</span><h3>Madhava of Sangamagrama</h3><p>14th century Kerala mathematician. Discovered infinite series for π — 200 years before European mathematicians!</p></div>
+    <div class="card c3"><span class="emoji">🏆</span><h3>Shakuntala Devi</h3><p>The "Human Computer"! Multiplied two 13-digit numbers in 28 seconds — faster than a computer in 1980!</p></div>
+    <div class="card c6"><span class="emoji">📏</span><h3>Baudhayana</h3><p>800 BC Indian mathematician. Wrote the Pythagoras theorem 300 years before Pythagoras was even born!</p></div>
+  </div>
+
+  <!-- Fun Maths Tricks -->
   <span class="ribbon acc-sky">📊 Fun Maths Tricks</span>
   <div class="cards-grid">
-    <div class="card c1"><span class="emoji">✖️</span><h3>Multiply by 9 Trick</h3><p>9×1=9, 9×2=18, ... digits always add to 9! (18→1+8=9, 27→2+7=9) Try it!</p></div>
-    <div class="card c3"><span class="emoji">💫</span><h3>The 11 Trick</h3><p>11×12: put the digits 1 and 2 on sides, sum in middle → 1,3,2 = 132! (works up to 11×18)</p></div>
-    <div class="card c4"><span class="emoji">🔁</span><h3>Any Number × 0</h3><p>Any number multiplied by ZERO is always ZERO! 1000 × 0 = 0!</p></div>
-    <div class="card c5"><span class="emoji">🌟</span><h3>Powers of 2</h3><p>2,4,8,16,32,64... Double each time! Computers use this — everything is 0s and 1s!</p></div>
+    <div class="card c1"><span class="emoji">✖️</span><h3>Multiply by 9 Trick</h3><p>9×1=9, 9×2=18... Digits always add to 9! (18→1+8=9, 27→2+7=9) Try any number!</p></div>
+    <div class="card c3"><span class="emoji">💫</span><h3>The 11 Trick</h3><p>11×12: put digits 1 and 2 on sides, sum in middle → 1,3,2 = 132! Works up to 11×18.</p></div>
+    <div class="card c4"><span class="emoji">🔁</span><h3>Any Number × 0</h3><p>Any number multiplied by ZERO is always ZERO! Even 1,000,000,000 × 0 = 0!</p></div>
+    <div class="card c5"><span class="emoji">🌟</span><h3>Powers of 2</h3><p>2, 4, 8, 16, 32, 64... Double each time! Computers use this — everything in digital is 0s and 1s!</p></div>
+    <div class="card c2"><span class="emoji">🎯</span><h3>Multiply by 5 Trick</h3><p>Any number × 5: divide by 2, then add a zero! 46 × 5 → 46÷2 = 23 → add zero = 230!</p></div>
+    <div class="card c6"><span class="emoji">🔮</span><h3>Think of a Number!</h3><p>Think a number → double it → add 10 → halve it → subtract your number. Answer is ALWAYS 5!</p></div>
+    <div class="card c7"><span class="emoji">📅</span><h3>Multiply by 11 Quickly</h3><p>For 2-digit numbers: add both digits, put sum in middle! 72 × 11 → 7+2=9 → answer: 792!</p></div>
+    <div class="card c8"><span class="emoji">🔢</span><h3>Square Numbers Ending in 5</h3><p>35² = 1225. Take first digit (3), multiply by next number (4) → 12, then add 25 → 1225! Always works!</p></div>
   </div>
 
-  <table class="gk-table">
+  <!-- Number Types -->
+  <span class="ribbon acc-teal">🔣 Types of Numbers</span>
+  <div class="cards-grid">
+    <div class="card c7"><span class="emoji">1️⃣</span><h3>Natural Numbers</h3><p>Counting numbers: 1, 2, 3, 4, 5... They go on forever! These are the first numbers humans ever used.</p></div>
+    <div class="card c1"><span class="emoji">🔄</span><h3>Whole Numbers</h3><p>Natural numbers + Zero: 0, 1, 2, 3... Zero makes them "whole!" Used in everyday counting.</p></div>
+    <div class="card c3"><span class="emoji">➕➖</span><h3>Integers</h3><p>Whole numbers + negative numbers: ...-3,-2,-1,0,1,2,3... Negative numbers used in temperature, banking!</p></div>
+    <div class="card c2"><span class="emoji">½</span><h3>Fractions</h3><p>Parts of a whole! ½ pizza, ¼ cup... Numerator on top, denominator on bottom. Used in cooking every day!</p></div>
+    <div class="card c4"><span class="emoji">💯</span><h3>Decimals</h3><p>Numbers with a decimal point: 3.14, 9.81... Used in money, measurements, science — everywhere!</p></div>
+    <div class="card c5"><span class="emoji">📊</span><h3>Rational Numbers</h3><p>Any number that can be written as a fraction p/q. All integers and fractions are rational numbers!</p></div>
+  </div>
+
+  <!-- Maths in Real Life -->
+  <div class="fact-box fact-sky">
+    <span class="fact-icon">🌍</span>
+    <div><h4>Maths Is Everywhere Around You!</h4>
+    <p>🎵 <b>Music</b> – rhythm and beats are fractions of time | 🏗️ <b>Buildings</b> – angles and geometry keep them standing | 🎮 <b>Video Games</b> – every pixel uses coordinates | 🍕 <b>Cooking</b> – recipes use fractions and ratios | 🏏 <b>Cricket</b> – batting average, run rate are all maths | 📱 <b>Phones</b> – encryption, screens, processors — pure maths!</p></div>
+  </div>
+
+  <!-- Formulas Table -->
+  <span class="ribbon acc-green">📋 Important Formulas</span>
+  <div class="gk-table-wrap"><table class="gk-table">
     <thead><tr style="background:linear-gradient(90deg,#8b5cf6,#6366f1)">
-      <th>Concept 📚</th><th>Formula / Fact ⚡</th><th>Example 💡</th>
+      <th>Concept 📚</th><th>Formula ⚡</th><th>Example 💡</th>
     </tr></thead>
     <tbody>
       <tr><td>Area of Rectangle</td><td>Length × Width</td><td>5m × 3m = 15 m²</td></tr>
-      <tr><td>Area of Circle</td><td>π × r²</td><td>π × 7² = 154 cm²</td></tr>
+      <tr><td>Area of Square</td><td>Side × Side</td><td>6cm × 6cm = 36 cm²</td></tr>
+      <tr><td>Area of Triangle</td><td>½ × Base × Height</td><td>½ × 8 × 5 = 20 cm²</td></tr>
+      <tr><td>Area of Circle</td><td>π × r²</td><td>π × 7² ≈ 154 cm²</td></tr>
       <tr><td>Perimeter of Square</td><td>4 × Side</td><td>4 × 6 = 24 cm</td></tr>
+      <tr><td>Perimeter of Rectangle</td><td>2 × (L + W)</td><td>2 × (5+3) = 16 cm</td></tr>
+      <tr><td>Circumference of Circle</td><td>2 × π × r</td><td>2 × π × 7 ≈ 44 cm</td></tr>
+      <tr><td>Volume of Cube</td><td>Side³</td><td>4³ = 64 cm³</td></tr>
       <tr><td>Speed</td><td>Distance ÷ Time</td><td>60 km ÷ 2 hr = 30 km/h</td></tr>
       <tr><td>Average</td><td>Sum ÷ Count</td><td>(10+20+30) ÷ 3 = 20</td></tr>
       <tr><td>Percentage</td><td>(Part ÷ Whole) × 100</td><td>40 out of 50 = 80%</td></tr>
+      <tr><td>Simple Interest</td><td>(P × R × T) ÷ 100</td><td>₹1000 × 5% × 2 = ₹100</td></tr>
     </tbody>
-  </table>
+  </table></div>
+
+  <!-- Maths Wonder Facts -->
+  <div class="fact-box fact-yellow">
+    <span class="fact-icon">🤯</span>
+    <div><h4>Mind-Blowing Maths Facts!</h4>
+    <p>🔢 <b>A "Googol"</b> is 1 followed by 100 zeros — bigger than atoms in the universe! | 🌀 <b>Pi</b> has been calculated to 100 trillion digits — and never repeats! | ➕ <b>1 + 2 + 3 + ... + 100 = 5050</b> — young Gauss solved this in 60 seconds at age 10! | 🃏 <b>Shuffling a deck of cards</b> creates an arrangement that has probably never existed before in history!</p></div>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════════

@@ -1028,6 +1028,19 @@
   .match-score-val { font-family:'Baloo 2',cursive; font-size:1.2rem; font-weight:800; }
   .match-new-btn { padding:7px 18px; border-radius:50px; border:none; background:linear-gradient(135deg,var(--purple),var(--indigo)); color:white; font-family:'Nunito',sans-serif; font-size:.8rem; font-weight:800; cursor:pointer; }
 
+  /* Match — locked state */
+  .match-locked {
+    text-align:center; padding:28px 16px;
+    background:linear-gradient(135deg,#f8fafc,#ede9fe);
+    border-radius:16px; margin-bottom:14px;
+  }
+  .match-lock-icon  { font-size:3rem; margin-bottom:8px; }
+  .match-lock-title { font-family:'Baloo 2',cursive; font-size:1.1rem; font-weight:800; color:#1e293b; margin-bottom:4px; }
+  .match-lock-sub   { font-size:.78rem; color:#64748b; margin-bottom:12px; line-height:1.5; }
+  .match-lock-days  { display:inline-block; background:linear-gradient(135deg,#8b5cf6,#6366f1); color:white; border-radius:50px; padding:5px 18px; font-size:.82rem; font-weight:800; margin-bottom:10px; }
+  .match-lock-try   { font-size:.72rem; color:#8b5cf6; font-weight:700; }
+  .match-completed-badge { display:inline-block; background:#dcfce7; color:#15803d; border-radius:50%; width:18px; height:18px; font-size:.65rem; line-height:18px; text-align:center; margin-left:4px; }
+
   /* ── MEMORY GAME ── */
   .memory-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:12px 0; }
   .mem-card { aspect-ratio:1; border-radius:14px; border:2.5px solid #e2e8f0; background:linear-gradient(135deg,#8b5cf6,#6366f1); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.8rem; transition:all .3s; position:relative; }
@@ -2186,17 +2199,21 @@
   </div>
   <div class="match-container">
     <div class="match-title">🎮 Matching Game</div>
-    <div class="match-sub">Tap a card on the left, then its match on the right. Complete all pairs!</div>
+    <div class="match-sub">Tap a card on the left, then its match on the right. Complete all pairs to unlock a badge!</div>
     <div class="match-mode-row" id="matchModeRow">
       <button class="match-mode-btn active" onclick="loadMatch('flags',this)">🏴 Flags</button>
       <button class="match-mode-btn" onclick="loadMatch('animals',this)">🐾 Animals</button>
       <button class="match-mode-btn" onclick="loadMatch('planets',this)">🪐 Planets</button>
       <button class="match-mode-btn" onclick="loadMatch('inventors',this)">💡 Inventors</button>
+      <button class="match-mode-btn" onclick="loadMatch('india',this)">🇮🇳 India</button>
+      <button class="match-mode-btn" onclick="loadMatch('science',this)">🔬 Science</button>
     </div>
-    <div class="match-grid" id="matchGrid"></div>
-    <div class="match-score-row">
-      <span class="match-score-val" id="matchScore">⭐ 0 pairs</span>
-      <button class="match-new-btn" onclick="loadMatch(currentMatchMode, document.querySelector('.match-mode-btn.active'))">🔄 New Game</button>
+    <div id="matchGameArea">
+      <div class="match-grid" id="matchGrid"></div>
+      <div class="match-score-row">
+        <span class="match-score-val" id="matchScore">⭐ 0 pairs</span>
+        <button class="match-new-btn" onclick="loadMatch(currentMatchMode, document.querySelector('.match-mode-btn.active'))">🔄 New Game</button>
+      </div>
     </div>
   </div>
 </div>
@@ -2867,6 +2884,7 @@
     renderVocab();       // pre-render vocab so tab is ready
     initStories();       // pre-render story picker
     loadMatch('flags', document.querySelector('.match-mode-btn')); // pre-load match
+    updateModeBtnBadges();
     initMemory();        // pre-init memory grid
     setTimeout(() => mascotSay('👋 Hi! I am Panda Explorer! Tap any tab to earn XP! Today\'s Daily Challenge is waiting! 🌟'), 1200);
   });
@@ -3053,6 +3071,16 @@
         <div class="pdi-dot blue"></div>
         <div><div class="pdi-t">Best streak: ${streakDays} day${streakDays!==1?'s':''} this week</div>
         <div class="pdi-s">${streakDays>=5?'🔥 On fire! Keep it up!':'Aim for 5 days in a row!'}</div></div>
+      </div>
+      <div class="pd-insight">
+        <div class="pdi-dot green"></div>
+        <div><div class="pdi-t">Match the Pair progress</div>
+        <div class="pdi-s">${(()=>{
+          const h=JSON.parse(lsGet('gk_match_history','{}'));
+          const done=Object.keys(h).filter(k=>h[k].completedAt).length;
+          const locked=Object.keys(h).filter(k=>{const e=Date.now()-h[k].completedAt;return e<15*24*60*60*1000;}).length;
+          return done>0?`${done} categor${done>1?'ies':'y'} completed · ${locked} locked for 15 days`:'No categories completed yet';
+        })()}</div></div>
       </div>` : `<div class="pd-insight"><div class="pdi-dot purple"></div><div><div class="pdi-t">Complete a quiz to see insights!</div></div></div>`;
 
     // Sessions HTML
@@ -3343,7 +3371,8 @@
   }
 
   function resetAllProgress() {
-    const keys = ['gkxp','gkvisited','gkquizbadge','gk_daily_xp','gk_quiz_sessions','gk_topic_alltime','gk_missions','gk_parent_notes'];
+    const keys = ['gkxp','gkvisited','gkquizbadge','gk_daily_xp','gk_quiz_sessions',
+                   'gk_topic_alltime','gk_missions','gk_parent_notes','gk_match_history'];
     keys.forEach(k => lsSet(k, k==='gkxp'?'0':k==='gkvisited'?'[]':'{}'));
     lsSet('gkvisited','[]');
     xp = 0; visitedTabs = []; quizBadgeEarned = false;
@@ -3538,85 +3567,252 @@
   // ══════════════════════════════════════════
   // MATCH THE PAIR GAME
   // ══════════════════════════════════════════
+  // ══════════════════════════════════════════
+  // MATCH THE PAIR GAME — expanded + 15-day cooldown
+  // ══════════════════════════════════════════
+  const MATCH_DAYS_LOCK = 15;
+  const MATCH_SHOW = 8; // pairs shown per round
+
   const MATCH_SETS = {
     flags: {
-      left:  ['🇮🇳 India','🇯🇵 Japan','🇫🇷 France','🇧🇷 Brazil','🇦🇺 Australia','🇪🇬 Egypt'],
-      right: ['New Delhi','Tokyo','Paris','Brasília','Canberra','Cairo'],
+      label: '🏴 Flags & Capitals',
+      pairs: [
+        ['🇮🇳 India','New Delhi'],['🇯🇵 Japan','Tokyo'],['🇫🇷 France','Paris'],
+        ['🇧🇷 Brazil','Brasília'],['🇦🇺 Australia','Canberra'],['🇪🇬 Egypt','Cairo'],
+        ['🇬🇧 UK','London'],['🇺🇸 USA','Washington DC'],['🇨🇳 China','Beijing'],
+        ['🇷🇺 Russia','Moscow'],['🇩🇪 Germany','Berlin'],['🇮🇹 Italy','Rome'],
+        ['🇸🇦 Saudi Arabia','Riyadh'],['🇿🇦 South Africa','Cape Town'],['🇰🇷 South Korea','Seoul'],
+      ]
     },
     animals: {
-      left:  ['🐝 Bee','🦁 Lion','🐧 Penguin','🦒 Giraffe','🦈 Shark','🐘 Elephant'],
-      right: ['Hive','Pride','Colony','Tower','School','Herd'],
+      label: '🐾 Animal Groups',
+      pairs: [
+        ['🐝 Bee','Hive'],['🦁 Lion','Pride'],['🐧 Penguin','Colony'],
+        ['🦒 Giraffe','Tower'],['🦈 Shark','School'],['🐘 Elephant','Herd'],
+        ['🐺 Wolf','Pack'],['🦅 Crow','Murder'],['🦬 Buffalo','Gang'],
+        ['🐬 Dolphin','Pod'],['🦉 Owl','Parliament'],['🦋 Butterfly','Flutter'],
+        ['🦘 Kangaroo','Mob'],['🐟 Fish','Shoal'],['🦦 Otter','Romp'],
+      ]
     },
     planets: {
-      left:  ['☿ Mercury','♀ Venus','⊕ Earth','♂ Mars','♃ Jupiter','♄ Saturn'],
-      right: ['Closest to Sun','Hottest planet','Has life','Red Planet','Largest planet','Has rings'],
+      label: '🪐 Solar System',
+      pairs: [
+        ['☿ Mercury','Closest to Sun'],['♀ Venus','Hottest planet'],
+        ['🌍 Earth','Has life'],['♂ Mars','Red Planet'],
+        ['♃ Jupiter','Largest planet'],['♄ Saturn','Has rings'],
+        ['⛢ Uranus','Rotates sideways'],['♆ Neptune','Farthest planet'],
+        ['🌕 Moon','Earth\'s satellite'],['☀️ Sun','Centre of Solar System'],
+        ['🪨 Pluto','Dwarf planet'],['☄️ Comet','Has a tail'],
+        ['🌑 Phobos','Moon of Mars'],['🌌 Milky Way','Our galaxy'],['💫 Asteroid','Rocky space object'],
+      ]
     },
     inventors: {
-      left:  ['💡 Light Bulb','📞 Telephone','✈️ Aeroplane','💻 Computer','🖨️ Printing Press','📻 Radio'],
-      right: ['Thomas Edison','Graham Bell','Wright Brothers','Charles Babbage','Gutenberg','Marconi'],
+      label: '💡 Inventors & Inventions',
+      pairs: [
+        ['💡 Light Bulb','Thomas Edison'],['📞 Telephone','Graham Bell'],
+        ['✈️ Aeroplane','Wright Brothers'],['💻 Computer','Charles Babbage'],
+        ['🖨️ Printing Press','Gutenberg'],['📻 Radio','Marconi'],
+        ['🚂 Steam Engine','James Watt'],['🔭 Telescope','Galileo'],
+        ['💊 Penicillin','Alexander Fleming'],['☢️ X-Ray','Wilhelm Röntgen'],
+        ['📺 Television','John Baird'],['🌐 Internet','Tim Berners-Lee'],
+        ['🔬 Microscope','Antonie van Leeuwenhoek'],['⚡ AC Current','Nikola Tesla'],['🧲 Electromagnet','Faraday'],
+      ]
+    },
+    india: {
+      label: '🇮🇳 India Facts',
+      pairs: [
+        ['🏛️ New Delhi','Capital of India'],['🌊 Andaman Islands','Bay of Bengal'],
+        ['🏔️ K2','Second highest peak'],['🌊 Ganga','Longest river in India'],
+        ['🐯 Bengal Tiger','National animal'],['🦚 Peacock','National bird'],
+        ['🪷 Lotus','National flower'],['🏏 Cricket','Most popular sport'],
+        ['🔢 Zero','India\'s gift to maths'],['♟️ Chess','Invented in India'],
+        ['🎭 Kuchipudi','AP dance form'],['🏛️ Tirupati','Richest temple'],
+        ['🌶️ Guntur Chilli','From Andhra Pradesh'],['🚀 ISRO','India\'s space agency'],['🎓 IIT','Premier tech institute'],
+      ]
+    },
+    science: {
+      label: '🔬 Science Concepts',
+      pairs: [
+        ['🌈 Rainbow','7 colours VIBGYOR'],['⚡ Lightning','5× hotter than Sun'],
+        ['🧬 DNA','Blueprint of life'],['🔋 Battery','Stores electric energy'],
+        ['🌡️ Thermometer','Measures temperature'],['🔭 Telescope','Views distant objects'],
+        ['💧 H₂O','Chemical formula of water'],['🌍 Photosynthesis','Plants make food from sunlight'],
+        ['⚛️ Atom','Smallest unit of matter'],['🧲 Magnet','Attracts iron'],
+        ['🔊 Sound','Travels as waves'],['💡 Electricity','Flow of electrons'],
+        ['🌊 Tsunami','Giant ocean wave'],['🌪️ Tornado','Rotating wind column'],['🦠 Virus','Causes infections'],
+      ]
     },
   };
+
+  const FIFTEEN_DAYS_MS = MATCH_DAYS_LOCK * 24 * 60 * 60 * 1000;
   let matchSelected = null;
   let matchPairsFound = 0;
   let matchPairsTotal = 0;
   let currentMatchMode = 'flags';
+  let currentMatchPairs = []; // the 8 randomly chosen pairs
+
+  function getMatchHistory() {
+    return JSON.parse(lsGet('gk_match_history','{}'));
+  }
+  function saveMatchHistory(h) {
+    lsSet('gk_match_history', JSON.stringify(h));
+  }
+
+  function isMatchLocked(mode) {
+    const h = getMatchHistory();
+    if (!h[mode]?.completedAt) return { locked: false, daysLeft: 0 };
+    const elapsed = Date.now() - h[mode].completedAt;
+    if (elapsed >= FIFTEEN_DAYS_MS) return { locked: false, daysLeft: 0 };
+    const daysLeft = Math.ceil((FIFTEEN_DAYS_MS - elapsed) / (24*60*60*1000));
+    return { locked: true, daysLeft };
+  }
+
+  function updateModeBtnBadges() {
+    document.querySelectorAll('.match-mode-btn').forEach(btn => {
+      const fn = btn.getAttribute('onclick')||'';
+      const m  = fn.match(/loadMatch\('([^']+)'/)?.[1];
+      if (!m) return;
+      const old = btn.querySelector('.match-completed-badge');
+      if (old) old.remove();
+      const { locked } = isMatchLocked(m);
+      if (locked) {
+        const b = document.createElement('span');
+        b.className = 'match-completed-badge';
+        b.textContent = '🔒';
+        b.style.cssText = 'margin-left:4px;font-size:.65rem;';
+        btn.appendChild(b);
+      } else {
+        const h = getMatchHistory();
+        if (h[m]?.completedAt) {
+          const b = document.createElement('span');
+          b.className = 'match-completed-badge';
+          b.textContent = '✅';
+          b.style.cssText = 'margin-left:4px;font-size:.65rem;';
+          btn.appendChild(b);
+        }
+      }
+    });
+  }
 
   function loadMatch(mode, btn) {
     currentMatchMode = mode;
     document.querySelectorAll('.match-mode-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
-    matchSelected    = null;
-    matchPairsFound  = 0;
+    updateModeBtnBadges();
+
+    const area = document.getElementById('matchGameArea');
+    const { locked, daysLeft } = isMatchLocked(mode);
+
+    if (locked) {
+      const h   = getMatchHistory();
+      const dat = new Date(h[mode].completedAt).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+      // Find next unlocked category
+      const allModes = Object.keys(MATCH_SETS);
+      const nextUnlocked = allModes.find(m => m!==mode && !isMatchLocked(m).locked);
+      area.innerHTML = `
+        <div class="match-locked">
+          <div class="match-lock-icon">🔒</div>
+          <div class="match-lock-title">${MATCH_SETS[mode].label} — Completed!</div>
+          <div class="match-lock-sub">You finished this set on <b>${dat}</b>.<br>
+          Great job! Let your brain rest and come back in <b>${daysLeft} day${daysLeft!==1?'s':''}</b>.</div>
+          <div class="match-lock-days">🗓️ Unlocks in ${daysLeft} day${daysLeft!==1?'s':''}</div><br>
+          ${nextUnlocked ? `<div class="match-lock-try">👉 Try <b>${MATCH_SETS[nextUnlocked].label}</b> in the meantime!</div>` : '<div class="match-lock-try">All sets completed — amazing! 🏆</div>'}
+        </div>`;
+      return;
+    }
+
+    // Pick MATCH_SHOW random pairs from the full pool
     const set = MATCH_SETS[mode];
-    matchPairsTotal  = set.left.length;
-    // Shuffle right column
-    const rightShuffled = [...set.right].sort(()=>Math.random()-.5);
+    const shuffledPairs = [...set.pairs].sort(()=>Math.random()-.5).slice(0, MATCH_SHOW);
+    currentMatchPairs = shuffledPairs;
+    matchSelected     = null;
+    matchPairsFound   = 0;
+    matchPairsTotal   = shuffledPairs.length;
+
+    const leftItems  = shuffledPairs.map(p => p[0]);
+    const rightItems = [...shuffledPairs.map(p => p[1])].sort(()=>Math.random()-.5);
+
+    area.innerHTML = `
+      <div class="match-grid" id="matchGrid"></div>
+      <div class="match-score-row">
+        <span class="match-score-val" id="matchScore">⭐ 0 / ${matchPairsTotal} pairs</span>
+        <button class="match-new-btn" onclick="loadMatch(currentMatchMode, document.querySelector('.match-mode-btn.active'))">🔄 New Game</button>
+      </div>`;
+
     const grid = document.getElementById('matchGrid');
-    grid.innerHTML = '';
-    set.left.forEach((l, i) => {
+    leftItems.forEach((l, i) => {
       const lEl = document.createElement('div');
       lEl.className = 'match-item'; lEl.textContent = l;
-      lEl.dataset.idx = i; lEl.dataset.side = 'left';
-      lEl.onclick = () => selectMatchItem(lEl, i, 'left');
+      lEl.dataset.pairIdx = i; lEl.dataset.side = 'left';
+      lEl.onclick = () => selectMatchItem(lEl);
       grid.appendChild(lEl);
+
       const rEl = document.createElement('div');
-      rEl.className = 'match-item'; rEl.textContent = rightShuffled[i];
-      rEl.dataset.idx = set.right.indexOf(rightShuffled[i]); rEl.dataset.side = 'right';
-      rEl.onclick = () => selectMatchItem(rEl, set.right.indexOf(rightShuffled[i]), 'right');
+      const correctLeft = shuffledPairs[i][0];
+      const correctRight = shuffledPairs[i][1];
+      const displayRight = rightItems[i];
+      // Find which pair index this right item belongs to
+      const rightPairIdx = shuffledPairs.findIndex(p => p[1] === displayRight);
+      rEl.className = 'match-item'; rEl.textContent = displayRight;
+      rEl.dataset.pairIdx = rightPairIdx; rEl.dataset.side = 'right';
+      rEl.onclick = () => selectMatchItem(rEl);
       grid.appendChild(rEl);
     });
-    document.getElementById('matchScore').textContent = `⭐ 0 pairs`;
   }
 
-  function selectMatchItem(el, idx, side) {
+  function selectMatchItem(el) {
     if (el.classList.contains('matched')) return;
     if (!matchSelected) {
-      if (el.classList.contains('selected')) { el.classList.remove('selected'); matchSelected=null; return; }
-      matchSelected = {el, idx, side};
+      document.querySelectorAll('.match-item').forEach(i => i.classList.remove('selected'));
+      matchSelected = el;
       el.classList.add('selected');
     } else {
-      if (el === matchSelected.el) { el.classList.remove('selected'); matchSelected=null; return; }
-      if (matchSelected.side === side) {
-        matchSelected.el.classList.remove('selected'); matchSelected = {el, idx, side};
-        document.querySelectorAll('.match-item').forEach(i=>{ if(i!==el) i.classList.remove('selected'); });
-        el.classList.add('selected'); return;
+      if (el === matchSelected) {
+        el.classList.remove('selected');
+        matchSelected = null;
+        return;
       }
-      // Check match
-      const leftIdx  = side==='left' ? idx : matchSelected.idx;
-      const rightIdx = side==='right' ? idx : matchSelected.idx;
-      if (leftIdx === rightIdx) {
-        el.classList.remove('selected'); el.classList.add('matched');
-        matchSelected.el.classList.remove('selected'); matchSelected.el.classList.add('matched');
+      if (el.dataset.side === matchSelected.dataset.side) {
+        matchSelected.classList.remove('selected');
+        matchSelected = el;
+        el.classList.add('selected');
+        return;
+      }
+      const leftEl  = el.dataset.side==='left' ? el : matchSelected;
+      const rightEl = el.dataset.side==='right' ? el : matchSelected;
+
+      if (leftEl.dataset.pairIdx === rightEl.dataset.pairIdx) {
+        leftEl.classList.replace('selected','matched');
+        rightEl.classList.replace('selected','matched') || rightEl.classList.add('matched');
+        leftEl.classList.remove('selected'); rightEl.classList.remove('selected');
+        leftEl.classList.add('matched'); rightEl.classList.add('matched');
         matchPairsFound++;
         document.getElementById('matchScore').textContent = `⭐ ${matchPairsFound} / ${matchPairsTotal} pairs`;
+
         if (matchPairsFound === matchPairsTotal) {
-          addXP(30, el);
-          mascotSay('🎮 Perfect match! All pairs found! +30 XP!');
+          // Save completion with 15-day lock
+          const h = getMatchHistory();
+          if (!h[currentMatchMode]) h[currentMatchMode] = {};
+          h[currentMatchMode].completedAt  = Date.now();
+          h[currentMatchMode].timesPlayed  = (h[currentMatchMode].timesPlayed||0)+1;
+          saveMatchHistory(h);
+          updateModeBtnBadges();
+          addXP(40, document.getElementById('matchScore'));
+          setTimeout(()=>{
+            document.getElementById('matchGameArea').insertAdjacentHTML('beforeend',
+              `<div style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-radius:16px;padding:14px 16px;margin-top:12px;text-align:center">
+                <div style="font-size:2rem">🏆⭐</div>
+                <div style="font-family:'Baloo 2',cursive;font-size:1rem;font-weight:800;color:#14532d">All ${matchPairsTotal} pairs matched! +40 XP!</div>
+                <div style="font-size:.75rem;color:#166534;margin-top:4px">🔒 This set is now locked for <b>${MATCH_DAYS_LOCK} days</b> — come back for a fresh challenge!</div>
+              </div>`);
+          }, 300);
+          mascotSay(`🎮 All ${matchPairsTotal} pairs matched! +40 XP! Category locked for ${MATCH_DAYS_LOCK} days!`);
         }
       } else {
-        el.classList.add('wrong-flash'); matchSelected.el.classList.add('wrong-flash');
-        const els = [el, matchSelected.el];
-        setTimeout(() => { els.forEach(e => { e.classList.remove('wrong-flash','selected'); }); }, 400);
+        el.classList.add('wrong-flash');
+        matchSelected.classList.add('wrong-flash');
+        const els = [el, matchSelected];
+        setTimeout(()=>{ els.forEach(e=>{ e.classList.remove('wrong-flash','selected'); }); }, 400);
       }
       matchSelected = null;
     }
@@ -3854,6 +4050,7 @@
       difficulty:  lsGet('gk_difficulty','auto'),
       parentPin:   lsGet('gk_parent_pin',''),
       dcHistory:   lsGet('gk_dc_history','{}'),
+      matchHistory:lsGet('gk_match_history','{}'),
     };
   }
 
@@ -3892,7 +4089,8 @@
         if (d.parentNotes)  lsSet('gk_parent_notes', d.parentNotes);
         if (d.difficulty)   lsSet('gk_difficulty',   d.difficulty);
         if (d.parentPin)    lsSet('gk_parent_pin',   d.parentPin);
-        if (d.dcHistory)    lsSet('gk_dc_history',   d.dcHistory);
+        if (d.dcHistory)     lsSet('gk_dc_history',    d.dcHistory);
+        if (d.matchHistory)  lsSet('gk_match_history',  d.matchHistory);
         xp = parseInt(d.xp||'0');
         visitedTabs = JSON.parse(d.visitedTabs||'[]');
         quizBadgeEarned = d.quizBadge === '1';

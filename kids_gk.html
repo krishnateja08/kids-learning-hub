@@ -92,9 +92,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    margin-top: 8px;
+    gap: 8px;
+    margin-top: 6px;
     position: relative;
+  }
   }
   .avatar-bubble {
     background: rgba(255,255,255,0.2);
@@ -140,7 +141,7 @@
   /* ── HERO HEADER ── */
   .hero {
     background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 50%, #f43f5e 100%);
-    padding: 10px 20px 18px;
+    padding: 8px 16px 10px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -151,78 +152,91 @@
     inset: 0;
     background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='10'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
-  .hero-floating { position: absolute; font-size: 1.3rem; animation: float 4s ease-in-out infinite; }
-  .f1 { top: 10%; left: 5%; animation-delay: 0s; }
-  .f2 { top: 20%; right: 8%; animation-delay: 1s; }
-  .f3 { top: 50%; left: 2%; animation-delay: 2s; }
-  .f4 { bottom: 15%; right: 4%; animation-delay: 0.5s; }
+  .hero-floating { position: absolute; font-size: 1rem; animation: float 4s ease-in-out infinite; }
+  .f1 { top: 8%;  left: 4%;  animation-delay: 0s;   }
+  .f2 { top: 15%; right: 6%; animation-delay: 1s;   }
+  .f3 { top: 55%; left: 2%;  animation-delay: 2s;   }
+  .f4 { bottom: 10%; right: 3%; animation-delay: 0.5s; }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
 
-  .hero-logo { font-size: 2rem; margin-bottom: 4px; display: block; position: relative; }
+  .hero-logo { font-size: 1.4rem; margin-bottom: 2px; display: block; position: relative; }
   .hero h1 {
     font-family: 'Baloo 2', cursive;
-    font-size: clamp(1.3rem, 4vw, 2.2rem);
+    font-size: clamp(1rem, 3.5vw, 1.6rem);
     font-weight: 800;
     color: white;
-    text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
     position: relative;
+    margin: 0;
   }
-  .hero p {
-    color: rgba(255,255,255,0.92);
-    font-size: clamp(0.8rem, 2vw, 1rem);
-    margin-top: 4px;
-    font-weight: 600;
-    position: relative;
-  }
+  .hero p { display: none; } /* removed per user request */
   .hero-badge {
     display: inline-block;
     background: white;
     color: var(--purple);
     font-weight: 800;
-    font-size: 0.85rem;
-    padding: 5px 16px;
+    font-size: 0.72rem;
+    padding: 3px 12px;
     border-radius: 50px;
-    margin-top: 6px;
+    margin-top: 4px;
     position: relative;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
   }
 
-  /* ── NAV CHIPS ── */
+  /* ── NAV — OPTION D: Segmented control + pill rows ── */
   .nav-wrapper {
     background: white;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
     z-index: 100;
-    padding: 8px 10px 6px;
+    padding: 7px 10px 7px;
     width: 100%;
     box-sizing: border-box;
   }
-  .nav-row-label {
-    font-size: 0.58rem;
+
+  /* Segmented control row */
+  .nav-seg-row {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 7px;
+  }
+  .nav-seg-btn {
+    flex: 1;
+    padding: 5px 6px;
+    border: 2px solid #e2e8f0;
+    background: #f8fafc;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
     font-weight: 800;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: .7px;
-    padding: 4px 2px 3px;
-    display: block;
+    font-size: 0.72rem;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+    text-align: center;
   }
-  .nav-row-label:not(:first-child) {
-    margin-top: 4px;
-    padding-top: 5px;
-    border-top: 1.5px solid #f1f5f9;
+  .nav-seg-btn:hover { border-color: var(--purple); color: var(--purple); background: #ede9fe; }
+  .nav-seg-btn.active {
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 3px 10px rgba(99,102,241,.35);
   }
+
+  /* Pill scroll row — always exactly one line, horizontally scrollable */
+  .nav-pill-panel { display: none; }
+  .nav-pill-panel.active { display: block; }
   .nav-scroll {
     display: flex;
-    flex-wrap: wrap;          /* KEY — no scrolling, buttons wrap to next line */
+    flex-wrap: nowrap;
     gap: 5px;
-    width: 100%;
-    padding: 0;
-    box-sizing: border-box;
-    margin-bottom: 2px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 1px 0 3px;
   }
-  /* remove old scroll-specific rules */
-  .nav-scroll + .nav-scroll { margin-top: 0; padding-top: 0; border-top: none; }
+  .nav-scroll::-webkit-scrollbar { display: none; }
   .nav-btn {
     flex-shrink: 0;
     padding: 5px 11px;
@@ -238,8 +252,8 @@
     white-space: nowrap;
     line-height: 1.4;
   }
-  .nav-btn:hover  { border-color:var(--purple); color:var(--purple); background:#ede9fe; transform:scale(1.04); }
-  .nav-btn.active { background:linear-gradient(135deg,#8b5cf6,#6366f1); color:white; border-color:transparent; box-shadow:0 4px 12px rgba(99,102,241,.4); }
+  .nav-btn:hover  { border-color: var(--purple); color: var(--purple); background: #ede9fe; transform: scale(1.04); }
+  .nav-btn.active { background: linear-gradient(135deg, #8b5cf6, #6366f1); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(99,102,241,.4); }
 
   /* ── MAIN CONTENT ── */
   .main { max-width: 1100px; margin: 0 auto; padding: 30px 16px 80px; }
@@ -545,10 +559,10 @@
     .helper-grid       { gap: 8px; }
     .weather-hero      { gap: 8px; }
     /* Hero bar */
-    .hero              { padding: 8px 12px 14px; }
-    .hero-logo         { font-size: 1.6rem; margin-bottom: 2px; }
-    .xp-bar-wrap       { width: 90px; }
-    .avatar-xp         { font-size: 0.8rem; }
+    .hero              { padding: 6px 12px 8px; }
+    .hero-logo         { font-size: 1.1rem; margin-bottom: 1px; }
+    .hero-badge        { font-size: 0.64rem; padding: 2px 10px; }
+    .xp-bar-wrap       { width: 80px; }
     /* Reduce top section padding on mobile */
     .main              { padding: 14px 12px 80px; }
     .section-header    { margin-bottom: 16px; }
@@ -1172,16 +1186,7 @@
   <span class="hero-floating f4">⭐</span>
   <span class="hero-logo">📚</span>
   <h1>Kids GK World 🌍</h1>
-  <p>Learn Amazing Things About Our World!</p>
   <div class="hero-badge">🇮🇳 Made for Young Minds of India | Ages 4 – 15</div>
-
-  <!-- Search Bar -->
-  <div class="hero-search-wrap" style="position:relative;margin-top:8px">
-    <span class="hero-search-icon">🔍</span>
-    <input class="hero-search" id="searchInput" type="text" placeholder="Search Animals, Space, India…" oninput="doSearch(this.value)" onblur="setTimeout(()=>closeSearch(),200)" autocomplete="off">
-    <div class="search-results-drop" id="searchDrop"></div>
-  </div>
-
   <!-- XP Avatar Bar -->
   <div class="hero-avatar-row">
     <div class="avatar-bubble">
@@ -1212,46 +1217,59 @@
     <div class="dc-result" id="dcResult"></div>
     <div class="dc-streak" id="dcStreak"></div>
   </div>
-  <!-- ROW 1: Core GK Topics -->
-  <div class="nav-row-label">📚 GK Topics</div>
-  <div class="nav-scroll" id="navRow1">
-    <button class="nav-btn active" onclick="showTab('animals')">🐾 Animals</button>
-    <button class="nav-btn" onclick="showTab('plants')">🌿 Plants</button>
-    <button class="nav-btn" onclick="showTab('body')">🫀 Human Body</button>
-    <button class="nav-btn" onclick="showTab('space')">🚀 Space</button>
-    <button class="nav-btn" onclick="showTab('india')">🇮🇳 India</button>
-    <button class="nav-btn" onclick="showTab('ap')">🏛️ Andhra Pradesh</button>
-    <button class="nav-btn" onclick="showTab('world')">🌍 World</button>
-    <button class="nav-btn" onclick="showTab('science')">🔬 Science</button>
-    <button class="nav-btn" onclick="showTab('history')">🏺 History</button>
-    <button class="nav-btn" onclick="showTab('sports')">⚽ Sports</button>
-    <button class="nav-btn" onclick="showTab('festivals')">🎉 Festivals</button>
-    <button class="nav-btn" onclick="showTab('maths')">🔢 Maths</button>
+
+  <!-- Segmented control -->
+  <div class="nav-seg-row">
+    <button class="nav-seg-btn active" id="seg-gk"      onclick="switchPanel('gk',this)">📚 GK Topics</button>
+    <button class="nav-seg-btn"        id="seg-explore"  onclick="switchPanel('explore',this)">🌟 Explore</button>
+    <button class="nav-seg-btn"        id="seg-games"    onclick="switchPanel('games',this)">🎮 Games</button>
   </div>
-  <!-- ROW 2: Explore More -->
-  <div class="nav-row-label">🌟 Explore More</div>
-  <div class="nav-scroll" id="navRow2">
-    <button class="nav-btn" onclick="showTab('funfacts')">💡 Fun Facts <span class="nav-tag">NEW</span></button>
-    <button class="nav-btn" onclick="showTab('inventions')">⚡ Inventions</button>
-    <button class="nav-btn" onclick="showTab('famouspeople')">🌟 Famous People</button>
-    <button class="nav-btn" onclick="showTab('countries')">🌍 Countries</button>
-    <button class="nav-btn" onclick="showTab('weather')">🌦️ Weather</button>
-    <button class="nav-btn" onclick="showTab('earth')">🌱 Earth & Env</button>
-    <button class="nav-btn" onclick="showTab('food')">🥗 Food</button>
-    <button class="nav-btn" onclick="showTab('transport')">🚗 Transport</button>
-    <button class="nav-btn" onclick="showTab('mythology')">🏛️ Mythology</button>
-    <button class="nav-btn" onclick="showTab('helpers')">👩‍⚕️ Helpers</button>
+
+  <!-- Panel 1: GK Topics -->
+  <div class="nav-pill-panel active" id="panel-gk">
+    <div class="nav-scroll" id="navRow1">
+      <button class="nav-btn active" onclick="showTab('animals')">🐾 Animals</button>
+      <button class="nav-btn" onclick="showTab('plants')">🌿 Plants</button>
+      <button class="nav-btn" onclick="showTab('body')">🫀 Body</button>
+      <button class="nav-btn" onclick="showTab('space')">🚀 Space</button>
+      <button class="nav-btn" onclick="showTab('india')">🇮🇳 India</button>
+      <button class="nav-btn" onclick="showTab('ap')">🏛️ AP</button>
+      <button class="nav-btn" onclick="showTab('world')">🌍 World</button>
+      <button class="nav-btn" onclick="showTab('science')">🔬 Science</button>
+      <button class="nav-btn" onclick="showTab('history')">🏺 History</button>
+      <button class="nav-btn" onclick="showTab('sports')">⚽ Sports</button>
+      <button class="nav-btn" onclick="showTab('festivals')">🎉 Festivals</button>
+      <button class="nav-btn" onclick="showTab('maths')">🔢 Maths</button>
+    </div>
   </div>
-  <!-- ROW 3: Games & Parent -->
-  <div class="nav-row-label">🎮 Games & Tools</div>
-  <div class="nav-scroll" id="navRow3">
-    <button class="nav-btn" onclick="showTab('quiz')">🧠 Quiz Time!</button>
-    <button class="nav-btn" onclick="showTab('dailychallenge')">📅 Daily Challenge</button>
-    <button class="nav-btn" onclick="showTab('matchpair')">🎮 Match the Pair</button>
-    <button class="nav-btn" onclick="showTab('storytime')">📖 Story Mode</button>
-    <button class="nav-btn" onclick="showTab('memorygame')">🃏 Memory Game</button>
-    <button class="nav-btn" onclick="showTab('vocab')">📚 Vocab Builder</button>
-    <button class="nav-btn parent-btn" onclick="openParent()">👨‍👩‍👧 Parent</button>
+
+  <!-- Panel 2: Explore More -->
+  <div class="nav-pill-panel" id="panel-explore">
+    <div class="nav-scroll" id="navRow2">
+      <button class="nav-btn" onclick="showTab('funfacts')">💡 Fun Facts <span class="nav-tag">NEW</span></button>
+      <button class="nav-btn" onclick="showTab('inventions')">⚡ Inventions</button>
+      <button class="nav-btn" onclick="showTab('famouspeople')">🌟 Famous People</button>
+      <button class="nav-btn" onclick="showTab('countries')">🌍 Countries</button>
+      <button class="nav-btn" onclick="showTab('weather')">🌦️ Weather</button>
+      <button class="nav-btn" onclick="showTab('earth')">🌱 Earth & Env</button>
+      <button class="nav-btn" onclick="showTab('food')">🥗 Food</button>
+      <button class="nav-btn" onclick="showTab('transport')">🚗 Transport</button>
+      <button class="nav-btn" onclick="showTab('mythology')">🏛️ Mythology</button>
+      <button class="nav-btn" onclick="showTab('helpers')">👩‍⚕️ Helpers</button>
+    </div>
+  </div>
+
+  <!-- Panel 3: Games & Tools -->
+  <div class="nav-pill-panel" id="panel-games">
+    <div class="nav-scroll" id="navRow3">
+      <button class="nav-btn" onclick="showTab('quiz')">🧠 Quiz Time!</button>
+      <button class="nav-btn" onclick="showTab('dailychallenge')">📅 Daily Challenge</button>
+      <button class="nav-btn" onclick="showTab('matchpair')">🎮 Match the Pair</button>
+      <button class="nav-btn" onclick="showTab('storytime')">📖 Story Mode</button>
+      <button class="nav-btn" onclick="showTab('memorygame')">🃏 Memory Game</button>
+      <button class="nav-btn" onclick="showTab('vocab')">📚 Vocab Builder</button>
+      <button class="nav-btn parent-btn" onclick="openParent()">👨‍👩‍👧 Parent</button>
+    </div>
   </div>
 </div>
 
@@ -2562,15 +2580,40 @@
   }
 
   // ══════════════════════════════════════════
-  // TAB NAVIGATION
+  // TAB NAVIGATION — Option D segmented nav
   // ══════════════════════════════════════════
+
+  // Map each tab id to which panel it lives in
+  const TAB_PANEL = {
+    animals:'gk', plants:'gk', body:'gk', space:'gk', india:'gk', ap:'gk',
+    world:'gk', science:'gk', history:'gk', sports:'gk', festivals:'gk', maths:'gk',
+    funfacts:'explore', inventions:'explore', famouspeople:'explore', countries:'explore',
+    weather:'explore', earth:'explore', food:'explore', transport:'explore',
+    mythology:'explore', helpers:'explore',
+    quiz:'games', dailychallenge:'games', matchpair:'games', storytime:'games',
+    memorygame:'games', vocab:'games', parent:'games'
+  };
+
+  function switchPanel(panelId, segBtn) {
+    document.querySelectorAll('.nav-seg-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.nav-pill-panel').forEach(p => p.classList.remove('active'));
+    if (segBtn) segBtn.classList.add('active');
+    else document.getElementById('seg-' + panelId).classList.add('active');
+    document.getElementById('panel-' + panelId).classList.add('active');
+  }
+
   function showTab(id) {
     if (id === 'parent') { openParent(); return; }
     stopSpeaking();
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('#navRow1 .nav-btn, #navRow2 .nav-btn, #navRow3 .nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     event.currentTarget.classList.add('active');
+
+    // Auto-switch segmented panel to match the tab
+    const panel = TAB_PANEL[id] || 'gk';
+    switchPanel(panel, null);
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Boot interactive tabs on first visit

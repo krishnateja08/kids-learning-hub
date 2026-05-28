@@ -18,7 +18,7 @@
     --pink: #ec4899;
     --indigo: #6366f1;
     --lime: #84cc16;
-    --bg: #fefce8;
+    --bg: #f0f4f8;
     --card-shadow: 0 8px 32px rgba(0,0,0,0.12);
   }
 
@@ -275,7 +275,7 @@
   }
   .section-sub { color: #64748b; font-size: 1rem; margin-top: 4px; font-weight: 600; }
 
-  /* ── CARDS GRID ── */
+  /* ── CARDS GRID — Theme C: Bold Gradient ── */
   .cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -283,38 +283,42 @@
     margin-bottom: 24px;
   }
   .card {
-    background: white;
     border-radius: 20px;
     padding: 20px 16px;
     text-align: center;
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
     transition: transform 0.25s, box-shadow 0.25s;
     cursor: default;
-    border-top: 5px solid transparent;
     position: relative;
     overflow: hidden;
+    border: none;
   }
   .card::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0);
+    background: rgba(255,255,255,0);
     transition: background 0.2s;
     border-radius: 20px;
     pointer-events: none;
   }
-  .card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 48px rgba(0,0,0,0.18); }
-  .card .emoji { font-size: 2.8rem; display: block; margin-bottom: 10px; }
-  .card h3 { font-size: 1rem; font-weight: 800; color: #1e293b; margin-bottom: 4px; }
-  .card p { font-size: 0.82rem; color: #64748b; line-height: 1.5; }
-  .card.c1 { border-top-color: var(--sky); }
-  .card.c2 { border-top-color: var(--coral); }
-  .card.c3 { border-top-color: var(--grass); }
-  .card.c4 { border-top-color: var(--sun); }
-  .card.c5 { border-top-color: var(--purple); }
-  .card.c6 { border-top-color: var(--orange); }
-  .card.c7 { border-top-color: var(--teal); }
-  .card.c8 { border-top-color: var(--pink); }
+  .card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 22px 52px rgba(0,0,0,0.28); }
+  .card:hover::after { background: rgba(255,255,255,0.08); }
+  .card .emoji { font-size: 2.8rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.18)); }
+  .card h3 { font-size: 1rem; font-weight: 800; color: white; margin-bottom: 4px; text-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .card p { font-size: 0.82rem; color: rgba(255,255,255,0.88); line-height: 1.5; }
+  /* gradient per colour slot */
+  .card.c1 { background: linear-gradient(135deg, #0ea5e9, #38bdf8); }
+  .card.c2 { background: linear-gradient(135deg, #f43f5e, #fb7185); }
+  .card.c3 { background: linear-gradient(135deg, #22c55e, #4ade80); }
+  .card.c4 { background: linear-gradient(135deg, #f59e0b, #fcd34d); }
+  .card.c5 { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+  .card.c6 { background: linear-gradient(135deg, #f97316, #fb923c); }
+  .card.c7 { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
+  .card.c8 { background: linear-gradient(135deg, #ec4899, #f472b6); }
+  /* read button override for gradient cards */
+  .card .read-btn { color: white; border-color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.18); }
+  .card .read-btn:hover { background: rgba(255,255,255,0.32); }
 
   /* ── AUDIO BUTTON ── */
   .read-btn {
@@ -459,15 +463,19 @@
   .quiz-next:hover { transform: scale(1.05); }
   .quiz-score { text-align: center; font-size: 1.4rem; font-weight: 800; color: var(--purple); margin-top: 10px; }
 
-  /* ── BIG TOPIC RIBBON ── */
+  /* ── BIG TOPIC RIBBON — Theme C ── */
   .ribbon {
-    display: inline-block;
-    padding: 6px 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 22px;
     border-radius: 50px;
     font-weight: 800;
     font-size: 0.9rem;
     color: white;
     margin-bottom: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.15);
   }
 
   /* ── PLANET GRID ── */

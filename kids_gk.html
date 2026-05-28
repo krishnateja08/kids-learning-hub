@@ -194,38 +194,52 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    padding: 10px 10px;
-    overflow: hidden;  /* clip boundary — required for child overflow-x:auto to work */
+    padding: 8px 10px 6px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .nav-row-label {
+    font-size: 0.58rem;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+    padding: 4px 2px 3px;
+    display: block;
+  }
+  .nav-row-label:not(:first-child) {
+    margin-top: 4px;
+    padding-top: 5px;
+    border-top: 1.5px solid #f1f5f9;
   }
   .nav-scroll {
     display: flex;
-    overflow-x: auto;
-    gap: 7px;
-    scrollbar-width: none;
-    align-items: center;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-x;
-    padding-bottom: 4px;
-    padding-right: 16px;  /* last button breathing room */
-    box-sizing: content-box;
+    flex-wrap: wrap;          /* KEY — no scrolling, buttons wrap to next line */
+    gap: 5px;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    margin-bottom: 2px;
   }
-  .nav-scroll::-webkit-scrollbar { display: none; }
+  /* remove old scroll-specific rules */
+  .nav-scroll + .nav-scroll { margin-top: 0; padding-top: 0; border-top: none; }
   .nav-btn {
     flex-shrink: 0;
-    padding: 8px 16px;
-    border: 2.5px solid #e2e8f0;
+    padding: 5px 11px;
+    border: 2px solid #e2e8f0;
     background: #f8fafc;
     border-radius: 50px;
     font-family: 'Nunito', sans-serif;
     font-weight: 800;
-    font-size: 0.82rem;
+    font-size: 0.73rem;
     color: #64748b;
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
+    line-height: 1.4;
   }
-  .nav-btn:hover { border-color: var(--purple); color: var(--purple); background: #ede9fe; transform: scale(1.04); }
-  .nav-btn.active { background: linear-gradient(135deg,#8b5cf6,#6366f1); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(99,102,241,0.4); }
+  .nav-btn:hover  { border-color:var(--purple); color:var(--purple); background:#ede9fe; transform:scale(1.04); }
+  .nav-btn.active { background:linear-gradient(135deg,#8b5cf6,#6366f1); color:white; border-color:transparent; box-shadow:0 4px 12px rgba(99,102,241,.4); }
 
   /* ── MAIN CONTENT ── */
   .main { max-width: 1100px; margin: 0 auto; padding: 30px 16px 80px; }
@@ -757,14 +771,19 @@
 
   /* Parent tab nav */
   .pd-nav {
-    display:flex; overflow-x:auto; gap:6px;
-    background:white; border-radius:16px;
-    box-shadow: var(--card-shadow);
-    padding:8px; padding-right:14px; margin-bottom:18px;
+    display:flex;
+    width:100%;
+    box-sizing:border-box;
+    overflow-x:auto;
+    gap:6px;
+    background:white;
+    border-radius:16px;
+    box-shadow:var(--card-shadow);
+    padding:8px 14px 8px 8px;
+    margin-bottom:18px;
     scrollbar-width:none;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-x;
-    width: 100%;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-x;
   }
   .pd-nav::-webkit-scrollbar { display:none; }
   .pd-nav-btn {
@@ -1180,7 +1199,9 @@
     <div class="dc-result" id="dcResult"></div>
     <div class="dc-streak" id="dcStreak"></div>
   </div>
-  <div class="nav-scroll">
+  <!-- ROW 1: Core GK Topics -->
+  <div class="nav-row-label">📚 GK Topics</div>
+  <div class="nav-scroll" id="navRow1">
     <button class="nav-btn active" onclick="showTab('animals')">🐾 Animals</button>
     <button class="nav-btn" onclick="showTab('plants')">🌿 Plants</button>
     <button class="nav-btn" onclick="showTab('body')">🫀 Human Body</button>
@@ -1193,8 +1214,10 @@
     <button class="nav-btn" onclick="showTab('sports')">⚽ Sports</button>
     <button class="nav-btn" onclick="showTab('festivals')">🎉 Festivals</button>
     <button class="nav-btn" onclick="showTab('maths')">🔢 Maths</button>
-    <button class="nav-btn" onclick="showTab('quiz')">🧠 Quiz Time!</button>
-    <div class="nav-divider"></div>
+  </div>
+  <!-- ROW 2: Explore More -->
+  <div class="nav-row-label">🌟 Explore More</div>
+  <div class="nav-scroll" id="navRow2">
     <button class="nav-btn" onclick="showTab('funfacts')">💡 Fun Facts <span class="nav-tag">NEW</span></button>
     <button class="nav-btn" onclick="showTab('inventions')">⚡ Inventions</button>
     <button class="nav-btn" onclick="showTab('famouspeople')">🌟 Famous People</button>
@@ -1205,13 +1228,16 @@
     <button class="nav-btn" onclick="showTab('transport')">🚗 Transport</button>
     <button class="nav-btn" onclick="showTab('mythology')">🏛️ Mythology</button>
     <button class="nav-btn" onclick="showTab('helpers')">👩‍⚕️ Helpers</button>
-    <div class="nav-divider"></div>
+  </div>
+  <!-- ROW 3: Games & Parent -->
+  <div class="nav-row-label">🎮 Games & Tools</div>
+  <div class="nav-scroll" id="navRow3">
+    <button class="nav-btn" onclick="showTab('quiz')">🧠 Quiz Time!</button>
     <button class="nav-btn" onclick="showTab('dailychallenge')">📅 Daily Challenge</button>
     <button class="nav-btn" onclick="showTab('matchpair')">🎮 Match the Pair</button>
     <button class="nav-btn" onclick="showTab('storytime')">📖 Story Mode</button>
     <button class="nav-btn" onclick="showTab('memorygame')">🃏 Memory Game</button>
     <button class="nav-btn" onclick="showTab('vocab')">📚 Vocab Builder</button>
-    <div class="nav-divider"></div>
     <button class="nav-btn parent-btn" onclick="openParent()">👨‍👩‍👧 Parent</button>
   </div>
 </div>
@@ -2525,7 +2551,7 @@
     if (id === 'parent') { openParent(); return; }
     stopSpeaking();
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#navRow1 .nav-btn, #navRow2 .nav-btn, #navRow3 .nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     event.currentTarget.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2917,7 +2943,7 @@
   function enterParentDash() {
     stopSpeaking();
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#navRow1 .nav-btn, #navRow2 .nav-btn, #navRow3 .nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('parent').classList.add('active');
     document.querySelector('.parent-btn').classList.add('active');
     window.scrollTo({top:0, behavior:'smooth'});
@@ -3256,11 +3282,10 @@
 
   function applyMissionHighlights() {
     const missions = JSON.parse(lsGet('gk_missions','[]'));
-    document.querySelectorAll('.nav-btn').forEach(btn => {
+    document.querySelectorAll('#navRow1 .nav-btn, #navRow2 .nav-btn, #navRow3 .nav-btn').forEach(btn => {
       const match = btn.getAttribute('onclick')?.match(/showTab\('([^']+)'\)/);
       if (!match) return;
       const tab = match[1];
-      // Remove old mission dot
       const old = btn.querySelector('.mission-dot');
       if (old) old.remove();
       if (missions.includes(tab)) {

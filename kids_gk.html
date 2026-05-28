@@ -3519,15 +3519,41 @@
     dcHistory[dateKey] = isCorrect ? 1 : 0;
     lsSet('gk_dc_history', JSON.stringify(dcHistory));
 
+    // Show result feedback
     const res = document.getElementById('dcTabResult') || document.getElementById('dcResult');
     if (res) {
       res.style.display = 'block';
       res.innerHTML = isCorrect
         ? `✅ Correct! <span class="dc-xp-pill">+20 XP ⭐</span>`
-        : `❌ The answer was: <b>${DC_QUESTIONS[today_dc_idx()].opts[correct]}</b>`;
+        : `❌ Answer: <b>${DC_QUESTIONS[today_dc_idx()].opts[correct]}</b>`;
     }
     if (isCorrect) addXP(20, btn);
-    mascotSay(isCorrect ? '🎉 Daily Challenge done! +20 XP!' : '📚 Good try! Study and come back tomorrow!');
+    mascotSay(isCorrect ? '🎉 Daily Challenge done! +20 XP!' : '📚 Good try! Come back tomorrow!');
+
+    // ── Auto-close banner after 2.5 s with countdown ──
+    const banner = document.getElementById('dcBanner');
+    if (banner && banner.classList.contains('show')) {
+      let secs = 3;
+      // Show closing countdown in the result area
+      const countEl = document.createElement('div');
+      countEl.style.cssText = 'font-size:.68rem;opacity:.75;margin-top:5px;font-weight:700;';
+      countEl.textContent   = `Closing in ${secs}s…`;
+      if (res) res.appendChild(countEl);
+
+      const tick = setInterval(() => {
+        secs--;
+        if (secs > 0) {
+          countEl.textContent = `Closing in ${secs}s…`;
+        } else {
+          clearInterval(tick);
+          banner.classList.remove('show');
+          // If on the full Daily Challenge tab, refresh it to show completed state
+          if (document.getElementById('dailychallenge')?.classList.contains('active')) {
+            renderDailyChallenge();
+          }
+        }
+      }, 1000);
+    }
   }
 
   function today_dc_idx() {
